@@ -9,10 +9,13 @@ class SubMenuProvider: public ISubMenuProvider
 {
     private:
         MainMenuItemsList _osdItems;
+        bool _inSubMenu;
 
     public:
+        SubMenuProvider();
         virtual MainMenuItemsList* MainMenuItems();
-        virtual cOsdMenu* OpenSubMenu(int mainMenuItemIndex);
+        virtual void EnterSubMenu(int mainMenuItemIndex);
+        virtual bool LeaveSubMenu();
 
     private:
          void ResetMainMenuItemsList();

@@ -1,32 +1,42 @@
 #include "submenuprovider.h"
 #include <vdr/plugin.h>
 
+SubMenuProvider::SubMenuProvider()
+{
+    _inSubMenu = false;
+}
+
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();
     
-    
-    _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem("A custom sub menu", osUser1)));
-//    _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Schedule"), osSchedule)));
-//    _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
-//    _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Timers"), osTimers)));
-//    _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Recordings"), osRecordings)));
+    if (_inSubMenu)
+    {
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Schedule"), osSchedule)));
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Timers"), osTimers)));
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Recordings"), osRecordings)));
+    }
+    else
+    {
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem("A custom sub menu", osUser1)));
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem("Another custom sub menu", osContinue)));
+        for (int i = 0; ; i++) {
+          cPlugin *p = cPluginManager::GetPlugin(i);
+          if (p) {
+             const char *item = p->MainMenuEntry();
+             if (item)
+                _osdItems.push_back(MainMenuItem::CreatePluginMenuItem(item, i));
+             }
+          else
+             break;
+          }
 
-    for (int i = 0; ; i++) {
-      cPlugin *p = cPluginManager::GetPlugin(i);
-      if (p) {
-         const char *item = p->MainMenuEntry();
-         if (item)
-            _osdItems.push_back(MainMenuItem::CreatePluginMenuItem(item, i));
-         }
-      else
-         break;
-      }
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Setup"), osSetup)));
 
-    _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Setup"), osSetup)));
-
-    if (Commands.Count())
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Commands"), osCommands)));
+        if (Commands.Count())
+            _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Commands"), osCommands)));
+    }
 
     return &_osdItems;
 }
@@ -40,17 +50,23 @@ void SubMenuProvider::ResetMainMenuItemsList()
     _osdItems.clear(); 
 }
 
-cOsdMenu* SubMenuProvider::OpenSubMenu(int mainMenuItemIndex)
+void SubMenuProvider::EnterSubMenu(int mainMenuItemIndex)
 {
-    if (mainMenuItemIndex == 0)
+    if ((mainMenuItemIndex == 0) && !_inSubMenu)
     {
-        cOsdMenu* fooMenu = new cOsdMenu("Foo-Submenu");
-        fooMenu->Add(new cOsdItem(tr("Schedule"), osSchedule));
-        fooMenu->Add(new cOsdItem(tr("Channels"), osChannels));
-        fooMenu->Add(new cOsdItem(tr("Timers"), osTimers));
-        fooMenu->Add(new cOsdItem(tr("Recordings"), osRecordings));
-        return fooMenu;
+       _inSubMenu = true;
     }
-    
-    return NULL;
+}
+
+bool SubMenuProvider::LeaveSubMenu()
+{
+    if (_inSubMenu)
+    {
+        _inSubMenu = false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
