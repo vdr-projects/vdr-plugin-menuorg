@@ -9,3 +9,30 @@ Latest version available at: URL
 See the file COPYING for license information.
 
 Description:
+
+Menu file format
+----------------
+
+    Menu Item
+    Another Menu Item=Alternative Title
+    Submenu:
+        Menu Item In Sub Menu
+        Another Menu Item In Sub Menu
+        Sub-Submenu:
+                Menu Item In Sub-Submenu
+                Another Menu Item In Sub-Submenu
+    Yet Another Menu Item
+
+e.g.
+
+    Schedule
+    Recordings
+    Timers
+    Plugins:
+       Burn
+       Epgsearch
+       OsdTeletext
+    Games:
+        Spider
+        Games=Tetris,Tron,Snake
+    Setup
