@@ -1,0 +1,13 @@
+Source: vdr-plugin-submenu
+Section: misc
+Priority: extra
+Maintainer: Tobias Grimm <tg@e-tobi.net>
+Build-Depends: debhelper (>= 5), vdr-dev (>= 1.4.7-2ctvdr1.2)
+Standards-Version: 3.7.2
+
+Package: vdr-plugin-submenu
+Architecture: any
+Depends: ${shlibs:Depends}, ${vdr:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+XB-VDR-Patchlevel: ${vdr:Patchlevel}
