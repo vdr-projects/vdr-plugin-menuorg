@@ -2,8 +2,6 @@
 #define ___SUBMENUPLUGIN_H
 
 #include <vdr/plugin.h>
-//#include <vdr/config.h>
-//#include <vdr/tools.h>
 #include "submenuprovider.h"
 
 using namespace SubMenuPatch;

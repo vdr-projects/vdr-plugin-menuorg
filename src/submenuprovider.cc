@@ -19,8 +19,8 @@ MainMenuItemsList* SubMenuProvider::MainMenuItems()
     }
     else
     {
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem("A custom sub menu", osUser1)));
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem("Another custom sub menu", osContinue)));
+        _subMenuItem = new cOsdItem("A custom sub menu\t1xxx", osUser1);
+        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(_subMenuItem));
         for (int i = 0; ; i++) {
           cPlugin *p = cPluginManager::GetPlugin(i);
           if (p) {
@@ -50,9 +50,9 @@ void SubMenuProvider::ResetMainMenuItemsList()
     _osdItems.clear(); 
 }
 
-void SubMenuProvider::EnterSubMenu(int mainMenuItemIndex)
+void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 {
-    if ((mainMenuItemIndex == 0) && !_inSubMenu)
+    if (item == _subMenuItem)
     {
        _inSubMenu = true;
     }
