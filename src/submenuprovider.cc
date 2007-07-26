@@ -35,9 +35,9 @@ void SubMenuProvider::CreateTestMenus()
 	// Submenu 1
 	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Schedule"), osSchedule)));
 	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
-	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
 	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Timers"), osTimers)));
 	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Recordings"), osRecordings)));
+	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("A custom sub sub menu1"), osUser1)));
 
 	_MenuZuordnung[1][0][ENTER] = 1;
 	_MenuZuordnung[1][0][LEAVE] = 0;
@@ -51,7 +51,7 @@ void SubMenuProvider::CreateTestMenus()
 	_MenuZuordnung[1][3][ENTER] = 1;
 	_MenuZuordnung[1][3][LEAVE] = 0;
 
-	_MenuZuordnung[1][4][ENTER] = 1;
+	_MenuZuordnung[1][4][ENTER] = 3;
 	_MenuZuordnung[1][4][LEAVE] = 0;
 
 	// Submenu 2
@@ -74,6 +74,13 @@ void SubMenuProvider::CreateTestMenus()
 			break;
 	}
 
+	// Sub Sub Menu 1
+	_myOsdItems[3].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("a Test Item"), osContinue)));
+	_myOsdItems[3].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
+	_MenuZuordnung[3][0][ENTER] = 3;
+	_MenuZuordnung[3][0][LEAVE] = 1;
+	_MenuZuordnung[3][0][ENTER] = 3;
+	_MenuZuordnung[3][0][LEAVE] = 1;
 }
 
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
@@ -85,8 +92,7 @@ MainMenuItemsList* SubMenuProvider::MainMenuItems()
 	_osdItems=_myOsdItems[_nextMenuIndex];
 	_MenuIndex=_nextMenuIndex;
 
-
-    return &_osdItems;
+	return &_osdItems;
 }
 
 void SubMenuProvider::ResetMainMenuItemsList()
@@ -112,7 +118,7 @@ void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 			break;
 		}
 	}
-
+	isyslog("_MenuZuordnung[%d][%d][ENTER]=%d",_MenuIndex,itemIndex,_MenuZuordnung[_MenuIndex][itemIndex][ENTER]);
 	_nextMenuIndex = _MenuZuordnung[_MenuIndex][itemIndex][ENTER];
 }
 
