@@ -125,16 +125,16 @@ void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 bool SubMenuProvider::LeaveSubMenu()
 {
 	isyslog("Call LeaveSubMenu() - _MenuIndex=%d", _MenuIndex);
-
-    if (_MenuIndex != _MenuZuordnung[_MenuIndex][0][LEAVE])
-    {
-	_nextMenuIndex = _MenuZuordnung[_MenuIndex][0][LEAVE];
-	isyslog("LeaveSubMenu() - return true");
-        return true;
-    }
-    else
-    {
-	isyslog("LeaveSubMenu() - return false");
-        return false;
-    }
+	
+	if (_MenuIndex != _MenuZuordnung[_MenuIndex][0][LEAVE])
+	{
+		_nextMenuIndex = _MenuZuordnung[_MenuIndex][0][LEAVE];
+		isyslog("LeaveSubMenu() - return true");
+		return true;
+	}
+	else
+	{
+		isyslog("LeaveSubMenu() - return false");
+		return false;
+	}
 }

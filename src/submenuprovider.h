@@ -5,20 +5,13 @@
 
 using namespace SubMenuPatch;
 
-/*
-struct sSubMenu
-{
-	int MainMenuIndex;
-	int NextMenuIndex;
-};
-*/
 const unsigned int ENTER = 0;
 const unsigned int LEAVE = 1;
 
 class SubMenuProvider: public ISubMenuProvider
 {
 	private:
-		MainMenuItemsList _osdItems;      // Enthält das aktuelle MenüItem (kann weg)
+		MainMenuItemsList _osdItems;      // Enthält das aktuelle MenüItem
 		MainMenuItemsList _myOsdItems[5]; // Enthält alle verfügbaren Menüs
 
 		int _MenuIndex;                   // Der Index des aktuellen Menüs
