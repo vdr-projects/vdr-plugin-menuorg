@@ -1,4 +1,4 @@
 SRCS = \
-  src/plugincreator.cc \
-  src/submenuplugin.cc \
+  src/plugincreator.cpp \
+  src/menuorg.cpp \
   src/submenuprovider.cc \

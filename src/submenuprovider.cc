@@ -1,42 +1,60 @@
 #include "submenuprovider.h"
 #include <vdr/plugin.h>
+#include <iostream>
+
+//using namespace std;
 
 SubMenuProvider::SubMenuProvider()
 {
-    _inSubMenu = false;
+	_OsdSet = false;
+	_inSubMenu = false;
+
+}
+
+void SubMenuProvider::CreateTestMenus()
+{
+
+	// Mainmenu
+	_myOsdItems[0].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("A custom sub menu1"), osUser1)));
+	_myOsdItems[0].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("A custom sub menu2"), osUser1)));
+
+	// Submenu 1
+	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Schedule"), osSchedule)));
+	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
+	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
+	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Timers"), osTimers)));
+	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Recordings"), osRecordings)));
+
+	// Submenu 2
+	_myOsdItems[2].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Setup"), osSetup)));
+        if (Commands.Count())
+            _myOsdItems[2].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Commands"), osCommands)));
+
 }
 
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
 {
-    ResetMainMenuItemsList();
-    
-    if (_inSubMenu)
-    {
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Schedule"), osSchedule)));
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Channels"), osChannels)));
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Timers"), osTimers)));
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Recordings"), osRecordings)));
-    }
-    else
-    {
-        _subMenuItem = new cOsdItem("A custom sub menu\t1xxx", osUser1);
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(_subMenuItem));
-        for (int i = 0; ; i++) {
-          cPlugin *p = cPluginManager::GetPlugin(i);
-          if (p) {
-             const char *item = p->MainMenuEntry();
-             if (item)
-                _osdItems.push_back(MainMenuItem::CreatePluginMenuItem(item, i));
-             }
-          else
-             break;
-          }
+	ResetMainMenuItemsList();
 
-        _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Setup"), osSetup)));
+	if (_OsdSet == false)
+	{
+		// create testmenu´s
+		CreateTestMenus();
 
-        if (Commands.Count())
-            _osdItems.push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Commands"), osCommands)));
-    }
+		// set mainmenu
+		_osdItems=_myOsdItems[0];
+
+		_OsdSet=true;
+	}
+	else
+	{
+		if (_inSubMenu)
+			_osdItems=_myOsdItems[1];
+		else
+			_osdItems=_myOsdItems[0];
+
+		//_osdItems=_myOsdItemNext;
+	}
 
     return &_osdItems;
 }
@@ -52,10 +70,21 @@ void SubMenuProvider::ResetMainMenuItemsList()
 
 void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 {
-    if (item == _subMenuItem)
-    {
-       _inSubMenu = true;
-    }
+	if (_inSubMenu == false)
+		_inSubMenu = true;
+
+/*
+	for(int i=0; i<=2; i++)
+	{
+
+		for( MainMenuItemsList::iterator oMenuItem = _myOsdItems[i].begin(); i != _myOsdItems[i].end(); i++)
+		{
+			if (oMenuItem==item)
+				isyslog("Item found\n");
+		}
+		// Suche nach dem nächsten Submenu und speichere es dann in _myOsdItemNext
+	}
+*/
 }
 
 bool SubMenuProvider::LeaveSubMenu()

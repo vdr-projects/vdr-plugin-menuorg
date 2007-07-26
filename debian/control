@@ -1,11 +1,11 @@
-Source: vdr-plugin-submenu
+Source: vdr-plugin-menuorg
 Section: misc
 Priority: extra
 Maintainer: Tobias Grimm <tg@e-tobi.net>
-Build-Depends: debhelper (>= 5), vdr-dev (>= 1.4.7-2ctvdr1.2)
+Build-Depends: debhelper (>= 5), vdr-dev (>= 1.4.7-2ctvdr1)
 Standards-Version: 3.7.2
 
-Package: vdr-plugin-submenu
+Package: vdr-plugin-menuorg
 Architecture: any
 Depends: ${shlibs:Depends}, ${vdr:Depends}
 Description: <insert up to 60 chars description>

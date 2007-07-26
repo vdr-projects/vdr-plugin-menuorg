@@ -1,5 +1,5 @@
 #
-# Makefile for the submenu VDR plugin
+# Makefile for the menuorg VDR plugin
 #
 # $Id: Makefile 4096 2006-08-20 21:11:08Z svntobi $
 
@@ -7,7 +7,7 @@
 # This name will be used in the '-P...' option of VDR to load the plugin.
 # By default the main source file also carries this name.
 #
-PLUGIN = submenu
+PLUGIN = menuorg
 
 ### The version number of this plugin (taken from the main source file):
 

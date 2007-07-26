@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for vdr-plugin-submenu
+# prerm script for vdr-plugin-menuorg
 #
 # see: dh_installdeb(1)
 

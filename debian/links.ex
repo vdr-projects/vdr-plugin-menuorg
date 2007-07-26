@@ -1,1 +1,1 @@
-usr/share/vdr-plugin-submenu/submenu    var/lib/vdr/plugins/submenu
+usr/share/vdr-plugin-menuorg/menuorg    var/lib/vdr/plugins/menuorg

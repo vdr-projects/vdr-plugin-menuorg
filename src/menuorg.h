@@ -1,19 +1,21 @@
-#ifndef ___SUBMENUPLUGIN_H
-#define ___SUBMENUPLUGIN_H
+#ifndef ___MENUORGPLUGIN_H
+#define ___MENUORGPLUGIN_H
 
 #include <vdr/plugin.h>
+//#include <vdr/config.h>
+//#include <vdr/tools.h>
 #include "submenuprovider.h"
 
 using namespace SubMenuPatch;
 
-class SubMenuPlugin : public cPlugin
+class MenuOrgPlugin : public cPlugin
 {
     private:
         SubMenuProvider _subMenuProvider;
 
     public:
-        SubMenuPlugin(void);
-        virtual ~SubMenuPlugin();
+        MenuOrgPlugin(void);
+        virtual ~MenuOrgPlugin();
         virtual const char *Version(void);
         virtual const char *Description(void);
         virtual const char *CommandLineHelp(void);
