@@ -6,17 +6,13 @@
 
 SubMenuProvider::SubMenuProvider()
 {
-	_OsdSet = false;
-	_inSubMenu = false;
 	_MenuIndex=0;
 	_nextMenuIndex=0;
 	CreateTestMenus();
-
 }
 
 void SubMenuProvider::CreateTestMenus()
 {
-
 	// Mainmenu
 	_myOsdItems[0].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("A custom sub menu1"), osUser1)));
 	_myOsdItems[0].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("A custom sub menu2"), osUser1)));
