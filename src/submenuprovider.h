@@ -12,6 +12,8 @@ struct sSubMenu
 	int NextMenuIndex;
 };
 */
+const unsigned int ENTER = 0;
+const unsigned int LEAVE = 1;
 
 class SubMenuProvider: public ISubMenuProvider
 {

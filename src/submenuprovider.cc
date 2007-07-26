@@ -24,14 +24,17 @@ void SubMenuProvider::CreateTestMenus()
 	if (Commands.Count())
 		_myOsdItems[0].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Commands"), osCommands)));
 
-	_MenuZuordnung[0][0][0] = 1;
-	_MenuZuordnung[0][0][1] = 0;
-	_MenuZuordnung[0][1][0] = 2;
-	_MenuZuordnung[0][0][1] = 0;
-	_MenuZuordnung[0][2][0] = 0;
-	_MenuZuordnung[0][2][1] = 0;
-	_MenuZuordnung[0][3][0] = 0;
-	_MenuZuordnung[0][3][1] = 0;
+	_MenuZuordnung[0][0][ENTER] = 1;
+	_MenuZuordnung[0][0][LEAVE] = 0;
+
+	_MenuZuordnung[0][1][ENTER] = 2;
+	_MenuZuordnung[0][1][LEAVE] = 0;
+
+	_MenuZuordnung[0][2][ENTER] = 0;
+	_MenuZuordnung[0][2][LEAVE] = 0;
+
+	_MenuZuordnung[0][3][ENTER] = 0;
+	_MenuZuordnung[0][3][LEAVE] = 0;
 
 	// Submenu 1
 	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Schedule"), osSchedule)));
@@ -40,23 +43,23 @@ void SubMenuProvider::CreateTestMenus()
 	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Timers"), osTimers)));
 	_myOsdItems[1].push_back(MainMenuItem::CreateCustomMenuItem(new cOsdItem(tr("Recordings"), osRecordings)));
 
-	_MenuZuordnung[1][0][0] = 1;
-	_MenuZuordnung[1][0][1] = 0;
+	_MenuZuordnung[1][0][ENTER] = 1;
+	_MenuZuordnung[1][0][LEAVE] = 0;
 
-	_MenuZuordnung[1][1][0] = 1;
-	_MenuZuordnung[1][1][1] = 0;
+	_MenuZuordnung[1][1][ENTER] = 1;
+	_MenuZuordnung[1][1][LEAVE] = 0;
 
-	_MenuZuordnung[1][2][0] = 1;
-	_MenuZuordnung[1][2][1] = 0;
+	_MenuZuordnung[1][2][ENTER] = 1;
+	_MenuZuordnung[1][2][LEAVE] = 0;
 
-	_MenuZuordnung[1][3][0] = 1;
-	_MenuZuordnung[1][3][1] = 0;
+	_MenuZuordnung[1][3][ENTER] = 1;
+	_MenuZuordnung[1][3][LEAVE] = 0;
 
-	_MenuZuordnung[1][4][0] = 1;
-	_MenuZuordnung[1][4][1] = 0;
+	_MenuZuordnung[1][4][ENTER] = 1;
+	_MenuZuordnung[1][4][LEAVE] = 0;
 
-	int MenuCount = 0;
 	// Submenu 2
+	int MenuItemCount = 0;
 	for (int i = 0; ; i++)
 	{
 		cPlugin *p = cPluginManager::GetPlugin(i);
@@ -66,9 +69,9 @@ void SubMenuProvider::CreateTestMenus()
 			if (item)
 			{
 				_myOsdItems[2].push_back(MainMenuItem::CreatePluginMenuItem(item, i));
-				_MenuZuordnung[2][MenuCount][0] = 2;
-				_MenuZuordnung[2][MenuCount][1] = 0;
-				MenuCount++;
+				_MenuZuordnung[2][MenuItemCount][ENTER] = 2;
+				_MenuZuordnung[2][MenuItemCount][LEAVE] = 0;
+				MenuItemCount++;
 			}
 		}
 		else
@@ -79,7 +82,7 @@ void SubMenuProvider::CreateTestMenus()
 
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
 {
-	isyslog("Call MainMenuItems - _MenuIndex=%d - _nextMenuIndex=%d", _MenuIndex, _nextMenuIndex);
+	isyslog("Call MainMenuItems() - _MenuIndex=%d - _nextMenuIndex=%d", _MenuIndex, _nextMenuIndex);
 
 	ResetMainMenuItemsList();
 
@@ -101,7 +104,7 @@ void SubMenuProvider::ResetMainMenuItemsList()
 
 void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 {
-	isyslog("Call EnterSubMenu - _MenuIndex=%d", _MenuIndex);
+	isyslog("Call EnterSubMenu() - _MenuIndex=%d", _MenuIndex);
 
 	unsigned int itemIndex;
 
@@ -114,22 +117,22 @@ void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 		}
 	}
 
-	_nextMenuIndex = _MenuZuordnung[_MenuIndex][itemIndex][0];
+	_nextMenuIndex = _MenuZuordnung[_MenuIndex][itemIndex][ENTER];
 }
 
 bool SubMenuProvider::LeaveSubMenu()
 {
-	isyslog("Call LeaveSubMenu - _MenuIndex=%d", _MenuIndex);
+	isyslog("Call LeaveSubMenu() - _MenuIndex=%d", _MenuIndex);
 
-    if (_MenuIndex != _MenuZuordnung[_MenuIndex][0][1])
+    if (_MenuIndex != _MenuZuordnung[_MenuIndex][0][LEAVE])
     {
-	_nextMenuIndex = _MenuZuordnung[_MenuIndex][0][1];
-	isyslog("Call LeaveSubMenu - return true");
+	_nextMenuIndex = _MenuZuordnung[_MenuIndex][0][LEAVE];
+	isyslog("LeaveSubMenu() - return true");
         return true;
     }
     else
     {
-	isyslog("Call LeaveSubMenu - return false");
+	isyslog("LeaveSubMenu() - return false");
         return false;
     }
 }
