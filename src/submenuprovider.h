@@ -14,9 +14,9 @@ class SubMenuProvider: public ISubMenuProvider
 		MainMenuItemsList _osdItems;      // Enthält das aktuelle MenüItem
 		MainMenuItemsList _myOsdItems[5]; // Enthält alle verfügbaren Menüs
 
-		int _MenuIndex;                   // Der Index des aktuellen Menüs
+		int _MenuIndex;                   // Enthält den Index des aktuellen Menüs
 		int _nextMenuIndex;               // Enthält den Index des nächsten Menüs
-		int _MenuZuordnung[5][20][2];     // Speichert die Zuodnung
+		int _MenuSwitch[5][20][2];        // Speichert die Zuodnung
 						  // erster Wert MenuIndex | zweiter Wert MenuItemIndex | dritter wert 0=Enter, 1=Leave
 
 	public:
