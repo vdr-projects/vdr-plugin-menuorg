@@ -23,7 +23,8 @@ class SubMenuProvider: public ISubMenuProvider
 		bool _inSubMenu;
 		int _MenuIndex;                   // Der Index des aktuellen Menüs
 		int _nextMenuIndex;               // Enthält den Index des nächsten Menüs
-		int _MenuZuordnung[5][20];        // Speichert die Zuodnung
+		int _MenuZuordnung[5][20][2];     // Speichert die Zuodnung
+						  // erster Wert MenuIndex | zweiter Wert MenuItemIndex | dritter wert 0=Enter, 1=Leave
 
 	public:
 		SubMenuProvider();
