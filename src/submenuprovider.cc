@@ -52,6 +52,7 @@ void SubMenuProvider::CreateTestMenus()
 			{
 				_myOsdItems[2].push_back(MainMenuItem::CreatePluginMenuItem(item, i));
 				_MenuZuordnung[2][MenuCount] = 2;
+				MenuCount++;
 			}
 		}
 		else
