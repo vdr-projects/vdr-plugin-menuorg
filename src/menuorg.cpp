@@ -26,6 +26,7 @@ MenuOrgPlugin::MenuOrgPlugin(void)
 MenuOrgPlugin::~MenuOrgPlugin()
 {
   // Clean up after yourself!
+  delete _subMenuProvider;
 }
 
 const char* MenuOrgPlugin::Version(void)
@@ -57,6 +58,7 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
 bool MenuOrgPlugin::Initialize(void)
 {
+    _subMenuProvider = new SubMenuProvider();
     // Initialize any background activities the plugin shall perform.
     return true;
 }
@@ -112,7 +114,7 @@ bool MenuOrgPlugin::Service(const char *Id, void *Data)
     if (strcmp(Id, "SubMenuPatch-v0.1::SubMenuProvider") == 0) 
     {
         ISubMenuProvider** ptr = (ISubMenuProvider**)Data;
-        *ptr = &_subMenuProvider;
+        *ptr = _subMenuProvider;
 
         return true;
     }

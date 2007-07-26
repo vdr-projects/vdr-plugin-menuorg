@@ -18,22 +18,20 @@ void SubMenuProvider::CreateTestMenus()
         MenuNode* subMenu1_1 = subMenu1->AddChild(new SubMenuItem("Custom menu 1.1"));
             subMenu1_1->AddChild(new VdrMenuItem(tr("Timers"), osTimers));
             subMenu1_1->AddChild(new VdrMenuItem(tr("Recordings"), osRecordings));
-     MenuNode* subMenu2 =_rootMenuNode.AddChild(new SubMenuItem("Custom menu 2"));
-          //plugins
-          for (int i = 0; ; i++)
-          {
-              cPlugin *p = cPluginManager::GetPlugin(i);
-              if (p)
-	      {
-	          const char *item = p->MainMenuEntry();
-                  if (item)
-                  {
-                      subMenu2->AddChild(new PluginMenuItem(item, i));
-                  }
-	     }
-             else
-                break;
-          }
+    MenuNode* subMenu2 =_rootMenuNode.AddChild(new SubMenuItem("Custom menu 2"));
+        //plugins
+        int i=0;
+        while (cPlugin *p = cPluginManager::GetPlugin(i))
+        {
+            if (const char *item = p->MainMenuEntry())
+            {
+                  subMenu2->AddChild(new PluginMenuItem(item, i));
+            }
+            i++;
+        }
+    _rootMenuNode.AddChild(new VdrMenuItem(tr("Setup"), osSetup));
+    if (Commands.Count())
+        _rootMenuNode.AddChild(new VdrMenuItem(tr("Commands"), osCommands));
 }
 
 MainMenuItemsList* SubMenuProvider::MainMenuItems()

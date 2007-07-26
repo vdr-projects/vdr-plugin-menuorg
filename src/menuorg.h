@@ -11,7 +11,7 @@ using namespace SubMenuPatch;
 class MenuOrgPlugin : public cPlugin
 {
     private:
-        SubMenuProvider _subMenuProvider;
+        SubMenuProvider* _subMenuProvider;
 
     public:
         MenuOrgPlugin(void);
