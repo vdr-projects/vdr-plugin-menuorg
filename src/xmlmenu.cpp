@@ -55,7 +55,7 @@ void XmlMenu::parseNode(const Element* element, MenuNode* menuNode)
             {
                 if (const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name"))
                 {
-                    MenuNode* subMenu = menuNode->AddChild(new SubMenuItem(nameAttribute->get_value().c_str()));
+                    MenuNode* subMenu = menuNode->AddChild(new SubMenuItem(nameAttribute->get_value()));
                     parseNode(childElement, subMenu);
                 }
             }
@@ -63,9 +63,8 @@ void XmlMenu::parseNode(const Element* element, MenuNode* menuNode)
             {
                 if (const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name"))
                 {
-                    const char* systemMenuItemText = nameAttribute->get_value().c_str();
-                    MenuNode* systemMenuItem = menuNode->AddChild(
-                      new VdrMenuItem(systemMenuItemText, geteOSState(systemMenuItemText)));
+                    std::string systemMenuItemText = nameAttribute->get_value();
+                    menuNode->AddChild(new VdrMenuItem(systemMenuItemText, geteOSState(systemMenuItemText)));
                 }
             }
             if (childElement->get_name() == "plugin")
@@ -77,8 +76,7 @@ void XmlMenu::parseNode(const Element* element, MenuNode* menuNode)
                     
                     if (FindPluginByName(nameAttribute->get_value(), &pluginMainMenuEntry, pluginIndex))
                     {
-                        MenuNode* pluginMenuItem = menuNode->AddChild(
-                          new PluginMenuItem(pluginMainMenuEntry, pluginIndex));
+                        menuNode->AddChild(new PluginMenuItem(pluginMainMenuEntry, pluginIndex));
                     }
                 }
             }
