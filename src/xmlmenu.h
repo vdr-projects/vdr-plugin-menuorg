@@ -2,7 +2,6 @@
 #define ___XMLMENU_H
 
 #include <libxml++/libxml++.h>
-#include <iostream>
 #include "menunode.h"
 
 using namespace xmlpp;

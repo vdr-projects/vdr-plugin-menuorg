@@ -7,7 +7,6 @@
 #include "xmlmenu.h"
 #include <iostream>
 
-//#include <vdr/submenupatch.h>
 using namespace xmlpp;
 using namespace std;
 
@@ -21,7 +20,7 @@ void XmlMenu::loadXmlMenu()
 	{
 		DomParser parser;
 
-		//TODO: patch the xmlfile with the xsd definition for validate
+		//TODO: patch the xmlfile with the xsd definition for validate the schema
 		//parser.set_validate();
 		parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
 		parser.parse_file(File);
@@ -84,9 +83,9 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode* paren
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-SystemItem=" << attribute->get_value()  << endl;
 					//TODO: search a valid cast/convert code
 					if (parentNode == NULL)
-						newparentNode =_rootMenuNode.AddChild(new VdrMenuItem(tr((const char*) attribute->get_value()), geteOSState(attribute->get_value())));
+						newparentNode =_rootMenuNode.AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
 					else
-						newparentNode = parentNode->AddChild(new VdrMenuItem(tr((const char*) attribute->get_value()), geteOSState(attribute->get_value())));
+						newparentNode = parentNode->AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
 				}
 			}
 		}
@@ -101,9 +100,9 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode* paren
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-MenuItem=" << attribute->get_value()  << endl;
 					//TODO: search a valid cast/convert code
 					if (parentNode == NULL)
-						newparentNode =_rootMenuNode.AddChild(new SubMenuItem((const char*) attribute->get_value()));
+						newparentNode =_rootMenuNode.AddChild(new SubMenuItem(attribute->get_value().data()));
 					else
-						newparentNode = parentNode->AddChild(new SubMenuItem((const char*) attribute->get_value()));
+						newparentNode = parentNode->AddChild(new SubMenuItem(attribute->get_value().data()));
 				}				
 			}
 		}
