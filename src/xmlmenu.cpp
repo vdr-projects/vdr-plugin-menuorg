@@ -41,7 +41,7 @@ void XmlMenu::loadXmlMenu()
 	}
 }
 
-void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *parentNode)
+void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode* parentNode)
 {
 	const ContentNode*  nodeContent = dynamic_cast<const ContentNode*>(a_node);
 	const TextNode*     nodeText    = dynamic_cast<const TextNode*>(a_node);
@@ -82,6 +82,7 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-SystemItem=" << attribute->get_value()  << endl;
+					//TODO: search a valid cast/convert code
 					if (parentNode == NULL)
 						newparentNode =_rootMenuNode.AddChild(new VdrMenuItem(tr((const char*) attribute->get_value()), geteOSState(attribute->get_value())));
 					else
@@ -98,6 +99,7 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-MenuItem=" << attribute->get_value()  << endl;
+					//TODO: search a valid cast/convert code
 					if (parentNode == NULL)
 						newparentNode =_rootMenuNode.AddChild(new SubMenuItem((const char*) attribute->get_value()));
 					else
@@ -114,16 +116,18 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-PluginItem=" << attribute->get_value()  << endl;
-					if (getPluginIndex(attribute->get_value()) != NULL)
+					//TODO: get this running!
+/*
+					PluginItemAndIndex *myPlugin = getPlugin(attribute->get_value());
+					if (myPlugin)
 					{
-						PluginItemAndIndex myPlugin = getPluginIndex(attribute->get_value());
 						if (parentNode == NULL)
-							newparentNode =_rootMenuNode.AddChild(new PluginMenuItem(myPlugin.item, myPlugin.index));
+							newparentNode =_rootMenuNode.AddChild(new PluginMenuItem(myPlugin->item, myPlugin->index));
 						else
-							newparentNode = parentNode->AddChild(new PluginMenuItem(myPlugin.item, myPlugin.index));
+							newparentNode = parentNode->AddChild(new PluginMenuItem(myPlugin->item, myPlugin->index));
 					}
+*/
 				}
-				//subMenu2->AddChild(new PluginMenuItem(item, i));
 			}
 		}
 	}
@@ -133,7 +137,7 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 		Node::NodeList list = a_node->get_children();
 		for(Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
 		{
-			parseNode(*iter, Parent+1, newparentNode); //recursive
+			parseNode(*iter, Parent+1, *newparentNode); //recursive
 		}
 	}
 }

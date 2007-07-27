@@ -21,8 +21,7 @@ class XmlMenu
 		eOSState geteOSState(const Glib::ustring& name); // gets the eOSState for the given string
 		PluginItemAndIndex getPlugin(const Glib::ustring& name); // gets the plugin for the given string
 	public:
-		MenuNode _rootMenuNode; // hold the Menue Node
-		XmlMenu (void);
+		MenuNode _rootMenuNode; // hold the Menue Nodes
 		void loadXmlMenu(); // load the xmlfile
 };
 
