@@ -45,7 +45,7 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode* paren
 	const ContentNode*  nodeContent = dynamic_cast<const ContentNode*>(a_node);
 	const TextNode*     nodeText    = dynamic_cast<const TextNode*>(a_node);
 	const CommentNode*  nodeComment = dynamic_cast<const CommentNode*>(a_node);
-	MenuNode newparentNode;
+	MenuNode* newparentNode;
 
 /****
     MenuNode* subMenu1 =_rootMenuNode.AddChild(new SubMenuItem("Custom menu 1"));
@@ -81,7 +81,6 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode* paren
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-SystemItem=" << attribute->get_value()  << endl;
-					//TODO: search a valid cast/convert code
 					if (parentNode == NULL)
 						newparentNode =_rootMenuNode.AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
 					else
@@ -98,7 +97,6 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode* paren
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-MenuItem=" << attribute->get_value()  << endl;
-					//TODO: search a valid cast/convert code
 					if (parentNode == NULL)
 						newparentNode =_rootMenuNode.AddChild(new SubMenuItem(attribute->get_value().data()));
 					else
@@ -136,7 +134,7 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode* paren
 		Node::NodeList list = a_node->get_children();
 		for(Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
 		{
-			parseNode(*iter, Parent+1, *newparentNode); //recursive
+			parseNode(*iter, Parent+1, newparentNode); //recursive
 		}
 	}
 }
