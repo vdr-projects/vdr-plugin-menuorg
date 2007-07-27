@@ -6,9 +6,9 @@
 
 SubMenuProvider::SubMenuProvider()
 {
-	//CreateTestMenus();
-	_oXmlMenu.loadXmlMenu();
-	_currentMenu = &_oXmlMenu._rootMenuNode;
+    //CreateTestMenus();
+    _oXmlMenu.loadXmlMenu();
+    _currentMenu = &_oXmlMenu._rootMenuNode;
 }
 /*
 void SubMenuProvider::CreateTestMenus()
@@ -38,7 +38,7 @@ void SubMenuProvider::CreateTestMenus()
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();
-    
+
     for (MenuNodeList::iterator i = _currentMenu->Childs().begin();
       i != _currentMenu->Childs().end(); i++)
     {
@@ -57,19 +57,18 @@ void SubMenuProvider::ResetMainMenuItemsList()
        delete *i;
     }
     _currentMainMenuItems.clear(); 
-    
 }
 
 void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 {
     for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)
     {
-	MainMenuItem* menuItem = _currentMainMenuItems.at(itemIndex);
-	if (menuItem->IsCustomMenuItem() && (menuItem->CustomMenuItem() == item))
-	{
+        MainMenuItem* menuItem = _currentMainMenuItems.at(itemIndex);
+        if (menuItem->IsCustomMenuItem() && (menuItem->CustomMenuItem() == item))
+        {
             _currentMenu = _currentMenu->Childs().at(itemIndex);
             break;
-	}
+        }
     }
 }
 

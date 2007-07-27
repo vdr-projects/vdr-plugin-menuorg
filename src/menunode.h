@@ -13,7 +13,7 @@ class MenuNode
     private:
         MenuNode* _parent;
         MenuNodeList _childs;
-        
+
     protected:
         void SetParent(MenuNode* parent);
 
