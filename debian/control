@@ -2,12 +2,13 @@ Source: vdr-plugin-menuorg
 Section: misc
 Priority: extra
 Maintainer: Tobias Grimm <tg@e-tobi.net>
-Build-Depends: debhelper (>= 5), vdr-dev (>= 1.4.7-2ctvdr1)
+Build-Depends: debhelper (>= 5), vdr-dev (>= 1.4.7-2ctvdr1), libxml++2.6-dev
 Standards-Version: 3.7.2
 
 Package: vdr-plugin-menuorg
 Architecture: any
 Depends: ${shlibs:Depends}, ${vdr:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: organize your Mainmenu
+ With this plugin you can organize your Mainmenu.
+ It use the menu definition file from the setup plugin.
 XB-VDR-Patchlevel: ${vdr:Patchlevel}

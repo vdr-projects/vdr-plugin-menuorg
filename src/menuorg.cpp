@@ -36,7 +36,7 @@ const char* MenuOrgPlugin::Version(void)
 
 const char* MenuOrgPlugin::Description(void)
 {
-    return tr("TODO: Insert Description");
+    return tr("organize your Mainmenu");
 }
 
 const char* MenuOrgPlugin::MainMenuEntry(void)
