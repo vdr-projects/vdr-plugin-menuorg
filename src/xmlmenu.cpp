@@ -27,8 +27,9 @@ void XmlMenu::loadXmlMenu()
 		if(parser)
 		{
 			//Walk the tree:
+			MenuCount=0;
 			const Node* pNode = parser.get_document()->get_root_node(); //deleted by DomParser.
-			parseNode(pNode,0);
+			parseNode(pNode,0,0,0);
 		}
 	}
 	catch(const std::exception& ex)
@@ -40,7 +41,7 @@ void XmlMenu::loadXmlMenu()
 	}
 }
 
-void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
+void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, unsigned int ItemIndex, unsigned int MenuIndex)
 {
 	const ContentNode*  nodeContent = dynamic_cast<const ContentNode*>(a_node);
 	const TextNode*     nodeText    = dynamic_cast<const TextNode*>(a_node);
@@ -80,11 +81,11 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-SystemItem=" << attribute->get_value()  << endl;
-					isyslog("SystemItem=%s",attribute->get_value().data());
-					if((Parent-1) != 0)
+					isyslog("%d-%d-%d-SystemItem=%s",Parent,ItemIndex,MenuIndex,attribute->get_value().data());
+					if(MenuIndex > 0)
 					{
-						isyslog("  - add to _subMenu[%d]",Parent-1);
-						_subMenu[Parent-1]->AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
+						isyslog("  - add to _subMenu[%d]",MenuIndex);
+						_subMenu[MenuIndex]->AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
 					}
 					else
 					{
@@ -103,18 +104,19 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-MenuItem=" << attribute->get_value()  << endl;
-					isyslog("MenuItem=%s",attribute->get_value().data());
+					isyslog("%d-%d-%d-MenuItem=%s",Parent,ItemIndex,MenuIndex,attribute->get_value().data());
 
-					if((Parent-1) > 1)
+					if(MenuIndex > 0)
 					{
-						isyslog("  - add to _subMenu[%d]",Parent-1);
-						_subMenu[Parent] = _subMenu[Parent-1]->AddChild(new SubMenuItem(attribute->get_value().data()));
+						isyslog("  - add to _subMenu[%d]",MenuIndex);
+						_subMenu[MenuIndex+1] = _subMenu[MenuIndex]->AddChild(new SubMenuItem(attribute->get_value().data()));
 					}
 					else
 					{
 						isyslog("  - add to _rootMenuNode");
-						_subMenu[Parent] = _rootMenuNode.AddChild(new SubMenuItem(attribute->get_value().data()));			
+						_subMenu[MenuIndex+1] = _rootMenuNode.AddChild(new SubMenuItem(attribute->get_value().data()));
 					}
+ 					MenuCount++;
 				}
 			}
 		}
@@ -127,14 +129,14 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
 				{
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-PluginItem=" << attribute->get_value()  << endl;
-					isyslog("PluginItem=%s",attribute->get_value().data());
+					isyslog("%d-%d-%d-PluginItem=%s",Parent,ItemIndex,MenuIndex,attribute->get_value().data());
 					PluginItemAndIndex *myPlugin = getPlugin(attribute->get_value());
-					if (myPlugin)
+					if (myPlugin->index >= 0)
 					{
-						if((Parent-1) != 0)
+						if(MenuIndex > 0)
 						{
-							isyslog("  - add to _subMenu[%d]",Parent-1);
-							_subMenu[Parent-1]->AddChild(new PluginMenuItem(myPlugin->item, myPlugin->index));
+							isyslog("  - add to _subMenu[%d]",MenuIndex);
+							_subMenu[MenuIndex]->AddChild(new PluginMenuItem(myPlugin->item, myPlugin->index));
 						}
 						else
 						{
@@ -148,11 +150,25 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
 	}
 	if(!nodeContent)
 	{
+		int ItemIndex=0;
+		int myMenuIndex=MenuCount;
 		//Recurse through child nodes:
 		Node::NodeList list = a_node->get_children();
 		for(Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
 		{
-			parseNode(*iter, Parent+1); //recursive
+			const Node* b_node = dynamic_cast<const Node*>(*iter);
+
+			const ContentNode*  tmpnodeContent = dynamic_cast<const ContentNode*>(b_node);
+			const TextNode*     tmpnodeText    = dynamic_cast<const TextNode*>(b_node);
+			const CommentNode*  tmpnodeComment = dynamic_cast<const CommentNode*>(b_node);
+
+			Glib::ustring subNodename = b_node->get_name();
+
+			if(!tmpnodeText && !tmpnodeComment && !subNodename.empty() && !nodeContent)
+			{
+				parseNode(*iter, Parent+1, ItemIndex, myMenuIndex); //recursive
+				ItemIndex++;
+			}
 		}
 	}
 }
@@ -250,6 +266,10 @@ eOSState XmlMenu::geteOSState(const Glib::ustring& name)
 	{
 		return os_User;
 	}
+	else if (name == "Commands")
+	{
+		return osCommands;
+	}
 	else
 		return osContinue;
 }
@@ -257,10 +277,9 @@ eOSState XmlMenu::geteOSState(const Glib::ustring& name)
 PluginItemAndIndex* XmlMenu::getPlugin(const Glib::ustring& name)
 {
 	PluginItemAndIndex* returnVar;
-/*
-	returnVar.item = NULL;
-	returnVar.index = NULL;
-*/
+
+	returnVar->index = -1;
+
 	int i=0;
 	while (cPlugin *p = cPluginManager::GetPlugin(i))
 	{
