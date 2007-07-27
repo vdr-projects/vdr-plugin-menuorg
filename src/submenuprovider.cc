@@ -6,10 +6,11 @@
 
 SubMenuProvider::SubMenuProvider()
 {
-    CreateTestMenus();
-    _currentMenu = &_rootMenuNode;
+	//CreateTestMenus();
+	_oXmlMenu.loadXmlMenu();
+	_currentMenu = &_rootMenuNode;
 }
-
+/*
 void SubMenuProvider::CreateTestMenus()
 {
     MenuNode* subMenu1 =_rootMenuNode.AddChild(new SubMenuItem("Custom menu 1"));
@@ -33,7 +34,7 @@ void SubMenuProvider::CreateTestMenus()
     if (Commands.Count())
         _rootMenuNode.AddChild(new VdrMenuItem(tr("Commands"), osCommands));
 }
-
+*/
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();

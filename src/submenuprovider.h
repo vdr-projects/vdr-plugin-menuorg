@@ -3,13 +3,15 @@
 
 #include <vdr/submenupatch.h>
 #include "menunode.h"
+#include "xmlmenu.h"
 
 using namespace SubMenuPatch;
 
 class SubMenuProvider: public ISubMenuProvider
 {
     private:
-        MenuNode _rootMenuNode;
+	XmlMenu _oXmlMenu;
+	//MenuNode _rootMenuNode;
         MenuNode* _currentMenu;
         MainMenuItemsList _currentMainMenuItems;
 
