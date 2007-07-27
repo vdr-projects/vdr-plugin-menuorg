@@ -4,15 +4,16 @@
 #include "menunode.h"
 #include <vdr/osdbase.h>
 #include <vdr/submenupatch.h>
+#include <string>
 
 class VdrMenuItem: public MenuNode
 {
     private:
-        const char* _itemText;
+        std::string _itemText;
         eOSState _itemState;
 
     public:
-        VdrMenuItem(const char* itemText, eOSState itemState);
+        VdrMenuItem(std::string itemText, eOSState itemState);
         SubMenuPatch::MainMenuItem* CreateMainMenuItem();
 };
 

@@ -1,6 +1,6 @@
 #include "submenuitem.h"
 
-SubMenuItem::SubMenuItem(const char* itemText)
+SubMenuItem::SubMenuItem(std::string itemText)
   :VdrMenuItem(itemText, osUser1)
 {
 }

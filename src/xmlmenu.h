@@ -6,19 +6,13 @@
 
 using namespace xmlpp;
 
-struct PluginItemAndIndex
-{
-	const char* item;
-	int index;
-};
-
 class XmlMenu
 {
 	private:
 		//void createMenu(); // create the Menu Node
-		void parseNode(const Node* a_node, unsigned int Parent, unsigned int ItemIndex, unsigned int MenuIndex);
+		void parseNode(const Element* a_node, MenuNode* menuNode);
 		eOSState geteOSState(const Glib::ustring& name); // gets the eOSState for the given string
-		PluginItemAndIndex* getPlugin(const Glib::ustring& name); // gets the plugin for the given string
+		bool FindPluginByName(std::string name, const char** mainMenuEntry, int& pluginIndex); // gets the plugin for the given string
 		MenuNode* _subMenu[30]; // holds the submenus
 		int MenuCount;
 
