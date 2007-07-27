@@ -17,7 +17,8 @@ VERSION = $(shell grep 'static const char VERSION\[\] =' src/version.h | \
 ### The C++ compiler and options:
 
 CXX      ?= g++
-CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual `pkg-config libxml++-2.6 --cflags --libs`
+CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual
+
 
 ### The directory environment:
 
@@ -42,9 +43,10 @@ PACKAGE = vdr-$(ARCHIVE)
 
 ### Includes, Libs and Defines (add further entries here):
 
-# LIBS += `curl-config --libs`
-
 INCLUDES += -I. -I$(VDRDIR)/include -I$(DVBDIR)/include
+INCLUDES +=  `pkg-config libxml++-2.6 --cflags`
+
+LIBS +=  `pkg-config libxml++-2.6 --libs`
 
 DEFINES += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 
