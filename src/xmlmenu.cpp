@@ -29,7 +29,7 @@ void XmlMenu::loadXmlMenu()
 			//Walk the tree:
 			MenuCount=0;
 			const Element* rootElement = parser.get_document()->get_root_node(); //deleted by DomParser.
-			parseNode(rootElement, &_rootMenuNode);
+			ParseElement(rootElement, &_rootMenuNode);
 		}
 	}
 	catch(const std::exception& ex)
@@ -41,9 +41,8 @@ void XmlMenu::loadXmlMenu()
 	}
 }
 
-void XmlMenu::parseNode(const Element* element, MenuNode* menuNode)
+void XmlMenu::ParseElement(const Element* element, MenuNode* menuNode)
 {
-    
     Node::NodeList children = element->get_children();
     for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
     {
@@ -51,25 +50,20 @@ void XmlMenu::parseNode(const Element* element, MenuNode* menuNode)
     
         if (childElement)
         {
-            if (childElement->get_name() == "menu")
+            const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name");
+            if (nameAttribute)
             {
-                if (const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name"))
+                if (childElement->get_name() == "menu")
                 {
                     MenuNode* subMenu = menuNode->AddChild(new SubMenuItem(nameAttribute->get_value()));
-                    parseNode(childElement, subMenu);
+                    ParseElement(childElement, subMenu);
                 }
-            }
-            if (childElement->get_name() == "system")
-            {
-                if (const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name"))
+                else if (childElement->get_name() == "system")
                 {
                     std::string systemMenuItemText = nameAttribute->get_value();
                     menuNode->AddChild(new VdrMenuItem(systemMenuItemText, geteOSState(systemMenuItemText)));
                 }
-            }
-            if (childElement->get_name() == "plugin")
-            {
-                if (const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name"))
+                else if (childElement->get_name() == "plugin")
                 {
                     const char* pluginMainMenuEntry;
                     int pluginIndex;
@@ -83,45 +77,10 @@ void XmlMenu::parseNode(const Element* element, MenuNode* menuNode)
         }
     }
 }
-/*
-enum eOSState { osUnknown,
-                osContinue,
-                osSchedule,
-                osChannels,
-                osTimers,
-                osRecordings,
-                osPlugin,
-                osSetup,
-                osCommands,
-                osPause,
-                osRecord,
-                osReplay,
-                osStopRecord,
-                osStopReplay,
-                osCancelEdit,
-                osSwitchDvb,
-                osBack,
-                osEnd,
-                os_User, // the following values can be used locally
-                osUser1,
-                osUser2,
-                osUser3,
-                osUser4,
-                osUser5,
-                osUser6,
-                osUser7,
-                osUser8,
-                osUser9,
-                osUser10,
-              };
-*/
-eOSState XmlMenu::geteOSState(const Glib::ustring& name)
+
+eOSState XmlMenu::geteOSState(std::string name)
 {
-	if(name == "Continue")
-	{
-		return osContinue;	
-	}
-	else if (name == "Schedule")
+	if (name == "Schedule")
 	{
 		return osSchedule;
 	}
@@ -137,45 +96,9 @@ eOSState XmlMenu::geteOSState(const Glib::ustring& name)
 	{
 		return osRecordings;
 	}
-	else if (name == "Plugin")
-	{
-		return osPlugin;
-	}
 	else if (name == "Setup")
 	{
 		return osSetup;
-	}
-	else if (name == "Pause")
-	{
-		return osPause;
-	}
-	else if (name == "Record")
-	{
-		return osRecord;
-	}
-	else if (name == "Replay")
-	{
-		return osReplay;
-	}
-	else if (name == "CancelEdit")
-	{
-		return osCancelEdit;
-	}
-	else if (name == "SwitchDvb")
-	{
-		return osSwitchDvb;
-	}
-	else if (name == "Back")
-	{
-		return osBack;
-	}
-	else if (name == "End")
-	{
-		return osEnd;
-	}
-	else if (name == "User")
-	{
-		return os_User;
 	}
 	else if (name == "Commands")
 	{
