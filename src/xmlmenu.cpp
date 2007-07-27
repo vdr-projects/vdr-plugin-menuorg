@@ -82,15 +82,19 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, unsigned int It
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-SystemItem=" << attribute->get_value()  << endl;
 					isyslog("%d-%d-%d-SystemItem=%s",Parent,ItemIndex,MenuIndex,attribute->get_value().data());
-					if(MenuIndex > 0)
+					eOSState ItemeOSState = geteOSState(attribute->get_value());
+					if ((ItemeOSState == osCommands && Commands.Count()) || ItemeOSState != osCommands)
 					{
-						isyslog("  - add to _subMenu[%d]",MenuIndex);
-						_subMenu[MenuIndex]->AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
-					}
-					else
-					{
-						isyslog("  - add to _rootMenuNode");
-						_rootMenuNode.AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
+						if(MenuIndex > 0)
+						{
+							isyslog("  - add to _subMenu[%d]",MenuIndex);
+							_subMenu[MenuIndex]->AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
+						}
+						else
+						{
+							isyslog("  - add to _rootMenuNode");
+							_rootMenuNode.AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
+						}
 					}
 				}
 			}
