@@ -1,14 +1,14 @@
 #include <libxml++/libxml++.h>
+#include <vdr/plugin.h>
+#include "menunode.h"
+#include "vdrmenuitem.h"
+#include "pluginmenuitem.h"
+#include "xmlmenu.h"
 #include <iostream>
 
 //#include <vdr/submenupatch.h>
 using namespace xmlpp;
 using namespace std;
-
-XmlMenu::XmlMenu(void)
-{
-	//MenuNr = 0;
-}
 
 void XmlMenu::loadXmlMenu()
 { 
@@ -28,7 +28,7 @@ void XmlMenu::loadXmlMenu()
 		{
 			//Walk the tree:
 			const Node* pNode = parser.get_document()->get_root_node(); //deleted by DomParser.
-			parseNode(pNode,0);
+			parseNode(pNode,0,NULL);
 		}
 	}
 	catch(const std::exception& ex)
@@ -45,6 +45,7 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 	const ContentNode*  nodeContent = dynamic_cast<const ContentNode*>(a_node);
 	const TextNode*     nodeText    = dynamic_cast<const TextNode*>(a_node);
 	const CommentNode*  nodeComment = dynamic_cast<const CommentNode*>(a_node);
+	MenuNode newparentNode;
 
 /****
     MenuNode* subMenu1 =_rootMenuNode.AddChild(new SubMenuItem("Custom menu 1"));
@@ -61,10 +62,11 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 
 	if(!nodeText && !nodeComment && !nodename.empty()) //Let's not say "name: text".
 	{
-		for(int i=0;i<=Parent;i++)
+		/*
+		for(unsigned int i=0;i<=Parent;i++)
 		{
 			printf("  ");
-		}
+		}*/
 		if (nodename == "menus")
 		{
 			//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-ROOT" << endl;
@@ -113,10 +115,11 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-PluginItem=" << attribute->get_value()  << endl;
 					if (getPluginIndex(attribute->get_value()) != NULL)
 					{
+						PluginItemAndIndex myPlugin = getPluginIndex(attribute->get_value());
 						if (parentNode == NULL)
-							newparentNode =_rootMenuNode.AddChild(new PluginMenuItem(item, getPluginIndex(attribute->get_value())));
+							newparentNode =_rootMenuNode.AddChild(new PluginMenuItem(myPlugin.item, myPlugin.index));
 						else
-							newparentNode = parentNode->AddChild(new PluginMenuItem(item, getPluginIndex(attribute->get_value())));
+							newparentNode = parentNode->AddChild(new PluginMenuItem(myPlugin.item, myPlugin.index));
 					}
 				}				
 			}
@@ -164,7 +167,7 @@ enum eOSState { osUnknown,
                 osUser10,
               };
 */
-eOSState XmlMenu::geteOSState(char* name)
+eOSState XmlMenu::geteOSState(Glib::ustring* name)
 {
 	if(name == "Continue")
 	{
@@ -228,4 +231,19 @@ eOSState XmlMenu::geteOSState(char* name)
 	}
 	else
 		return osContinue;
+}
+
+int XmlMenu::getPluginIndex(Glib::ustring* name)
+{
+	int i=0;
+	while (cPlugin *p = cPluginManager::GetPlugin(i))
+	{
+		if (const char *item = p->MainMenuEntry())
+		{
+			if (p.Name == name)
+				break;
+		}
+		i++;
+	}
+	return i;
 }

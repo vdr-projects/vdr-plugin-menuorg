@@ -17,7 +17,7 @@ VERSION = $(shell grep 'static const char VERSION\[\] =' src/version.h | \
 ### The C++ compiler and options:
 
 CXX      ?= g++
-CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual
+CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual `pkg-config libxml++-2.6 --cflags --libs`
 
 ### The directory environment:
 

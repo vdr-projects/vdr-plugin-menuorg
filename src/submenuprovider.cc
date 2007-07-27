@@ -8,7 +8,7 @@ SubMenuProvider::SubMenuProvider()
 {
 	//CreateTestMenus();
 	_oXmlMenu.loadXmlMenu();
-	_currentMenu = &_rootMenuNode;
+	_currentMenu = &_oXmlMenu._rootMenuNode;
 }
 /*
 void SubMenuProvider::CreateTestMenus()

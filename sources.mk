@@ -6,3 +6,4 @@ SRCS = \
   src/submenuitem.cc \
   src/submenuprovider.cc \
   src/vdrmenuitem.cc \
+  src/xmlmenu.cpp
