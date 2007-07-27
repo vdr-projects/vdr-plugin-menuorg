@@ -2,6 +2,7 @@
 #include <vdr/plugin.h>
 #include "menunode.h"
 #include "vdrmenuitem.h"
+#include "submenuitem.h"
 #include "pluginmenuitem.h"
 #include "xmlmenu.h"
 #include <iostream>
@@ -82,9 +83,9 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-SystemItem=" << attribute->get_value()  << endl;
 					if (parentNode == NULL)
-						newparentNode =_rootMenuNode.AddChild(new VdrMenuItem(tr(attribute->get_value()), geteOSState(attribute->get_value())));
+						newparentNode =_rootMenuNode.AddChild(new VdrMenuItem(tr((const char*) attribute->get_value()), geteOSState(attribute->get_value())));
 					else
-						newparentNode = parentNode->AddChild(new VdrMenuItem(tr(attribute->get_value()), geteOSState(attribute->get_value())));
+						newparentNode = parentNode->AddChild(new VdrMenuItem(tr((const char*) attribute->get_value()), geteOSState(attribute->get_value())));
 				}
 			}
 		}
@@ -98,9 +99,9 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-MenuItem=" << attribute->get_value()  << endl;
 					if (parentNode == NULL)
-						newparentNode =_rootMenuNode.AddChild(new SubMenuItem(attribute->get_value()));
+						newparentNode =_rootMenuNode.AddChild(new SubMenuItem((const char*) attribute->get_value()));
 					else
-						newparentNode = parentNode->AddChild(new SubMenuItem(attribute->get_value()));
+						newparentNode = parentNode->AddChild(new SubMenuItem((const char*) attribute->get_value()));
 				}				
 			}
 		}
@@ -121,7 +122,8 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent, MenuNode *paren
 						else
 							newparentNode = parentNode->AddChild(new PluginMenuItem(myPlugin.item, myPlugin.index));
 					}
-				}				
+				}
+				//subMenu2->AddChild(new PluginMenuItem(item, i));
 			}
 		}
 	}
@@ -167,7 +169,7 @@ enum eOSState { osUnknown,
                 osUser10,
               };
 */
-eOSState XmlMenu::geteOSState(Glib::ustring* name)
+eOSState XmlMenu::geteOSState(const Glib::ustring& name)
 {
 	if(name == "Continue")
 	{
@@ -233,17 +235,24 @@ eOSState XmlMenu::geteOSState(Glib::ustring* name)
 		return osContinue;
 }
 
-int XmlMenu::getPluginIndex(Glib::ustring* name)
+PluginItemAndIndex XmlMenu::getPlugin(const Glib::ustring& name)
 {
+	PluginItemAndIndex returnVar;
+/*
+	returnVar.item = NULL;
+	returnVar.index = NULL;
+*/
 	int i=0;
 	while (cPlugin *p = cPluginManager::GetPlugin(i))
 	{
 		if (const char *item = p->MainMenuEntry())
 		{
-			if (p.Name == name)
+			if (name == (const Glib::ustring) p->Name())
+				returnVar.item = item;
+				returnVar.index = i;
 				break;
 		}
 		i++;
 	}
-	return i;
+	return returnVar;
 }
