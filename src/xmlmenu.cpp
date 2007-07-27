@@ -81,10 +81,16 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
 					const Attribute* attribute = *iter;
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-SystemItem=" << attribute->get_value()  << endl;
 					isyslog("SystemItem=%s",attribute->get_value().data());
-					if(_subMenu[Parent-1])
+					if((Parent-1) != 0)
+					{
+						isyslog("  - add to _subMenu[%d]",Parent-1);
 						_subMenu[Parent-1]->AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
+					}
 					else
+					{
+						isyslog("  - add to _rootMenuNode");
 						_rootMenuNode.AddChild(new VdrMenuItem(tr(attribute->get_value().data()), geteOSState(attribute->get_value())));
+					}
 				}
 			}
 		}
@@ -99,10 +105,16 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
 					//cout << Parent << "-" << MainMenuIndex << "-" << myMenuNr << "-MenuItem=" << attribute->get_value()  << endl;
 					isyslog("MenuItem=%s",attribute->get_value().data());
 
-					if(_subMenu[Parent-1])
-						_subMenu[Parent-1]->AddChild(new SubMenuItem(attribute->get_value().data()));
+					if((Parent-1) > 1)
+					{
+						isyslog("  - add to _subMenu[%d]",Parent-1);
+						_subMenu[Parent] = _subMenu[Parent-1]->AddChild(new SubMenuItem(attribute->get_value().data()));
+					}
 					else
-						_rootMenuNode.AddChild(new SubMenuItem(attribute->get_value().data()));
+					{
+						isyslog("  - add to _rootMenuNode");
+						_subMenu[Parent] = _rootMenuNode.AddChild(new SubMenuItem(attribute->get_value().data()));			
+					}
 				}
 			}
 		}
@@ -119,10 +131,16 @@ void XmlMenu::parseNode(const Node* a_node, unsigned int Parent)
 					PluginItemAndIndex *myPlugin = getPlugin(attribute->get_value());
 					if (myPlugin)
 					{
-						if(_subMenu[Parent-1])
+						if((Parent-1) != 0)
+						{
+							isyslog("  - add to _subMenu[%d]",Parent-1);
 							_subMenu[Parent-1]->AddChild(new PluginMenuItem(myPlugin->item, myPlugin->index));
+						}
 						else
+						{
+							isyslog("  - add to _rootMenuNode");
 							_rootMenuNode.AddChild(new PluginMenuItem(myPlugin->item, myPlugin->index));
+						}
 					}
 				}
 			}
