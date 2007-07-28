@@ -1,16 +1,16 @@
+#include "xmlmenu.h"
+#include <iostream>
 #include <libxml++/libxml++.h>
+#include <exception>
 #include <vdr/plugin.h>
-#include "menunode.h"
 #include "vdrmenuitem.h"
 #include "submenuitem.h"
 #include "pluginmenuitem.h"
-#include "xmlmenu.h"
-#include <iostream>
 
 using namespace xmlpp;
 using namespace std;
 
-void XmlMenu::loadXmlMenu()
+void XmlMenu::LoadXmlMenu()
 { 
     // TODO: show how vdr handels the path vars (developer doc)
     // and change code for dynamic path vars
@@ -41,6 +41,11 @@ void XmlMenu::loadXmlMenu()
     }
 }
 
+MenuNode* XmlMenu::GetMenuTree()
+{
+    return &_rootMenuNode;
+}
+
 void XmlMenu::ParseElement(const Element* element, MenuNode* menuNode)
 {
     Node::NodeList children = element->get_children();
@@ -51,56 +56,74 @@ void XmlMenu::ParseElement(const Element* element, MenuNode* menuNode)
         if (childElement)
         {
             const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name");
+
             if (nameAttribute)
             {
-                if (childElement->get_name() == "menu")
+                string type = childElement->get_name();
+                string name = nameAttribute->get_value();
+                
+                if ( type == "menu")
                 {
-                    MenuNode* subMenu = menuNode->AddChild(new SubMenuItem(nameAttribute->get_value()));
+                    MenuNode* subMenu = AddSubMenuItem(name, menuNode);
                     ParseElement(childElement, subMenu);
                 }
-                else if (childElement->get_name() == "system")
+                else if (type == "system")
                 {
-                    std::string systemMenuItemText = nameAttribute->get_value();
-                    menuNode->AddChild(new VdrMenuItem(systemMenuItemText, geteOSState(systemMenuItemText)));
+                    AddSystemMenuItem(name, menuNode);
                 }
-                else if (childElement->get_name() == "plugin")
+                else if (type == "plugin")
                 {
-                    const char* pluginMainMenuEntry;
-                    int pluginIndex;
-
-                    if (FindPluginByName(nameAttribute->get_value(), &pluginMainMenuEntry, pluginIndex))
-                    {
-                        menuNode->AddChild(new PluginMenuItem(pluginMainMenuEntry, pluginIndex));
-                    }
+                    AddPluginMenuItem(name, menuNode);
                 }
             }
         }
     }
 }
 
-eOSState XmlMenu::geteOSState(std::string name)
+MenuNode* XmlMenu::AddSubMenuItem(string name, MenuNode* menu)
 {
-    if (name == "Schedule")
+    return menu->AddChild(new SubMenuItem(name));
+}
+
+void XmlMenu::AddSystemMenuItem(string name, MenuNode* menu)
+{
+    menu->AddChild(new VdrMenuItem(name, MenuTextToVdrState(name)));
+}
+
+void XmlMenu::AddPluginMenuItem(string pluginName, MenuNode* menu)
+{
+    const char* pluginMainMenuEntry;
+    int pluginIndex;
+
+    if (FindPluginByName(pluginName, &pluginMainMenuEntry, pluginIndex))
+    {
+        menu->AddChild(new PluginMenuItem(pluginMainMenuEntry, pluginIndex));
+    }
+}
+
+eOSState XmlMenu::MenuTextToVdrState(string menuText)
+{
+    if (menuText == "Schedule")
     {
         return osSchedule;
     }
-    else if (name == "Channels")
+    else if (menuText == "Channels")
     {
         return osChannels;
     }
-    else if (name == "Timers")
+    else if (menuText == "Timers")
     {
         return osTimers;
     }
-    else if (name == "Recordings")
+    else if (menuText == "Recordings")
     {
         return osRecordings;
     }
-    else if (name == "Setup")
+    else if (menuText == "Setup")
     {
         return osSetup;
     }
-    else if (name == "Commands")
+    else if (menuText == "Commands")
     {
         return osCommands;
     }
@@ -108,14 +131,15 @@ eOSState XmlMenu::geteOSState(std::string name)
         return osContinue;
 }
 
-bool XmlMenu::FindPluginByName(std::string name, const char** mainMenuEntry, int& pluginIndex)
+bool XmlMenu::FindPluginByName(string name, const char** mainMenuEntry, int& pluginIndex)
 {
-    int i=0;
-    while (cPlugin *p = cPluginManager::GetPlugin(i))
+    int i = 0;
+
+    while (cPlugin *plugin = cPluginManager::GetPlugin(i))
     {
-        if (name == p->Name()) 
+        if (name == plugin->Name()) 
         {
-            if (const char *item = p->MainMenuEntry())
+            if (const char *item = plugin->MainMenuEntry())
             {
                 pluginIndex = i;
                 *mainMenuEntry = item;

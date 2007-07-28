@@ -7,8 +7,8 @@
 SubMenuProvider::SubMenuProvider()
 {
     //CreateTestMenus();
-    _oXmlMenu.loadXmlMenu();
-    _currentMenu = &_oXmlMenu._rootMenuNode;
+    _oXmlMenu.LoadXmlMenu();
+    _currentMenu = _oXmlMenu.GetMenuTree();
 }
 /*
 void SubMenuProvider::CreateTestMenus()
