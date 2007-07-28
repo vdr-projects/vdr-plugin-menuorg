@@ -41,7 +41,12 @@ const char* MenuOrgPlugin::Description(void)
 
 const char* MenuOrgPlugin::MainMenuEntry(void)
 {
-    return tr("TODO: MainMenuEntry");
+    if(_subMenuProvider->getSomeError())
+    {
+        return tr("Failed to load XML File");
+    }
+    else
+        return NULL;
 }
   
 const char *MenuOrgPlugin::CommandLineHelp(void)
@@ -94,6 +99,7 @@ cString MenuOrgPlugin::Active(void)
 cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 {
     // Perform the action when selected from the main VDR menu.
+    //TODO: when the MenuItem is called, than ask for reloading the xml-file
     return NULL;
 }
 
@@ -111,7 +117,7 @@ bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)
 {
-    if (strcmp(Id, "SubMenuPatch-v0.1::SubMenuProvider") == 0) 
+    if (strcmp(Id, "SubMenuPatch-v0.1::SubMenuProvider") == 0 && _subMenuProvider->getSomeError() == false) 
     {
         ISubMenuProvider** ptr = (ISubMenuProvider**)Data;
         *ptr = _subMenuProvider;

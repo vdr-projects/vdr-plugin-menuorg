@@ -8,33 +8,16 @@ SubMenuProvider::SubMenuProvider()
 {
     //CreateTestMenus();
     _oXmlMenu.LoadXmlMenu();
-    _currentMenu = _oXmlMenu.GetMenuTree();
+    if(_oXmlMenu.getErrorStatus() == false)
+    {
+        _currentMenu = _oXmlMenu.GetMenuTree();
+        _someError=false;
+    }
+    else
+    {
+        _someError=true;
+    }
 }
-/*
-void SubMenuProvider::CreateTestMenus()
-{
-    MenuNode* subMenu1 =_rootMenuNode.AddChild(new SubMenuItem("Custom menu 1"));
-        subMenu1->AddChild(new VdrMenuItem(tr("Schedule"), osSchedule));
-        subMenu1->AddChild(new VdrMenuItem(tr("Channels"), osChannels));
-        MenuNode* subMenu1_1 = subMenu1->AddChild(new SubMenuItem("Custom menu 1.1"));
-            subMenu1_1->AddChild(new VdrMenuItem(tr("Timers"), osTimers));
-            subMenu1_1->AddChild(new VdrMenuItem(tr("Recordings"), osRecordings));
-    MenuNode* subMenu2 =_rootMenuNode.AddChild(new SubMenuItem("Custom menu 2"));
-        //plugins
-        int i=0;
-        while (cPlugin *p = cPluginManager::GetPlugin(i))
-        {
-            if (const char *item = p->MainMenuEntry())
-            {
-                  subMenu2->AddChild(new PluginMenuItem(item, i));
-            }
-            i++;
-        }
-    _rootMenuNode.AddChild(new VdrMenuItem(tr("Setup"), osSetup));
-    if (Commands.Count())
-        _rootMenuNode.AddChild(new VdrMenuItem(tr("Commands"), osCommands));
-}
-*/
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();
@@ -88,4 +71,9 @@ bool SubMenuProvider::LeaveSubMenu()
     {
         return false;
     }
+}
+
+bool SubMenuProvider::getSomeError()
+{
+    return _someError;
 }

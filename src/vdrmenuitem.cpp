@@ -10,5 +10,5 @@ VdrMenuItem::VdrMenuItem(std::string itemText, eOSState itemState)
 
 SubMenuPatch::IMainMenuItem* VdrMenuItem::CreateMainMenuItem()
 {
-    return new CustomMainMenuItem(new cOsdItem(_itemText.c_str(), _itemState));
+    return new CustomMainMenuItem(new cOsdItem(tr(_itemText.c_str()), _itemState));
 }

@@ -10,8 +10,8 @@ using namespace SubMenuPatch;
 class SubMenuProvider: public ISubMenuProvider
 {
     private:
+        bool _someError;
         XmlMenu _oXmlMenu;
-        //MenuNode _rootMenuNode;
         MenuNode* _currentMenu;
         MainMenuItemsList _currentMainMenuItems;
 
@@ -21,6 +21,7 @@ class SubMenuProvider: public ISubMenuProvider
         virtual void EnterRootMenu();
         virtual void EnterSubMenu(cOsdItem* item);
         virtual bool LeaveSubMenu();
+        bool getSomeError();
 
     private:
         void ResetMainMenuItemsList();

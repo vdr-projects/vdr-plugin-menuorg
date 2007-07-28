@@ -30,14 +30,16 @@ void XmlMenu::LoadXmlMenu()
             MenuCount=0;
             const Element* rootElement = parser.get_document()->get_root_node(); //deleted by DomParser.
             ParseElement(rootElement, &_rootMenuNode);
+            _xmlLoadError=false;
         }
     }
     catch(const std::exception& ex)
     {
         //TODO: print output to syslog (isyslog or dsyslog?)
         cout << "Exception caught: " << ex.what() << endl;
-
+        isyslog("Exception caught: %s", ex.what());
         //TODO: display message on osd
+        _xmlLoadError=true;
     }
 }
 
@@ -149,4 +151,9 @@ bool XmlMenu::FindPluginByName(string name, const char** mainMenuEntry, int& plu
         i++;
     }
     return false;
+}
+
+bool XmlMenu::getErrorStatus()
+{
+    return _xmlLoadError;
 }

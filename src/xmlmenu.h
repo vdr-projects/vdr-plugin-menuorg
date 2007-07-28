@@ -10,12 +10,14 @@ namespace xmlpp { class Element; }
 class XmlMenu
 {
     private:
+        bool _xmlLoadError;
         int MenuCount;
         MenuNode _rootMenuNode;
 
     public:
         MenuNode* GetMenuTree();
         void LoadXmlMenu();
+        bool getErrorStatus();
 
     private:
         void ParseElement(const xmlpp::Element* a_node, MenuNode* menuNode);
