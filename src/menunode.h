@@ -18,6 +18,7 @@ class MenuNode
         void SetParent(MenuNode* parent);
 
     public:
+        MenuNode();
         virtual ~MenuNode();
         MenuNode* Parent();
         MenuNodeList& Childs();

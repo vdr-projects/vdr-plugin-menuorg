@@ -1,5 +1,10 @@
 #include "menunode.h"
 
+MenuNode::MenuNode()
+{
+    _parent = NULL;
+}
+
 MenuNode::~MenuNode()
 {
     while (!_childs.empty())
