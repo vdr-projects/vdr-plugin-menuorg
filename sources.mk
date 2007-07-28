@@ -1,9 +1,9 @@
 SRCS = \
-  src/menunode.cc \
+  src/menunode.cpp \
   src/menuorg.cpp \
   src/plugincreator.cpp \
   src/pluginmenuitem.cpp \
-  src/submenuitem.cc \
-  src/submenuprovider.cc \
-  src/vdrmenuitem.cc \
+  src/submenuitem.cpp \
+  src/submenuprovider.cpp \
+  src/vdrmenuitem.cpp \
   src/xmlmenu.cpp
