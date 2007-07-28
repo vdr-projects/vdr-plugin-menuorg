@@ -59,6 +59,11 @@ void SubMenuProvider::ResetMainMenuItemsList()
     _currentMainMenuItems.clear(); 
 }
 
+void SubMenuProvider::EnterRootMenu()
+{
+    _currentMenu = _oXmlMenu.GetMenuTree();
+}
+
 void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 {
     for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)

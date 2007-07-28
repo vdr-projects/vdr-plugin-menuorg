@@ -18,6 +18,7 @@ class SubMenuProvider: public ISubMenuProvider
     public:
         SubMenuProvider();
         virtual MainMenuItemsList* MainMenuItems();
+        virtual void EnterRootMenu();
         virtual void EnterSubMenu(cOsdItem* item);
         virtual bool LeaveSubMenu();
 

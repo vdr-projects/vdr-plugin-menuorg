@@ -4,8 +4,8 @@
 
 @DPATCH@
 diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
---- vdr-1.4.7~/menu.c	2007-07-28 12:12:30.000000000 +0200
-+++ vdr-1.4.7/menu.c	2007-07-28 12:12:31.000000000 +0200
+--- vdr-1.4.7~/menu.c	2007-07-28 15:20:41.000000000 +0200
++++ vdr-1.4.7/menu.c	2007-07-28 15:20:41.000000000 +0200
 @@ -31,6 +31,7 @@
  #include "vdrttxtsubshooks.h"
  #include "dvbsub.h"
@@ -14,7 +14,21 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
  
  #define MAXWAIT4EPGINFO   3 // seconds
  #define MODETIMEOUT       3 // seconds
-@@ -3084,6 +3085,29 @@
+@@ -3057,6 +3058,13 @@
+   cancelEditingItem = NULL;
+   stopRecordingItem = NULL;
+   recordControlsState = 0;
++
++  SubMenuPatch::ISubMenuProvider* subMenuProvider;
++
++  if (cPluginManager::CallFirstService("SubMenuPatch-v0.1::SubMenuProvider", &subMenuProvider)) {
++    subMenuProvider->EnterRootMenu();
++    }
++
+   Set();
+ 
+   // Initial submenus:
+@@ -3084,6 +3092,29 @@
    Clear();
    SetTitle("VDR");
    SetHasHotkeys();
@@ -44,7 +58,7 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
  
    // Basic menu items:
  
-@@ -3111,6 +3135,8 @@
+@@ -3111,6 +3142,8 @@
    if (Commands.Count())
       Add(new cOsdItem(hk(tr("Commands")),  osCommands));
  
@@ -53,7 +67,7 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
    Update(true);
  
    Display();
-@@ -3238,6 +3264,35 @@
+@@ -3238,6 +3271,35 @@
                           state = osEnd;
                         }
                         break;
@@ -91,8 +105,8 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
                 case kRed:    if (!HadSubMenu)
 diff -urNad vdr-1.4.7~/submenupatch.h vdr-1.4.7/submenupatch.h
 --- vdr-1.4.7~/submenupatch.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.4.7/submenupatch.h	2007-07-28 12:13:57.000000000 +0200
-@@ -0,0 +1,57 @@
++++ vdr-1.4.7/submenupatch.h	2007-07-28 15:23:23.000000000 +0200
+@@ -0,0 +1,58 @@
 +/*
 + * vdr-submenu - A plugin for the Linux Video Disk Recorder
 + * Copyright (c) 2007 Tobias Grimm <vdr@e-tobi.net>
@@ -141,8 +155,9 @@ diff -urNad vdr-1.4.7~/submenupatch.h vdr-1.4.7/submenupatch.h
 +class ISubMenuProvider
 +{
 +    public:
-+        virtual ~ISubMenuProvider();
++        virtual ~ISubMenuProvider() {};
 +        virtual  MainMenuItemsList* MainMenuItems() = 0;
++        virtual  void EnterRootMenu() = 0;
 +        virtual  void EnterSubMenu(cOsdItem* item) = 0;
 +        virtual  bool LeaveSubMenu() = 0;
 +};
