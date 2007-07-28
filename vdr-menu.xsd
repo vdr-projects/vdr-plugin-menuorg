@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:attributeGroup name="CommandAttributes">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="execute" type="xs:string" use="required"/>
+		<xs:attribute name="confirm" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="yes"/>
+					<xs:enumeration value="no"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="DefaultAttributes">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:attributeGroup>
+	<xs:group name="MenuItems">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="menu"/>
+				<xs:element ref="system"/>
+				<xs:element ref="plugin"/>
+				<xs:element ref="command"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="menu">
+		<xs:complexType>
+			<xs:group ref="MenuItems"/>
+			<xs:attributeGroup ref="DefaultAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="system">
+		<xs:complexType>
+			<xs:attributeGroup ref="DefaultAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="plugin">
+		<xs:complexType>
+			<xs:attributeGroup ref="DefaultAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="command">
+		<xs:complexType>
+			<xs:attributeGroup ref="CommandAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="menus">
+		<xs:complexType>
+			<xs:group ref="MenuItems"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
