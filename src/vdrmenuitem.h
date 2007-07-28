@@ -14,7 +14,7 @@ class VdrMenuItem: public MenuNode
 
     public:
         VdrMenuItem(std::string itemText, eOSState itemState);
-        SubMenuPatch::MainMenuItem* CreateMainMenuItem();
+        SubMenuPatch::IMainMenuItem* CreateMainMenuItem();
 };
 
 #endif

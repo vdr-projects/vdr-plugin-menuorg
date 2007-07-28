@@ -22,7 +22,7 @@ class MenuNode
         MenuNode* Parent();
         MenuNodeList& Childs();
         MenuNode* AddChild(MenuNode* child);
-        virtual SubMenuPatch::MainMenuItem* CreateMainMenuItem();
+        virtual SubMenuPatch::IMainMenuItem* CreateMainMenuItem();
 };
 
 #endif

@@ -13,7 +13,7 @@ class PluginMenuItem: public MenuNode
 
     public:
         PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex);
-        SubMenuPatch::MainMenuItem* CreateMainMenuItem();
+        SubMenuPatch::IMainMenuItem* CreateMainMenuItem();
 };
 
 #endif

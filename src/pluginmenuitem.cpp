@@ -1,5 +1,6 @@
 #include "pluginmenuitem.h"
 #include <vdr/submenupatch.h>
+#include "pluginmainmenuitem.h"
 
 PluginMenuItem::PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex)
 {
@@ -7,8 +8,7 @@ PluginMenuItem::PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex)
     _pluginIndex = pluginIndex;
 }
 
-SubMenuPatch::MainMenuItem* PluginMenuItem::CreateMainMenuItem()
+SubMenuPatch::IMainMenuItem* PluginMenuItem::CreateMainMenuItem()
 {
-    return SubMenuPatch::MainMenuItem::CreatePluginMenuItem(
-      _pluginMainMenuEntry, _pluginIndex);
+    return new PluginMainMenuItem(_pluginMainMenuEntry, _pluginIndex);
 }

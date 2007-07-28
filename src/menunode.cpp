@@ -31,7 +31,7 @@ void MenuNode::SetParent(MenuNode* parent)
     _parent = parent;
 }
 
-SubMenuPatch::MainMenuItem* MenuNode::CreateMainMenuItem()
+SubMenuPatch::IMainMenuItem* MenuNode::CreateMainMenuItem()
 {
     return NULL;
 }

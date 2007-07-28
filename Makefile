@@ -5,7 +5,6 @@
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
-# By default the main source file also carries this name.
 #
 PLUGIN = menuorg
 

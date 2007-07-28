@@ -63,7 +63,7 @@ void SubMenuProvider::EnterSubMenu(cOsdItem* item)
 {
     for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)
     {
-        MainMenuItem* menuItem = _currentMainMenuItems.at(itemIndex);
+        IMainMenuItem* menuItem = _currentMainMenuItems.at(itemIndex);
         if (menuItem->IsCustomMenuItem() && (menuItem->CustomMenuItem() == item))
         {
             _currentMenu = _currentMenu->Childs().at(itemIndex);

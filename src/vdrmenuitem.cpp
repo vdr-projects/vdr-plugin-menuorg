@@ -1,5 +1,6 @@
 #include "vdrmenuitem.h"
 #include <vdr/submenupatch.h>
+#include "custommainmenuitem.h"
 
 VdrMenuItem::VdrMenuItem(std::string itemText, eOSState itemState)
 {
@@ -7,8 +8,7 @@ VdrMenuItem::VdrMenuItem(std::string itemText, eOSState itemState)
     _itemState = itemState;
 }
 
-SubMenuPatch::MainMenuItem* VdrMenuItem::CreateMainMenuItem()
+SubMenuPatch::IMainMenuItem* VdrMenuItem::CreateMainMenuItem()
 {
-    return SubMenuPatch::MainMenuItem::CreateCustomMenuItem(
-      new cOsdItem(_itemText.c_str(), _itemState));
+    return new CustomMainMenuItem(new cOsdItem(_itemText.c_str(), _itemState));
 }
