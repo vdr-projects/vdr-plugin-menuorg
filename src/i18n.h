@@ -1,6 +1,6 @@
 /*
  * vdr-submenu - A plugin for the Linux Video Disk Recorder
- * Copyright (c) 2007 Tobias Grimm <vdr@e-tobi.net>
+ * Copyright (c) 2007 Thomas Creutz <thomas.creutz@gmx.de>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,34 +20,11 @@
  *
  */
 
-#include "custommainmenuitem.h"
+#ifndef _I18N__H
+#define _I18N__H
 
-CustomMainMenuItem::CustomMainMenuItem(cOsdItem* osdItem)
-{
-    _osdItem = osdItem;
-}
+#include <vdr/i18n.h>
 
-bool CustomMainMenuItem::IsCustomMenuItem()
-{
-    return true;
-}
+extern const tI18nPhrase Phrases[];
 
-bool CustomMainMenuItem::IsPluginMenuItem()
-{
-    return false;
-}
-
-cOsdItem* CustomMainMenuItem::CustomMenuItem()
-{
-    return _osdItem; 
-}
-
-const char* CustomMainMenuItem::PluginMenuEntry()
-{
-    return NULL;
-}
-
-int CustomMainMenuItem::PluginIndex()
-{
-    return 0;
-}
+#endif

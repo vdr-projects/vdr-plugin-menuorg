@@ -8,4 +8,5 @@ SRCS = \
   src/submenuitem.cpp \
   src/submenuprovider.cpp \
   src/vdrmenuitem.cpp \
-  src/xmlmenu.cpp
+  src/xmlmenu.cpp \
+  src/i18n.cpp

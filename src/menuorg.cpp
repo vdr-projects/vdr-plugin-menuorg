@@ -12,6 +12,7 @@
 #include <vector>
 #include "version.h"
 #include "menuorg.h"
+#include "i18n.h"
 
 using namespace SubMenuPatch;
 
@@ -21,7 +22,6 @@ MenuOrgPlugin::MenuOrgPlugin(void)
   // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
   // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
 }
-
 
 MenuOrgPlugin::~MenuOrgPlugin()
 {
@@ -43,7 +43,7 @@ const char* MenuOrgPlugin::MainMenuEntry(void)
 {
     if(_subMenuProvider->getSomeError())
     {
-        return tr("Failed to load XML File");
+        return tr("failed to load XML file");
     }
     else
         return NULL;
@@ -64,7 +64,7 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 bool MenuOrgPlugin::Initialize(void)
 {
     _subMenuProvider = new SubMenuProvider();
-    // Initialize any background activities the plugin shall perform.
+    RegisterI18n(Phrases);
     return true;
 }
 
@@ -112,6 +112,7 @@ cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 {
     // Parse your own setup parameters and store their values.
+    //TODO: move code for load the xml file to this position
     return false;
 }
 
