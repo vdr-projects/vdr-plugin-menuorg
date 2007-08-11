@@ -20,7 +20,7 @@
  *
  */
 
-#include "submenuprovider.h"
+#include "mainmenuitemsprovider.h"
 #include "submenuitem.h"
 #include "vdrmenuitem.h"
 #include "pluginmenuitem.h"

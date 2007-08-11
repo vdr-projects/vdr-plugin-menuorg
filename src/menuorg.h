@@ -24,7 +24,7 @@
 #define ___MENUORGPLUGIN_H
 
 #include <vdr/plugin.h>
-#include "submenuprovider.h"
+#include "mainmenuitemsprovider.h"
 
 using namespace MenuOrgPatch;
 
