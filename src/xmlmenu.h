@@ -10,7 +10,7 @@ namespace xmlpp { class Element; }
 class XmlMenu
 {
     public:
-        MenuNode* LoadXmlMenu();
+        MenuNode* LoadXmlMenu(std::string menuFileName);
 
     private:
         void ParseElement(const xmlpp::Element* a_node, MenuNode* menuNode);

@@ -13,7 +13,9 @@
 #include "version.h"
 #include "menuorg.h"
 #include "i18n.h"
+#include <string>
 
+using namespace std;
 using namespace SubMenuPatch;
 
 MenuOrgPlugin::MenuOrgPlugin(void)
@@ -67,7 +69,9 @@ bool MenuOrgPlugin::Initialize(void)
 {
     XmlMenu xmlMenu;
 
-    MenuNode* menu = xmlMenu.LoadXmlMenu();
+    string configFile = (string) ConfigDirectory() + "/menuorg.xml";
+
+    MenuNode* menu = xmlMenu.LoadXmlMenu(configFile);
     if (menu)
     {
         _subMenuProvider = new SubMenuProvider(menu);

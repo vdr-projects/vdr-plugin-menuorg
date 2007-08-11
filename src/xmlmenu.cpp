@@ -10,12 +10,8 @@
 using namespace xmlpp;
 using namespace std;
 
-MenuNode* XmlMenu::LoadXmlMenu()
+MenuNode* XmlMenu::LoadXmlMenu(string menuFileName)
 { 
-    // TODO: show how vdr handels the path vars (developer doc)
-    // and change code for dynamic path vars
-    const char *File = "/var/lib/vdr/plugins/vdr-menu.xml";
-
     MenuNode* menuRoot = new MenuNode();
 
     try
@@ -25,7 +21,7 @@ MenuNode* XmlMenu::LoadXmlMenu()
         //TODO: patch the xmlfile with the xsd definition for validate the schema
         //parser.set_validate();
         parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
-        parser.parse_file(File);
+        parser.parse_file(menuFileName);
         
 
         const Element* rootElement = parser.get_document()->get_root_node(); 
