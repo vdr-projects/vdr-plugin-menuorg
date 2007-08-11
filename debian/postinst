@@ -17,9 +17,12 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+MENUORG_XML=/var/lib/vdr/plugins/menuorg.xml
 
 case "$1" in
     configure)
+        [ -e "$MENUORG_XML" ] || \
+          cp /usr/share/vdr-plugin-menuorg/menuorg.xml "$MENUORG_XML"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
