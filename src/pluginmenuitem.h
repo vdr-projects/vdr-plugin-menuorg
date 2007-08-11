@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -25,7 +25,7 @@
 
 #include "menunode.h"
 #include <vdr/osdbase.h>
-#include <vdr/submenupatch.h>
+#include <vdr/menuorgpatch.h>
 
 class PluginMenuItem: public MenuNode
 {
@@ -35,7 +35,7 @@ class PluginMenuItem: public MenuNode
 
     public:
         PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex);
-        SubMenuPatch::IMainMenuItem* CreateMainMenuItem();
+        MenuOrgPatch::IMainMenuItem* CreateMainMenuItem();
 };
 
 #endif

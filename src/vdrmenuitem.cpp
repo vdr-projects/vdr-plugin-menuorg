@@ -16,12 +16,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
 #include "vdrmenuitem.h"
-#include <vdr/submenupatch.h>
+#include <vdr/menuorgpatch.h>
 #include "custommainmenuitem.h"
 
 VdrMenuItem::VdrMenuItem(std::string itemText, eOSState itemState)
@@ -30,7 +30,7 @@ VdrMenuItem::VdrMenuItem(std::string itemText, eOSState itemState)
     _itemState = itemState;
 }
 
-SubMenuPatch::IMainMenuItem* VdrMenuItem::CreateMainMenuItem()
+MenuOrgPatch::IMainMenuItem* VdrMenuItem::CreateMainMenuItem()
 {
     return new CustomMainMenuItem(new cOsdItem(tr(_itemText.c_str()), _itemState));
 }

@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -26,12 +26,12 @@
 #include <vdr/plugin.h>
 #include "submenuprovider.h"
 
-using namespace SubMenuPatch;
+using namespace MenuOrgPatch;
 
 class MenuOrgPlugin : public cPlugin
 {
     private:
-        SubMenuProvider* _subMenuProvider;
+        MainMenuItemsProvider* _subMenuProvider;
 
     public:
         MenuOrgPlugin(void);
@@ -41,18 +41,11 @@ class MenuOrgPlugin : public cPlugin
         virtual const char *CommandLineHelp(void);
         virtual bool ProcessArgs(int argc, char *argv[]);
         virtual bool Initialize(void);
-        virtual bool Start(void);
-        virtual void Stop(void);
-        virtual void Housekeeping(void);
-        virtual void MainThreadHook(void);
-        virtual cString Active(void);
         virtual const char *MainMenuEntry(void);
         virtual cOsdObject *MainMenuAction(void);
         virtual cMenuSetupPage *SetupMenu(void);
         virtual bool SetupParse(const char *Name, const char *Value);
         virtual bool Service(const char *Id, void *Data = NULL);
-        virtual const char **SVDRPHelpPages(void);
-        virtual cString SVDRPCommand(const char *Command, const char *Option, int &ReplyCode);
 };
   
 extern "C" void* VDRPluginCreator();

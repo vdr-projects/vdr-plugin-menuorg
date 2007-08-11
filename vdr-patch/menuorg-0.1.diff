@@ -1,16 +1,11 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## opt-37_submenu.dpatch by Tobias Grimm <tg@e-tobi.net>
-## DP: This patch is needed for the submenu plugin.
-
-@DPATCH@
 diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
---- vdr-1.4.7~/menu.c	2007-07-28 15:20:41.000000000 +0200
-+++ vdr-1.4.7/menu.c	2007-07-28 15:20:41.000000000 +0200
+--- vdr-1.4.7~/menu.c	2007-08-11 20:48:29.000000000 +0200
++++ vdr-1.4.7/menu.c	2007-08-11 20:48:29.000000000 +0200
 @@ -31,6 +31,7 @@
  #include "vdrttxtsubshooks.h"
  #include "dvbsub.h"
  #include "videodir.h"
-+#include "submenupatch.h"
++#include "menuorgpatch.h"
  
  #define MAXWAIT4EPGINFO   3 // seconds
  #define MODETIMEOUT       3 // seconds
@@ -19,10 +14,10 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
    stopRecordingItem = NULL;
    recordControlsState = 0;
 +
-+  SubMenuPatch::ISubMenuProvider* subMenuProvider;
++  MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
 +
-+  if (cPluginManager::CallFirstService("SubMenuPatch-v0.1::SubMenuProvider", &subMenuProvider)) {
-+    subMenuProvider->EnterRootMenu();
++  if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuitemsProvider", &mainMenuItemsProvider)) {
++    mainMenuItemsProvider->EnterRootMenu();
 +    }
 +
    Set();
@@ -33,11 +28,11 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
    SetTitle("VDR");
    SetHasHotkeys();
 +  
-+  SubMenuPatch::ISubMenuProvider* subMenuProvider;
++  MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
 +
-+  if (cPluginManager::CallFirstService("SubMenuPatch-v0.1::SubMenuProvider", &subMenuProvider)) {
-+    SubMenuPatch::MainMenuItemsList* menuItems = subMenuProvider->MainMenuItems();
-+    SubMenuPatch::MainMenuItemsList::iterator i;
++  if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuItemsProvider", &mainMenuItemsProvider)) {
++    MenuOrgPatch::MainMenuItemsList* menuItems = mainMenuItemsProvider->MainMenuItems();
++    MenuOrgPatch::MainMenuItemsList::iterator i;
 +
 +    for (i = menuItems->begin(); i != menuItems->end(); i++) {       
 +      if ((*i)->IsCustomMenuItem()) {
@@ -72,10 +67,10 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
                         }
                         break;
 +    case osBack:       {
-+                          SubMenuPatch::ISubMenuProvider* subMenuProvider;
++                          MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
 +
-+                          if (cPluginManager::CallFirstService("SubMenuPatch-v0.1::SubMenuProvider", &subMenuProvider)) {
-+                            bool leavingMenuSucceeded = subMenuProvider->LeaveSubMenu();
++                          if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuItemsProvider", &mainMenuItemsProvider)) {
++                            bool leavingMenuSucceeded = mainMenuItemsProvider->LeaveSubMenu();
 +                            Set();
 +                            stopReplayItem = NULL;
 +                            cancelEditingItem = NULL;
@@ -91,10 +86,10 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
 +                       }
 +                       break;
 +    case osUser1:       {
-+                          SubMenuPatch::ISubMenuProvider* subMenuProvider;
++                          MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
 +
-+                          if (cPluginManager::CallFirstService("SubMenuPatch-v0.1::SubMenuProvider", &subMenuProvider)) {
-+                            subMenuProvider->EnterSubMenu(Get(Current()));
++                          if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuItemsProvider", &mainMenuItemsProvider)) {
++                            mainMenuItemsProvider->EnterSubMenu(Get(Current()));
 +                            Set();
 +                            return osContinue;
 +                          }
@@ -103,13 +98,13 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
      default: switch (Key) {
                 case kRecord:
                 case kRed:    if (!HadSubMenu)
-diff -urNad vdr-1.4.7~/submenupatch.h vdr-1.4.7/submenupatch.h
---- vdr-1.4.7~/submenupatch.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.4.7/submenupatch.h	2007-07-28 15:23:23.000000000 +0200
+diff -urNad vdr-1.4.7~/menuorgpatch.h vdr-1.4.7/menuorgpatch.h
+--- vdr-1.4.7~/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
++++ vdr-1.4.7/menuorgpatch.h	2007-08-11 20:48:58.000000000 +0200
 @@ -0,0 +1,58 @@
 +/*
-+ * vdr-submenu - A plugin for the Linux Video Disk Recorder
-+ * Copyright (c) 2007 Tobias Grimm <vdr@e-tobi.net>
++ * vdr-menuorg - A plugin for the Linux Video Disk Recorder
++ * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
 + *
 + * This program is free software; you can redistribute it and/or modify
 + * it under the terms of the GNU General Public License as published by
@@ -125,18 +120,18 @@ diff -urNad vdr-1.4.7~/submenupatch.h vdr-1.4.7/submenupatch.h
 + * along with this program; if not, write to the Free Software
 + * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 + *
-+ * $Id$
++ * $Id:$
 + *
 + */
 +
-+#ifndef __SUBMENUPATCH_H
-+#define __SUBMENUPATCH_H
++#ifndef __MENUORGPATCH_H
++#define __MENUORGPATCH_H
 +
 +#include <vector>
 +
 +class cOsdItem;
 +
-+namespace SubMenuPatch
++namespace MenuOrgPatch
 +{
 +
 +class IMainMenuItem
@@ -152,10 +147,10 @@ diff -urNad vdr-1.4.7~/submenupatch.h vdr-1.4.7/submenupatch.h
 +
 +typedef std::vector<IMainMenuItem*> MainMenuItemsList;
 +
-+class ISubMenuProvider
++class IMainMenuItemsProvider
 +{
 +    public:
-+        virtual ~ISubMenuProvider() {};
++        virtual ~IMainMenuItemsProvider() {};
 +        virtual  MainMenuItemsList* MainMenuItems() = 0;
 +        virtual  void EnterRootMenu() = 0;
 +        virtual  void EnterSubMenu(cOsdItem* item) = 0;
@@ -164,4 +159,4 @@ diff -urNad vdr-1.4.7~/submenupatch.h vdr-1.4.7/submenupatch.h
 +
 +};
 +
-+#endif //__SUBMENUPATCH_H
++#endif //__MENUORGPATCH_H

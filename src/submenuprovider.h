@@ -16,20 +16,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
-#ifndef ___SUBMENUPROVIDER_H
-#define ___SUBMENUPROVIDER_H
+#ifndef ___MAINMENUITEMSPROVIDER_H
+#define ___MAINMENUITEMSPROVIDER_H
 
-#include <vdr/submenupatch.h>
+#include <vdr/menuorgpatch.h>
 #include "menunode.h"
 #include "xmlmenu.h"
 
-using namespace SubMenuPatch;
+using namespace MenuOrgPatch;
 
-class SubMenuProvider: public ISubMenuProvider
+class MainMenuItemsProvider: public IMainMenuItemsProvider
 {
     private:
         MenuNode* _rootMenu;
@@ -37,7 +37,7 @@ class SubMenuProvider: public ISubMenuProvider
         MainMenuItemsList _currentMainMenuItems;
 
     public:
-        SubMenuProvider(MenuNode* rootMenu);
+        MainMenuItemsProvider(MenuNode* rootMenu);
         virtual MainMenuItemsList* MainMenuItems();
         virtual void EnterRootMenu();
         virtual void EnterSubMenu(cOsdItem* item);

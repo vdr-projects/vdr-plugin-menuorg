@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -26,12 +26,12 @@
 #include "pluginmenuitem.h"
 #include <vdr/plugin.h>
 
-SubMenuProvider::SubMenuProvider(MenuNode* rootMenu)
+MainMenuItemsProvider::MainMenuItemsProvider(MenuNode* rootMenu)
 {
      _currentMenu = _rootMenu = rootMenu;
 }
 
-MainMenuItemsList* SubMenuProvider::MainMenuItems()
+MainMenuItemsList* MainMenuItemsProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();
 
@@ -44,7 +44,7 @@ MainMenuItemsList* SubMenuProvider::MainMenuItems()
     return &_currentMainMenuItems;
 }
 
-void SubMenuProvider::ResetMainMenuItemsList()
+void MainMenuItemsProvider::ResetMainMenuItemsList()
 {
 
     for( MainMenuItemsList::iterator i = _currentMainMenuItems.begin();
@@ -55,12 +55,12 @@ void SubMenuProvider::ResetMainMenuItemsList()
     _currentMainMenuItems.clear(); 
 }
 
-void SubMenuProvider::EnterRootMenu()
+void MainMenuItemsProvider::EnterRootMenu()
 {
     _currentMenu = _rootMenu;
 }
 
-void SubMenuProvider::EnterSubMenu(cOsdItem* item)
+void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)
 {
     for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)
     {
@@ -73,7 +73,7 @@ void SubMenuProvider::EnterSubMenu(cOsdItem* item)
     }
 }
 
-bool SubMenuProvider::LeaveSubMenu()
+bool MainMenuItemsProvider::LeaveSubMenu()
 {
     if (_currentMenu->Parent())
     {

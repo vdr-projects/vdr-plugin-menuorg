@@ -16,12 +16,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
 #include "pluginmenuitem.h"
-#include <vdr/submenupatch.h>
+#include <vdr/menuorgpatch.h>
 #include "pluginmainmenuitem.h"
 
 PluginMenuItem::PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex)
@@ -30,7 +30,7 @@ PluginMenuItem::PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex)
     _pluginIndex = pluginIndex;
 }
 
-SubMenuPatch::IMainMenuItem* PluginMenuItem::CreateMainMenuItem()
+MenuOrgPatch::IMainMenuItem* PluginMenuItem::CreateMainMenuItem()
 {
     return new PluginMainMenuItem(_pluginMainMenuEntry, _pluginIndex);
 }

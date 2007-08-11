@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -25,7 +25,7 @@
 
 #include "menunode.h"
 #include <vdr/osdbase.h>
-#include <vdr/submenupatch.h>
+#include <vdr/menuorgpatch.h>
 #include <string>
 
 class VdrMenuItem: public MenuNode
@@ -36,7 +36,7 @@ class VdrMenuItem: public MenuNode
 
     public:
         VdrMenuItem(std::string itemText, eOSState itemState);
-        SubMenuPatch::IMainMenuItem* CreateMainMenuItem();
+        MenuOrgPatch::IMainMenuItem* CreateMainMenuItem();
 };
 
 #endif

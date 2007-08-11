@@ -16,14 +16,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 #include <vdr/tools.h>
-#include <vdr/submenupatch.h>
+#include <vdr/menuorgpatch.h>
 #include <vector>
 #include "version.h"
 #include "menuorg.h"
@@ -31,7 +31,7 @@
 #include <string>
 
 using namespace std;
-using namespace SubMenuPatch;
+using namespace MenuOrgPatch;
 
 MenuOrgPlugin::MenuOrgPlugin(void)
 {
@@ -58,14 +58,7 @@ const char* MenuOrgPlugin::Description(void)
 
 const char* MenuOrgPlugin::MainMenuEntry(void)
 {
-    if (!_subMenuProvider)
-    {
-        return tr("Failed to load config file");
-    }
-    else
-    {
-        return NULL;
-    }
+    return NULL;
 }
 
 const char *MenuOrgPlugin::CommandLineHelp(void)
@@ -89,7 +82,7 @@ bool MenuOrgPlugin::Initialize(void)
     MenuNode* menu = xmlMenu.LoadXmlMenu(configFile);
     if (menu)
     {
-        _subMenuProvider = new SubMenuProvider(menu);
+        _subMenuProvider = new MainMenuItemsProvider(menu);
     }
     else
     {
@@ -99,34 +92,6 @@ bool MenuOrgPlugin::Initialize(void)
     RegisterI18n(Phrases);
 
     return true;
-}
-
-bool MenuOrgPlugin::Start(void)
-{
-    // Start any background activities the plugin shall perform.
-    return true;
-}
-
-void MenuOrgPlugin::Stop(void)
-{
-    // Stop any background activities the plugin shall perform.
-}
-
-void MenuOrgPlugin::Housekeeping(void)
-{
-    // Perform any cleanup or other regular tasks.
-}
-
-void MenuOrgPlugin::MainThreadHook(void)
-{
-    // Perform actions in the context of the main program thread.
-    // WARNING: Use with great care - see PLUGINS.html!
-}
-
-cString MenuOrgPlugin::Active(void)
-{
-    // Return a message string if shutdown should be postponed
-    return NULL;
 }
 
 cOsdObject *MenuOrgPlugin::MainMenuAction(void)
@@ -151,25 +116,20 @@ bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)
 {
-    if (strcmp(Id, "SubMenuPatch-v0.1::SubMenuProvider") == 0 && _subMenuProvider) 
+    if (strcmp(Id, "MenuOrgPatch-v0.1::MainMenuItemsProvider") == 0) 
     {
-        ISubMenuProvider** ptr = (ISubMenuProvider**)Data;
-        *ptr = _subMenuProvider;
+        if (_subMenuProvider)
+        {
+            IMainMenuItemsProvider** ptr = (IMainMenuItemsProvider**)Data;
+            *ptr = _subMenuProvider;
 
-        return true;
+            return true;
+        }
+        else
+        {
+            Skins.Message(mtError, tr("Failed to load MenuOrg's config file!"));
+        }
     }
 
     return false;
-}
-
-const char **MenuOrgPlugin::SVDRPHelpPages(void)
-{
-    // Return help text for SVDRP commands this plugin implements
-    return NULL;
-}
-
-cString MenuOrgPlugin::SVDRPCommand(const char *Command, const char *Option, int &ReplyCode)
-{
-    // Process SVDRP commands this plugin implements
-    return NULL;
 }
