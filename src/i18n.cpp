@@ -25,8 +25,8 @@
 const tI18nPhrase Phrases[] = 
 {
     {
-        "failed to load XML file",
-        "Konnte XML Datei nicht laden",
+        "Failed to load config file",
+        "Konnte Konfigurationsdatei nicht laden",
         "",
         "",
         "",

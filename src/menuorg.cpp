@@ -43,7 +43,7 @@ const char* MenuOrgPlugin::MainMenuEntry(void)
 {
     if(_subMenuProvider->getSomeError())
     {
-        return tr("failed to load XML file");
+        return tr("Failed to load config file");
     }
     else
         return NULL;
