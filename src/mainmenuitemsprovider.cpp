@@ -31,6 +31,12 @@ MainMenuItemsProvider::MainMenuItemsProvider(MenuNode* rootMenu)
      _currentMenu = _rootMenu = rootMenu;
 }
 
+MainMenuItemsProvider::~MainMenuItemsProvider()
+{
+    ResetMainMenuItemsList();
+    delete _rootMenu;
+}
+
 MainMenuItemsList* MainMenuItemsProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();

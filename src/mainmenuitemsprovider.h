@@ -38,6 +38,7 @@ class MainMenuItemsProvider: public IMainMenuItemsProvider
 
     public:
         MainMenuItemsProvider(MenuNode* rootMenu);
+        ~MainMenuItemsProvider();
         virtual MainMenuItemsList* MainMenuItems();
         virtual void EnterRootMenu();
         virtual void EnterSubMenu(cOsdItem* item);
