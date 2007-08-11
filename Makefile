@@ -72,7 +72,7 @@ BUILD_DEPFILE = .dependencies
 
 $(BUILD_DEPFILE): Makefile
 	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(SRCS) $(SRCS_TESTABLE) \
-	  | sed "s/.*: \([^ ]*\/\).*/\1\0/" > $@
+	  | tee dependencies.sik | sed "s/.*: \([^ ]*\/\).*/\1\0/" > $@
 
 $(TESTS_DEPFILE): Makefile $(SRCS_TESTPARTS)
 	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(SRCS_TESTABLE) $(SRCS_TESTONLY) \

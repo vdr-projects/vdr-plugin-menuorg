@@ -4,20 +4,11 @@
 #include "pluginmenuitem.h"
 #include <vdr/plugin.h>
 
-SubMenuProvider::SubMenuProvider()
+SubMenuProvider::SubMenuProvider(MenuNode* rootMenu)
 {
-    //CreateTestMenus();
-    _oXmlMenu.LoadXmlMenu();
-    if(_oXmlMenu.getErrorStatus() == false)
-    {
-        _currentMenu = _oXmlMenu.GetMenuTree();
-        _someError=false;
-    }
-    else
-    {
-        _someError=true;
-    }
+     _currentMenu = _rootMenu = rootMenu;
 }
+
 MainMenuItemsList* SubMenuProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();
@@ -44,7 +35,7 @@ void SubMenuProvider::ResetMainMenuItemsList()
 
 void SubMenuProvider::EnterRootMenu()
 {
-    _currentMenu = _oXmlMenu.GetMenuTree();
+    _currentMenu = _rootMenu;
 }
 
 void SubMenuProvider::EnterSubMenu(cOsdItem* item)
@@ -71,9 +62,4 @@ bool SubMenuProvider::LeaveSubMenu()
     {
         return false;
     }
-}
-
-bool SubMenuProvider::getSomeError()
-{
-    return _someError;
 }

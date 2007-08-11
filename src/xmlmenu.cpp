@@ -10,11 +10,13 @@
 using namespace xmlpp;
 using namespace std;
 
-void XmlMenu::LoadXmlMenu()
+MenuNode* XmlMenu::LoadXmlMenu()
 { 
     // TODO: show how vdr handels the path vars (developer doc)
     // and change code for dynamic path vars
     const char *File = "/var/lib/vdr/plugins/vdr-menu.xml";
+
+    MenuNode* menuRoot = new MenuNode();
 
     try
     {
@@ -24,28 +26,23 @@ void XmlMenu::LoadXmlMenu()
         //parser.set_validate();
         parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
         parser.parse_file(File);
-        if(parser)
-        {
-            //Walk the tree:
-            MenuCount=0;
-            const Element* rootElement = parser.get_document()->get_root_node(); //deleted by DomParser.
-            ParseElement(rootElement, &_rootMenuNode);
-            _xmlLoadError=false;
-        }
+        
+
+        const Element* rootElement = parser.get_document()->get_root_node(); 
+        ParseElement(rootElement, menuRoot);
     }
     catch(const std::exception& ex)
     {
+        delete menuRoot;
+        menuRoot = NULL;
+        
         //TODO: print output to syslog (isyslog or dsyslog?)
         cout << "Exception caught: " << ex.what() << endl;
         isyslog("Exception caught: %s", ex.what());
         //TODO: display message on osd
-        _xmlLoadError=true;
     }
-}
-
-MenuNode* XmlMenu::GetMenuTree()
-{
-    return &_rootMenuNode;
+    
+    return menuRoot;
 }
 
 void XmlMenu::ParseElement(const Element* element, MenuNode* menuNode)
@@ -151,9 +148,4 @@ bool XmlMenu::FindPluginByName(string name, const char** mainMenuEntry, int& plu
         i++;
     }
     return false;
-}
-
-bool XmlMenu::getErrorStatus()
-{
-    return _xmlLoadError;
 }

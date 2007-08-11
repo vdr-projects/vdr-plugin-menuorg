@@ -41,14 +41,16 @@ const char* MenuOrgPlugin::Description(void)
 
 const char* MenuOrgPlugin::MainMenuEntry(void)
 {
-    if(_subMenuProvider->getSomeError())
+    if (!_subMenuProvider)
     {
         return tr("Failed to load config file");
     }
     else
+    {
         return NULL;
+    }
 }
-  
+
 const char *MenuOrgPlugin::CommandLineHelp(void)
 {
     // Return a string that describes all known command line options.
@@ -63,8 +65,20 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
 bool MenuOrgPlugin::Initialize(void)
 {
-    _subMenuProvider = new SubMenuProvider();
+    XmlMenu xmlMenu;
+
+    MenuNode* menu = xmlMenu.LoadXmlMenu();
+    if (menu)
+    {
+        _subMenuProvider = new SubMenuProvider(menu);
+    }
+    else
+    {
+        _subMenuProvider = NULL;
+    }
+
     RegisterI18n(Phrases);
+
     return true;
 }
 
@@ -118,7 +132,7 @@ bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)
 {
-    if (strcmp(Id, "SubMenuPatch-v0.1::SubMenuProvider") == 0 && _subMenuProvider->getSomeError() == false) 
+    if (strcmp(Id, "SubMenuPatch-v0.1::SubMenuProvider") == 0 && _subMenuProvider) 
     {
         ISubMenuProvider** ptr = (ISubMenuProvider**)Data;
         *ptr = _subMenuProvider;
