@@ -32,5 +32,8 @@ VdrMenuItem::VdrMenuItem(std::string itemText, eOSState itemState)
 
 MenuOrgPatch::IMainMenuItem* VdrMenuItem::CreateMainMenuItem()
 {
-    return new CustomMainMenuItem(new cOsdItem(tr(_itemText.c_str()), _itemState));
+    if(_itemState != osUser1)
+        return new CustomMainMenuItem(new cOsdItem(tr(_itemText.c_str()), _itemState));
+    else
+        return new CustomMainMenuItem(new cOsdItem(_itemText.c_str(), _itemState));
 }
