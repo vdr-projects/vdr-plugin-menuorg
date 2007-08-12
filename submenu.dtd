@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT menu ((menu | system | plugin | command)+)>
+<!ATTLIST menu
+	name CDATA #REQUIRED
+>
+<!ELEMENT system EMPTY>
+<!ATTLIST system
+	name CDATA #REQUIRED
+>
+<!ELEMENT plugin EMPTY>
+<!ATTLIST plugin
+	name CDATA #REQUIRED
+>
+<!ELEMENT command EMPTY>
+<!ATTLIST command
+	name CDATA #REQUIRED
+	execute CDATA #REQUIRED
+	confirm (yes | no) #IMPLIED
+>
+<!ELEMENT menus ((menu | system | plugin | command)+)>
+
