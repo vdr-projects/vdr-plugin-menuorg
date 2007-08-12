@@ -43,23 +43,40 @@ MenuNode* XmlMenu::LoadXmlMenu(string menuFileName)
         //TODO: patch the xmlfile with the xsd definition for validate the schema
         //parser.set_validate();
         parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
-        parser.parse_file(menuFileName);
-        
+//        parser.parse_file(menuFileName);
+        parser.parse_file("/var/lib/vdr/plugins/menuorg.xml");
 
-        const Element* rootElement = parser.get_document()->get_root_node(); 
+        //DtdValidator validator( dtdFileName );
+        DtdValidator validator( "/var/lib/vdr/plugins/menuorg.dtd" );
+        Document *pDoc = parser.get_document();
+        validator.validate( pDoc );
+
+        const Element* rootElement = parser.get_document()->get_root_node();
         ParseElement(rootElement, menuRoot);
     }
     catch(const std::exception& ex)
     {
         delete menuRoot;
         menuRoot = NULL;
-        
+
         //TODO: print output to syslog (isyslog or dsyslog?)
         cout << "Exception caught: " << ex.what() << endl;
         isyslog("Exception caught: %s", ex.what());
         //TODO: display message on osd
     }
-    
+/*
+    catch(const xmlpp::parse_error& ex)
+    {
+        // DTD or document is not well-formed
+        delete menuRoot;
+        menuRoot = NULL;
+    }
+    catch (const xmlpp::validation_error& ex)
+    {
+        // document is not valid
+        delete menuRoot;
+        menuRoot = NULL;
+    }*/
     return menuRoot;
 }
 
@@ -78,7 +95,7 @@ void XmlMenu::ParseElement(const Element* element, MenuNode* menuNode)
             {
                 string type = childElement->get_name();
                 string name = nameAttribute->get_value();
-                
+
                 if ( type == "menu")
                 {
                     MenuNode* subMenu = AddSubMenuItem(name, menuNode);
