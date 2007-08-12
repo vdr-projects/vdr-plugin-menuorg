@@ -32,22 +32,19 @@
 using namespace xmlpp;
 using namespace std;
 
-MenuNode* XmlMenu::LoadXmlMenu(string menuFileName)
+MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
 { 
     MenuNode* menuRoot = new MenuNode();
 
     try
     {
+        dsyslog("loading menuorg config file from %s and schema from %s",menuFileName, schemaFileName);
+
         DomParser parser;
-
-        //TODO: patch the xmlfile with the xsd definition for validate the schema
-        //parser.set_validate();
         parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
-//        parser.parse_file(menuFileName);
-        parser.parse_file("/var/lib/vdr/plugins/menuorg.xml");
+        parser.parse_file(menuFileName);
 
-        //DtdValidator validator( dtdFileName );
-        DtdValidator validator( "/var/lib/vdr/plugins/menuorg.dtd" );
+        DtdValidator validator(schemaFileName);
         Document *pDoc = parser.get_document();
         validator.validate( pDoc );
 

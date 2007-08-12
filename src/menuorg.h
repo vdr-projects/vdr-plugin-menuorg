@@ -25,13 +25,17 @@
 
 #include <vdr/plugin.h>
 #include "mainmenuitemsprovider.h"
+#include <string>
 
+using namespace std;
 using namespace MenuOrgPatch;
 
 class MenuOrgPlugin : public cPlugin
 {
     private:
         MainMenuItemsProvider* _subMenuProvider;
+        string configFile;
+        string schemaFile;
 
     public:
         MenuOrgPlugin(void);

@@ -25,10 +25,12 @@
 #include <vdr/tools.h>
 #include <vdr/menuorgpatch.h>
 #include <vector>
+#include <iostream>
+#include <string>
+#include <getopt.h>
 #include "version.h"
 #include "menuorg.h"
 #include "i18n.h"
-#include <string>
 
 using namespace std;
 using namespace MenuOrgPatch;
@@ -63,13 +65,43 @@ const char* MenuOrgPlugin::MainMenuEntry(void)
 
 const char *MenuOrgPlugin::CommandLineHelp(void)
 {
-    // Return a string that describes all known command line options.
-    return NULL;
+    return " -c FILE   --config=FILE   loads the specified xml file\n"
+           "                           (default: ConfigDir/plugins/menuorg.xml)\n"
+           " -s FILE   --schema=FILE   loads the specified schema file\n"
+           "                           (default: ConfigDir/plugins/menuorg.dtd)\n";
 }
 
 bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 {
-    // Implement command line argument processing here if applicable.
+    static struct option longOptions[] =
+    {
+        { "config", no_argument, NULL, 'c'},
+        { "schema", no_argument, NULL, 's'},
+        { NULL}
+    };
+    
+    optind = 0;
+    opterr = 0;
+
+    int optionChar;
+    int optionIndex = 0;
+    while ((optionChar = getopt_long(argc, argv, "c:s", longOptions, &optionIndex)) != -1)
+    {
+        switch (optionChar)
+        {
+            case 'c':
+                configFile = optarg;
+                break;
+
+            case 's':
+                schemaFile = optarg;
+                break;
+
+            default:
+                cerr << argv[0] << ": " << "invalid option " <<  argv[optind-1] << endl;
+                return false;
+        }
+    }
     return true;
 }
 
@@ -77,9 +109,10 @@ bool MenuOrgPlugin::Initialize(void)
 {
     XmlMenu xmlMenu;
 
-    string configFile = (string) ConfigDirectory() + "/menuorg.xml";
+    configFile = (string) ConfigDirectory() + "/menuorg.xml";
+    schemaFile = (string) ConfigDirectory() + "/menuorg.dtd";
 
-    MenuNode* menu = xmlMenu.LoadXmlMenu(configFile);
+    MenuNode* menu = xmlMenu.LoadXmlMenu(configFile, schemaFile);
     if (menu)
     {
         _subMenuProvider = new MainMenuItemsProvider(menu);
