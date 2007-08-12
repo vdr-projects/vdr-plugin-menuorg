@@ -75,28 +75,26 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 {
     static struct option longOptions[] =
     {
-        { "config", no_argument, NULL, 'c'},
-        { "schema", no_argument, NULL, 's'},
+        { "config", required_argument, NULL, 'c'},
+        { "schema", required_argument, NULL, 's'},
         { NULL}
     };
-    
+
     optind = 0;
     opterr = 0;
 
     int optionChar;
     int optionIndex = 0;
-    while ((optionChar = getopt_long(argc, argv, "c:s", longOptions, &optionIndex)) != -1)
+    while ((optionChar = getopt_long(argc, argv, "c:s:", longOptions, &optionIndex)) != -1)
     {
         switch (optionChar)
         {
             case 'c':
-                if(optarg)
-                    configFile = optarg;
+                configFile = optarg;
                 break;
 
             case 's':
-                if(optarg)
-                     schemaFile = optarg;
+                schemaFile = optarg;
                 break;
 
             default:
