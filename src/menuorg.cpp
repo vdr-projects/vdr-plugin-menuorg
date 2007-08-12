@@ -90,11 +90,13 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
         switch (optionChar)
         {
             case 'c':
-                configFile = optarg;
+                if(optarg)
+                    configFile = optarg;
                 break;
 
             case 's':
-                schemaFile = optarg;
+                if(optarg)
+                     schemaFile = optarg;
                 break;
 
             default:
@@ -109,8 +111,11 @@ bool MenuOrgPlugin::Initialize(void)
 {
     XmlMenu xmlMenu;
 
-    configFile = (string) ConfigDirectory() + "/menuorg.xml";
-    schemaFile = (string) ConfigDirectory() + "/menuorg.dtd";
+    if(configFile.empty())
+        configFile = (string) ConfigDirectory() + "/menuorg.xml";
+
+    if(schemaFile.empty())
+        schemaFile = (string) ConfigDirectory() + "/menuorg.dtd";
 
     MenuNode* menu = xmlMenu.LoadXmlMenu(configFile, schemaFile);
     if (menu)

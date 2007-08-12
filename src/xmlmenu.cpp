@@ -38,7 +38,7 @@ MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
 
     try
     {
-        dsyslog("loading menuorg config file from %s and schema from %s",menuFileName, schemaFileName);
+        dsyslog("loading menuorg config file from %s and schema from %s",menuFileName.data(), schemaFileName.data());
 
         DomParser parser;
         parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
