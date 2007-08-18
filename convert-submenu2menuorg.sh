@@ -34,7 +34,7 @@ do
     kindOfItem=`echo $line|cut -d: -f2`
     name=`echo $line|cut -d: -f3`
 
-    if [ $kindOfItem != 0 ] || [ a$kindOfItem == a"" ]
+    if [ a"$kindOfItem" != a"" ] && [ "$kindOfItem" != "0" ]
     then
         menu[$menuLevel]="${menu[$menuLevel]} 0;$name"
     else
