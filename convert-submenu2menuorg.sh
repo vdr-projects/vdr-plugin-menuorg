@@ -40,13 +40,13 @@ do
     else
         menu[$menuLevel]="${menu[$menuLevel]} $name"
     fi
-
 done < $1
 echo done
+
 echo -n "write the xml to the output file... "
 echo "<menus>" > $2
 COUNT=0
-for item in `echo ${menu[0]}`
+for item in `echo ${menu[$COUNT]}`
 do
     case $item
     in
@@ -82,5 +82,4 @@ do
     esac
 done
 echo "</menus>" >> $2
-
 echo done
