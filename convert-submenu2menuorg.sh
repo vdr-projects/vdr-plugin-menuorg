@@ -34,7 +34,7 @@ do
     kindOfItem=`echo $line|cut -d: -f2`
     name=`echo $line|cut -d: -f3`
 
-    if [ $kindOfItem != 0 ]
+    if [ $kindOfItem != 0 ] || [ a$kindOfItem == a"" ]
     then
         menu[$menuLevel]="${menu[$menuLevel]} 0;$name"
     else
@@ -63,7 +63,7 @@ do
             COUNT=$(($COUNT+1))
             for Subitem in `echo ${menu[$COUNT]}`
             do
-                case $item
+                case $Subitem
                 in
                     Schedule)   echo "        <system name=\"${Subitem}\" />" >> $2;;
                     Channels)   echo "        <system name=\"${Subitem}\" />" >> $2;;
