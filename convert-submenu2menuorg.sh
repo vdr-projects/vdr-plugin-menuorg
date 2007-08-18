@@ -27,7 +27,7 @@ if [ a"$2" ==  a"" ]; then echo $usage && exit 1; fi
 
 declare -a menu
 
-echo "read the input file"
+echo -n "read the input file... "
 while read line
 do
     menuLevel=`echo $line|cut -d: -f1`
@@ -42,8 +42,8 @@ do
     fi
 
 done < $1
-
-echo "write the xml to the output file"
+echo done
+echo -n "write the xml to the output file... "
 echo "<menus>" > $2
 COUNT=0
 for item in `echo ${menu[0]}`
