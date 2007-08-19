@@ -60,6 +60,8 @@ MenuNode* MenuConfiguration::LoadMenu(string menuFileName)
 
         const Element* rootElement = parser.get_document()->get_root_node();
         ParseElement(rootElement, menuRoot);
+        
+        AddUnconfiguredPlugins(menuRoot);
     }
     catch(const std::exception& ex)
     {
@@ -123,6 +125,7 @@ void MenuConfiguration::AddPluginMenuNode(string pluginName, MenuNode* menu)
 
     if (FindPluginByName(pluginName, &pluginMainMenuEntry, pluginIndex))
     {
+        _configuredPlugins.push_back(pluginName);
         menu->AddChild(new PluginMenuNode(pluginMainMenuEntry, pluginIndex));
     }
 }
@@ -176,4 +179,21 @@ bool MenuConfiguration::FindPluginByName(string name, const char** mainMenuEntry
     }
 
     return false;
+}
+
+void MenuConfiguration::AddUnconfiguredPlugins(MenuNode* menu)
+{
+    int i = 0;
+
+    while (cPlugin *plugin = cPluginManager::GetPlugin(i))
+    {
+        if (const char *item = plugin->MainMenuEntry())
+        {
+            if (find(_configuredPlugins.begin(), _configuredPlugins.end(), plugin->Name()) == _configuredPlugins.end())
+            {
+                menu->AddChild(new PluginMenuNode(item, i));
+            }
+        }
+        i++;
+    }
 }

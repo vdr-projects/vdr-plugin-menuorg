@@ -85,10 +85,9 @@ The name of a <plugin> node describes the plug-ins name, not it's main menu text
 With the name attribute in <menu> nodes, the main menu title of this sub menu
 will be set.
 
-<system> or <plugin> items not configured in the menu configuration will not
-be visible in VDR's OSD. This means, if you install a new plug-in, you must
-manually add it to the menu file, in order to make it available for the
-VDR menu.
+<system> items not configured in the menu configuration will not be visible in
+VDR's OSD. Plug-ins that are not configured in the xml file, will be shown
+at the end of the root main menu.
 
 e.g.:
 

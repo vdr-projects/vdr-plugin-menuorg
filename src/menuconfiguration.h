@@ -24,6 +24,7 @@
 #define ___MENUCONFIGURATION_H
 
 #include <string>
+#include <vector>
 #include <vdr/osdbase.h>
 
 namespace xmlpp { class Element; }
@@ -33,6 +34,7 @@ class MenuConfiguration
 {
     private:
         static const std::string _dtd;
+        std::vector<std::string> _configuredPlugins;
 
     public:
         MenuNode* LoadMenu(std::string menuFileName);
@@ -44,6 +46,7 @@ class MenuConfiguration
         MenuNode* AddSubMenuNode(std::string name, MenuNode* menu);
         void AddSystemMenuNode(std::string name, MenuNode* menu);
         void AddPluginMenuNode(std::string pluginName, MenuNode* menu);
+        void AddUnconfiguredPlugins(MenuNode* menu);
 };
 
 #endif 
