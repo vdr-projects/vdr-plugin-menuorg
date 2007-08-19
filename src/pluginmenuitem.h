@@ -24,8 +24,6 @@
 #define ___PLUGINMENUITEM_H
 
 #include "menunode.h"
-#include <vdr/osdbase.h>
-#include <vdr/menuorgpatch.h>
 
 class PluginMenuItem: public MenuNode
 {

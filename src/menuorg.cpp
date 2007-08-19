@@ -31,6 +31,7 @@
 #include "version.h"
 #include "menuorg.h"
 #include "menuconfiguration.h"
+#include "mainmenuitemsprovider.h"
 #include "i18n.h"
 
 using namespace std;

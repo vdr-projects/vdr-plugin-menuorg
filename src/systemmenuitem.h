@@ -25,7 +25,6 @@
 
 #include "menunode.h"
 #include <vdr/osdbase.h>
-#include <vdr/menuorgpatch.h>
 #include <string>
 
 class SystemMenuItem: public MenuNode

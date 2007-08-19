@@ -24,21 +24,20 @@
 #define ___MAINMENUITEMSPROVIDER_H
 
 #include <vdr/menuorgpatch.h>
-#include "menunode.h"
 
-using namespace MenuOrgPatch;
+class MenuNode;
 
-class MainMenuItemsProvider: public IMainMenuItemsProvider
+class MainMenuItemsProvider: public MenuOrgPatch::IMainMenuItemsProvider
 {
     private:
         MenuNode* _rootMenu;
         MenuNode* _currentMenu;
-        MainMenuItemsList _currentMainMenuItems;
+        MenuOrgPatch::MainMenuItemsList _currentMainMenuItems;
 
     public:
         MainMenuItemsProvider(MenuNode* rootMenu);
         ~MainMenuItemsProvider();
-        virtual MainMenuItemsList* MainMenuItems();
+        virtual MenuOrgPatch::MainMenuItemsList* MainMenuItems();
         virtual void EnterRootMenu();
         virtual void EnterSubMenu(cOsdItem* item);
         virtual bool LeaveSubMenu();

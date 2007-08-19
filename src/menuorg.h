@@ -24,17 +24,15 @@
 #define ___MENUORGPLUGIN_H
 
 #include <vdr/plugin.h>
-#include "mainmenuitemsprovider.h"
 #include <string>
 
-using namespace std;
-using namespace MenuOrgPatch;
+class MainMenuItemsProvider;
 
 class MenuOrgPlugin : public cPlugin
 {
     private:
         MainMenuItemsProvider* _subMenuProvider;
-        string configFile;
+        std::string configFile;
 
     public:
         MenuOrgPlugin(void);

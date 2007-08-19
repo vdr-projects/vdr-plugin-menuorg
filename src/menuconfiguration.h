@@ -25,9 +25,9 @@
 
 #include <string>
 #include <vdr/osdbase.h>
-#include "menunode.h"
 
 namespace xmlpp { class Element; }
+class MenuNode;
 
 class MenuConfiguration
 {

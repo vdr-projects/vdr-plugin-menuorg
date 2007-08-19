@@ -24,8 +24,8 @@
 #define ___MENUNODE_H
 
 #include <vector>
-#include <vdr/menuorgpatch.h>
 
+namespace MenuOrgPatch { class IMainMenuItem; }
 class MenuNode;
 
 typedef std::vector<MenuNode*> MenuNodeList;

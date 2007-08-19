@@ -26,6 +26,8 @@
 #include "pluginmenuitem.h"
 #include <vdr/plugin.h>
 
+using namespace MenuOrgPatch;
+
 MainMenuItemsProvider::MainMenuItemsProvider(MenuNode* rootMenu)
 {
      _currentMenu = _rootMenu = rootMenu;
