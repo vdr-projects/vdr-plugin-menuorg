@@ -44,41 +44,43 @@ done < $1
 echo done
 
 echo -n "write the xml to the output file... "
-echo "<menus>" > $2
-for item in `echo ${menu[0]}`
-do
-    case $item
-    in
-        Schedule)   echo "    <system name=\"${item}\" />" >> $2;;
-        Channels)   echo "    <system name=\"${item}\" />" >> $2;;
-        Timers)     echo "    <system name=\"${item}\" />" >> $2;;
-        Recordings) echo "    <system name=\"${item}\" />" >> $2;;
-        Setup)      echo "    <system name=\"${item}\" />" >> $2;;
-        Commands)   echo "    <system name=\"${item}\" />" >> $2;;
+{
+    echo "<menus>"
+    for item in `echo ${menu[0]}`
+    do
+        case $item
+        in
+            Schedule)   echo "    <system name=\"${item}\" />";;
+            Channels)   echo "    <system name=\"${item}\" />";;
+            Timers)     echo "    <system name=\"${item}\" />";;
+            Recordings) echo "    <system name=\"${item}\" />";;
+            Setup)      echo "    <system name=\"${item}\" />";;
+            Commands)   echo "    <system name=\"${item}\" />";;
 
-        [0-9]*)
-            echo "    <menu name=\"$(echo $item|cut -d';' -f2)\">" >> $2
+            [1-9]*)
+                echo "    <menu name=\"$(echo $item|cut -d';' -f2)\">"
 
-            index=`echo $item|cut -d';' -f1`
-            for Subitem in `echo ${menu[$index]}`
-            do
-                case $Subitem
-                in
-                    Schedule)   echo "        <system name=\"${Subitem}\" />" >> $2;;
-                    Channels)   echo "        <system name=\"${Subitem}\" />" >> $2;;
-                    Timers)     echo "        <system name=\"${Subitem}\" />" >> $2;;
-                    Recordings) echo "        <system name=\"${Subitem}\" />" >> $2;;
-                    Setup)      echo "        <system name=\"${Subitem}\" />" >> $2;;
-                    Commands)   echo "        <system name=\"${Subitem}\" />" >> $2;;
-                    *)          echo "        <plugin name=\"${Subitem}\" />" >> $2;;
-                esac
-            done
+                index=`echo $item|cut -d';' -f1`
+                for Subitem in `echo ${menu[$index]}`
+                do
+                    case $Subitem
+                    in
+                        Schedule)   echo "        <system name=\"${Subitem}\" />";;
+                        Channels)   echo "        <system name=\"${Subitem}\" />";;
+                        Timers)     echo "        <system name=\"${Subitem}\" />";;
+                        Recordings) echo "        <system name=\"${Subitem}\" />";;
+                        Setup)      echo "        <system name=\"${Subitem}\" />";;
+                        Commands)   echo "        <system name=\"${Subitem}\" />";;
+                        *)          echo "        <plugin name=\"${Subitem}\" />";;
+                    esac
+                done
 
-            echo "    </menu>" >> $2
-            ;;
+                echo "    </menu>"
+                ;;
 
-        *)          echo "    <plugin name=\"${item}\" />" >> $2;;
-    esac
-done
-echo "</menus>" >> $2
+            *)          echo "    <plugin name=\"${item}\" />";;
+        esac
+    done
+    echo "</menus>"
+} > $2
 echo done
