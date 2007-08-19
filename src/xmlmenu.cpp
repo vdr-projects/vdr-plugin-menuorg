@@ -31,6 +31,15 @@
 using namespace xmlpp;
 using namespace std;
 
+const string XmlMenu::_dtd = 
+  "<!ELEMENT menus ((menu | system | plugin)+)>\n"
+  "<!ELEMENT menu ((menu | system | plugin)+)>\n"
+  "<!ATTLIST menu name CDATA #REQUIRED>\n"
+  "<!ELEMENT system EMPTY>\n"
+  "<!ATTLIST system name CDATA #REQUIRED>\n"
+  "<!ELEMENT plugin EMPTY>\n"
+  "<!ATTLIST plugin name CDATA #REQUIRED>\n";
+
 MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
 { 
     MenuNode* menuRoot = new MenuNode();
@@ -43,7 +52,9 @@ MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
         parser.set_substitute_entities();
         parser.parse_file(menuFileName);
 
-        DtdValidator validator(schemaFileName);
+        DtdValidator validator;
+        validator.parse_memory(_dtd);
+
         Document *pDoc = parser.get_document();
         validator.validate( pDoc );
 

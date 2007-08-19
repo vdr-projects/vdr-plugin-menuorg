@@ -31,6 +31,9 @@ namespace xmlpp { class Element; }
 
 class XmlMenu
 {
+    private:
+        static const std::string _dtd;
+    
     public:
         MenuNode* LoadXmlMenu(std::string menuFileName, std::string schemaFileName);
 
