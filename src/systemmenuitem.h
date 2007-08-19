@@ -20,22 +20,22 @@
  *
  */
 
-#ifndef ___VDRMENUITEM_H
-#define ___VDRMENUITEM_H
+#ifndef ___SYSTEMMENUITEM_H
+#define ___SYSTEMMENUITEM_H
 
 #include "menunode.h"
 #include <vdr/osdbase.h>
 #include <vdr/menuorgpatch.h>
 #include <string>
 
-class VdrMenuItem: public MenuNode
+class SystemMenuItem: public MenuNode
 {
     private:
         std::string _itemText;
         eOSState _itemState;
 
     public:
-        VdrMenuItem(std::string itemText, eOSState itemState);
+        SystemMenuItem(std::string itemText, eOSState itemState);
         MenuOrgPatch::IMainMenuItem* CreateMainMenuItem();
 };
 

@@ -16,17 +16,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
 #ifndef ___SUBMENUITEM_H
 #define ___SUBMENUITEM_H
 
-#include "vdrmenuitem.h"
+#include "systemmenuitem.h"
 #include <string>
 
-class SubMenuItem: public VdrMenuItem
+class SubMenuItem: public SystemMenuItem
 {
     public:
         SubMenuItem(std::string itemText);

@@ -20,17 +20,17 @@
  *
  */
 
-#include "vdrmenuitem.h"
+#include "systemmenuitem.h"
 #include <vdr/menuorgpatch.h>
 #include "custommainmenuitem.h"
 
-VdrMenuItem::VdrMenuItem(std::string itemText, eOSState itemState)
+SystemMenuItem::SystemMenuItem(std::string itemText, eOSState itemState)
 {
     _itemText = itemText;
     _itemState = itemState;
 }
 
-MenuOrgPatch::IMainMenuItem* VdrMenuItem::CreateMainMenuItem()
+MenuOrgPatch::IMainMenuItem* SystemMenuItem::CreateMainMenuItem()
 {
     if(_itemState != osUser1)
         return new CustomMainMenuItem(new cOsdItem(tr(_itemText.c_str()), _itemState));

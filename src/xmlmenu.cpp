@@ -24,7 +24,7 @@
 #include <libxml++/libxml++.h>
 #include <exception>
 #include <vdr/plugin.h>
-#include "vdrmenuitem.h"
+#include "systemmenuitem.h"
 #include "submenuitem.h"
 #include "pluginmenuitem.h"
 
@@ -113,7 +113,7 @@ MenuNode* XmlMenu::AddSubMenuItem(string name, MenuNode* menu)
 
 void XmlMenu::AddSystemMenuItem(string name, MenuNode* menu)
 {
-    menu->AddChild(new VdrMenuItem(name, MenuTextToVdrState(name)));
+    menu->AddChild(new SystemMenuItem(name, MenuTextToVdrState(name)));
 }
 
 void XmlMenu::AddPluginMenuItem(string pluginName, MenuNode* menu)
