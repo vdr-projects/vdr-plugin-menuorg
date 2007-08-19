@@ -45,7 +45,6 @@ MenuOrgPlugin::MenuOrgPlugin(void)
 
 MenuOrgPlugin::~MenuOrgPlugin()
 {
-  // Clean up after yourself!
   delete _subMenuProvider;
 }
 

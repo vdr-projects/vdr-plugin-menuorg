@@ -37,16 +37,16 @@ class MenuOrgPlugin : public cPlugin
     public:
         MenuOrgPlugin(void);
         virtual ~MenuOrgPlugin();
-        virtual const char *Version(void);
-        virtual const char *Description(void);
-        virtual const char *CommandLineHelp(void);
-        virtual bool ProcessArgs(int argc, char *argv[]);
+        virtual const char* Version(void);
+        virtual const char* Description(void);
+        virtual const char* CommandLineHelp(void);
+        virtual bool ProcessArgs(int argc, char* argv[]);
         virtual bool Initialize(void);
-        virtual const char *MainMenuEntry(void);
-        virtual cOsdObject *MainMenuAction(void);
+        virtual const char* MainMenuEntry(void);
+        virtual cOsdObject* MainMenuAction(void);
         virtual cMenuSetupPage *SetupMenu(void);
-        virtual bool SetupParse(const char *Name, const char *Value);
-        virtual bool Service(const char *Id, void *Data = NULL);
+        virtual bool SetupParse(const char* Name, const char* Value);
+        virtual bool Service(const char* Id, void* Data = NULL);
 };
   
 extern "C" void* VDRPluginCreator();
