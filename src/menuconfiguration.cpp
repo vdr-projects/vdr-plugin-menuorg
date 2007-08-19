@@ -33,13 +33,18 @@ using namespace xmlpp;
 using namespace std;
 
 const string MenuConfiguration::_dtd = 
-  "<!ELEMENT menus ((menu | system | plugin)+)>\n"
+  "<!ELEMENT menus ((menu | system | plugin | command)+)>\n"
   "<!ELEMENT menu ((menu | system | plugin)+)>\n"
   "<!ATTLIST menu name CDATA #REQUIRED>\n"
   "<!ELEMENT system EMPTY>\n"
   "<!ATTLIST system name CDATA #REQUIRED>\n"
   "<!ELEMENT plugin EMPTY>\n"
-  "<!ATTLIST plugin name CDATA #REQUIRED>\n";
+  "<!ATTLIST plugin name CDATA #REQUIRED>\n"
+  "<!ELEMENT command EMPTY>\n"
+  "<!ATTLIST command\n"
+  " name CDATA #REQUIRED\n"
+  " execute CDATA #REQUIRED\n"
+  " confirm (yes|no) #IMPLIED>";
 
 MenuNode* MenuConfiguration::LoadMenu(string menuFileName)
 { 
@@ -61,7 +66,7 @@ MenuNode* MenuConfiguration::LoadMenu(string menuFileName)
 
         const Element* rootElement = parser.get_document()->get_root_node();
         ParseElement(rootElement, menuRoot);
-        
+
         AddUnconfiguredPlugins(menuRoot);
     }
     catch(const std::exception& ex)
