@@ -23,6 +23,7 @@
 #include "menuconfiguration.h"
 #include <libxml++/libxml++.h>
 #include <exception>
+#include <iostream>
 #include <vdr/plugin.h>
 #include "systemmenunode.h"
 #include "submenunode.h"
@@ -68,7 +69,8 @@ MenuNode* MenuConfiguration::LoadMenu(string menuFileName)
         delete menuRoot;
         menuRoot = NULL;
 
-        esyslog("Exception caught when parsing xml configuration: %s", ex.what());
+        cerr << "menuorg: Exception caught when parsing xml configuration: " << ex.what();
+        esyslog("Exception caught when parsing xml configuration. See stderr output for details.");
     }
 
     return menuRoot;
