@@ -26,7 +26,7 @@
 #include <vdr/plugin.h>
 #include "systemmenunode.h"
 #include "submenuitem.h"
-#include "pluginmenuitem.h"
+#include "pluginmenunode.h"
 
 using namespace xmlpp;
 using namespace std;
@@ -99,7 +99,7 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
                 }
                 else if (type == "plugin")
                 {
-                    AddPluginMenuItem(name, menuNode);
+                    AddPluginMenuNode(name, menuNode);
                 }
             }
         }
@@ -116,14 +116,14 @@ void MenuConfiguration::AddSystemMenuNode(string name, MenuNode* menu)
     menu->AddChild(new SystemMenuNode(name, MenuTextToVdrState(name)));
 }
 
-void MenuConfiguration::AddPluginMenuItem(string pluginName, MenuNode* menu)
+void MenuConfiguration::AddPluginMenuNode(string pluginName, MenuNode* menu)
 {
     const char* pluginMainMenuEntry;
     int pluginIndex;
 
     if (FindPluginByName(pluginName, &pluginMainMenuEntry, pluginIndex))
     {
-        menu->AddChild(new PluginMenuItem(pluginMainMenuEntry, pluginIndex));
+        menu->AddChild(new PluginMenuNode(pluginMainMenuEntry, pluginIndex));
     }
 }
 

@@ -6,7 +6,7 @@ SRCS = \
   src/menuorg.cpp \
   src/plugincreator.cpp \
   src/pluginmainmenuitem.cpp \
-  src/pluginmenuitem.cpp \
+  src/pluginmenunode.cpp \
   src/submenuitem.cpp \
   src/systemmenunode.cpp \
   src/i18n.cpp

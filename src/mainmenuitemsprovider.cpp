@@ -23,7 +23,7 @@
 #include "mainmenuitemsprovider.h"
 #include "submenuitem.h"
 #include "systemmenunode.h"
-#include "pluginmenuitem.h"
+#include "pluginmenunode.h"
 #include <vdr/plugin.h>
 
 MainMenuItemsProvider::MainMenuItemsProvider(MenuNode* rootMenu)

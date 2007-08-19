@@ -20,20 +20,17 @@
  *
  */
 
-#ifndef ___PLUGINMENUITEM_H
-#define ___PLUGINMENUITEM_H
+#include "pluginmenunode.h"
+#include <vdr/mainmenuitemsprovider.h>
+#include "pluginmainmenuitem.h"
 
-#include "menunode.h"
-
-class PluginMenuItem: public MenuNode
+PluginMenuNode::PluginMenuNode(const char* pluginMainMenuEntry, int pluginIndex)
 {
-    private:
-        const char* _pluginMainMenuEntry;
-        int _pluginIndex;
+    _pluginMainMenuEntry = pluginMainMenuEntry;
+    _pluginIndex = pluginIndex;
+}
 
-    public:
-        PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex);
-        IMenuItemDefinition* CreateMenuItemDefinition();
-};
-
-#endif
+IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
+{
+    return new PluginMainMenuItem(_pluginMainMenuEntry, _pluginIndex);
+}
