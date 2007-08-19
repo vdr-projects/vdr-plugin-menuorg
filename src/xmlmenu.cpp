@@ -16,12 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id$
+ * $Id:$
  *
  */
 
 #include "xmlmenu.h"
-#include <iostream>
 #include <libxml++/libxml++.h>
 #include <exception>
 #include <vdr/plugin.h>
@@ -38,10 +37,10 @@ MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
 
     try
     {
-        dsyslog("loading menuorg config file from %s and schema from %s",menuFileName.data(), schemaFileName.data());
+        dsyslog("loading menuorg config file from %s and schema from %s", menuFileName.c_str(), schemaFileName.c_str());
 
         DomParser parser;
-        parser.set_substitute_entities(); //We just want the text to be resolved/unescaped automatically.
+        parser.set_substitute_entities();
         parser.parse_file(menuFileName);
 
         DtdValidator validator(schemaFileName);
@@ -56,24 +55,9 @@ MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
         delete menuRoot;
         menuRoot = NULL;
 
-        //TODO: print output to syslog (isyslog or dsyslog?)
-        cout << "Exception caught: " << ex.what() << endl;
-        isyslog("Exception caught: %s", ex.what());
-        //TODO: display message on osd
+        esyslog("Exception caught when parsing xml configuration: %s", ex.what());
     }
-/*
-    catch(const xmlpp::parse_error& ex)
-    {
-        // DTD or document is not well-formed
-        delete menuRoot;
-        menuRoot = NULL;
-    }
-    catch (const xmlpp::validation_error& ex)
-    {
-        // document is not valid
-        delete menuRoot;
-        menuRoot = NULL;
-    }*/
+
     return menuRoot;
 }
 
@@ -179,5 +163,6 @@ bool XmlMenu::FindPluginByName(string name, const char** mainMenuEntry, int& plu
         }
         i++;
     }
+
     return false;
 }

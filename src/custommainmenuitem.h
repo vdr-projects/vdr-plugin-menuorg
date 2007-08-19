@@ -20,6 +20,9 @@
  *
  */
 
+#ifndef ___CUSTOMMAINMENUITEM_H
+#define ___CUSTOMMAINMENUITEM_H
+
 #include <vdr/menuorgpatch.h>
 
 class CustomMainMenuItem: public MenuOrgPatch::IMainMenuItem
@@ -35,3 +38,5 @@ class CustomMainMenuItem: public MenuOrgPatch::IMainMenuItem
         virtual const char* PluginMenuEntry();
         virtual int PluginIndex();
 };
+
+#endif

@@ -16,12 +16,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
-#ifndef _I18N__H
-#define _I18N__H
+#ifndef ___I18N__H
+#define ___I18N__H
 
 #include <vdr/i18n.h>
 

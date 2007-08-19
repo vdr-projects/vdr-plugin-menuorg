@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # vdr-menuorg - A plugin for the Linux Video Disk Recorder
 # Copyright (C) 2007 Thomas Creutz, Tobias Grimm
@@ -20,7 +20,7 @@
 # $Id$
 #
 
-usage="convert-submenu2menuorg.sh submenu-file menuorg-file"
+usage="$0 submenu-file menuorg-file"
 
 if [ a"$1" ==  a"" ] || ! [ -f $1 ]; then echo $usage && exit 1; fi
 if [ a"$2" ==  a"" ]; then echo $usage && exit 1; fi
