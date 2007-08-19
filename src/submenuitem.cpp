@@ -23,6 +23,6 @@
 #include "submenuitem.h"
 
 SubMenuItem::SubMenuItem(std::string itemText)
-  :SystemMenuItem(itemText, osUser1)
+  :SystemMenuNode(itemText, osUser1)
 {
 }

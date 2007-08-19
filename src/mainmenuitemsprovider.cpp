@@ -22,7 +22,7 @@
 
 #include "mainmenuitemsprovider.h"
 #include "submenuitem.h"
-#include "systemmenuitem.h"
+#include "systemmenunode.h"
 #include "pluginmenuitem.h"
 #include <vdr/plugin.h>
 

@@ -24,7 +24,7 @@
 #include <libxml++/libxml++.h>
 #include <exception>
 #include <vdr/plugin.h>
-#include "systemmenuitem.h"
+#include "systemmenunode.h"
 #include "submenuitem.h"
 #include "pluginmenuitem.h"
 
@@ -95,7 +95,7 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
                 }
                 else if (type == "system")
                 {
-                    AddSystemMenuItem(name, menuNode);
+                    AddSystemMenuNode(name, menuNode);
                 }
                 else if (type == "plugin")
                 {
@@ -111,9 +111,9 @@ MenuNode* MenuConfiguration::AddSubMenuItem(string name, MenuNode* menu)
     return menu->AddChild(new SubMenuItem(name));
 }
 
-void MenuConfiguration::AddSystemMenuItem(string name, MenuNode* menu)
+void MenuConfiguration::AddSystemMenuNode(string name, MenuNode* menu)
 {
-    menu->AddChild(new SystemMenuItem(name, MenuTextToVdrState(name)));
+    menu->AddChild(new SystemMenuNode(name, MenuTextToVdrState(name)));
 }
 
 void MenuConfiguration::AddPluginMenuItem(string pluginName, MenuNode* menu)

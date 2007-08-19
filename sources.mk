@@ -8,5 +8,5 @@ SRCS = \
   src/pluginmainmenuitem.cpp \
   src/pluginmenuitem.cpp \
   src/submenuitem.cpp \
-  src/systemmenuitem.cpp \
+  src/systemmenunode.cpp \
   src/i18n.cpp

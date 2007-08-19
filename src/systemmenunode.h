@@ -20,21 +20,21 @@
  *
  */
 
-#ifndef ___SYSTEMMENUITEM_H
-#define ___SYSTEMMENUITEM_H
+#ifndef ___SYSTEMMENUNODE_H
+#define ___SYSTEMMENUNODE_H
 
 #include "menunode.h"
 #include <vdr/osdbase.h>
 #include <string>
 
-class SystemMenuItem: public MenuNode
+class SystemMenuNode: public MenuNode
 {
     private:
-        std::string _itemText;
-        eOSState _itemState;
+        std::string _text;
+        eOSState _state;
 
     public:
-        SystemMenuItem(std::string itemText, eOSState itemState);
+        SystemMenuNode(std::string text, eOSState state);
         IMenuItemDefinition* CreateMenuItemDefinition();
 };
 

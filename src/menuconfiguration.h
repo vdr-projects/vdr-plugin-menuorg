@@ -42,7 +42,7 @@ class MenuConfiguration
         eOSState MenuTextToVdrState(std::string menuText);
         bool FindPluginByName(std::string name, const char** mainMenuEntry, int& pluginIndex);
         MenuNode* AddSubMenuItem(std::string name, MenuNode* menu);
-        void AddSystemMenuItem(std::string name, MenuNode* menu);
+        void AddSystemMenuNode(std::string name, MenuNode* menu);
         void AddPluginMenuItem(std::string pluginName, MenuNode* menu);
 };
 

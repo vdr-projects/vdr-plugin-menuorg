@@ -23,10 +23,10 @@
 #ifndef ___SUBMENUITEM_H
 #define ___SUBMENUITEM_H
 
-#include "systemmenuitem.h"
+#include "systemmenunode.h"
 #include <string>
 
-class SubMenuItem: public SystemMenuItem
+class SubMenuItem: public SystemMenuNode
 {
     public:
         SubMenuItem(std::string itemText);

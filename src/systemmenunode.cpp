@@ -20,20 +20,20 @@
  *
  */
 
-#include "systemmenuitem.h"
+#include "systemmenunode.h"
 #include <vdr/mainmenuitemsprovider.h>
 #include "custommainmenuitem.h"
 
-SystemMenuItem::SystemMenuItem(std::string itemText, eOSState itemState)
+SystemMenuNode::SystemMenuNode(std::string text, eOSState state)
 {
-    _itemText = itemText;
-    _itemState = itemState;
+    _text = text;
+    _state = state;
 }
 
-IMenuItemDefinition* SystemMenuItem::CreateMenuItemDefinition()
+IMenuItemDefinition* SystemMenuNode::CreateMenuItemDefinition()
 {
-    if(_itemState != osUser1)
-        return new CustomMainMenuItem(new cOsdItem(tr(_itemText.c_str()), _itemState));
+    if(_state != osUser1)
+        return new CustomMainMenuItem(new cOsdItem(tr(_text.c_str()), _state));
     else
-        return new CustomMainMenuItem(new cOsdItem(_itemText.c_str(), _itemState));
+        return new CustomMainMenuItem(new cOsdItem(_text.c_str(), _state));
 }
