@@ -133,7 +133,6 @@ bool MenuOrgPlugin::Initialize(void)
 cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 {
     // Perform the action when selected from the main VDR menu.
-    //TODO: when the MenuItem is called, than ask for reloading the xml-file
     return NULL;
 }
 
@@ -146,7 +145,6 @@ cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 {
     // Parse your own setup parameters and store their values.
-    //TODO: move code for load the xml file to this position
     return false;
 }
 
