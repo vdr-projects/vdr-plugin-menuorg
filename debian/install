@@ -1,5 +1,4 @@
 libvdr-menuorg.so.*        usr/lib/vdr/plugins/
 debian/plugin.menuorg.conf etc/vdr/plugins/
-menuorg.xsd                usr/share/vdr-plugin-menuorg/
 menuorg.xml                usr/share/vdr-plugin-menuorg/
 menuorg.dtd                usr/share/vdr-plugin-menuorg/
