@@ -25,7 +25,6 @@
 
 #include <vdr/menuorgpatch.h>
 #include "menunode.h"
-#include "xmlmenu.h"
 
 using namespace MenuOrgPatch;
 

@@ -20,7 +20,7 @@
  *
  */
 
-#include "xmlmenu.h"
+#include "menuconfiguration.h"
 #include <libxml++/libxml++.h>
 #include <exception>
 #include <vdr/plugin.h>
@@ -31,7 +31,7 @@
 using namespace xmlpp;
 using namespace std;
 
-const string XmlMenu::_dtd = 
+const string MenuConfiguration::_dtd = 
   "<!ELEMENT menus ((menu | system | plugin)+)>\n"
   "<!ELEMENT menu ((menu | system | plugin)+)>\n"
   "<!ATTLIST menu name CDATA #REQUIRED>\n"
@@ -40,7 +40,7 @@ const string XmlMenu::_dtd =
   "<!ELEMENT plugin EMPTY>\n"
   "<!ATTLIST plugin name CDATA #REQUIRED>\n";
 
-MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
+MenuNode* MenuConfiguration::LoadMenu(string menuFileName, string schemaFileName)
 { 
     MenuNode* menuRoot = new MenuNode();
 
@@ -72,7 +72,7 @@ MenuNode* XmlMenu::LoadXmlMenu(string menuFileName, string schemaFileName)
     return menuRoot;
 }
 
-void XmlMenu::ParseElement(const Element* element, MenuNode* menuNode)
+void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
 {
     Node::NodeList children = element->get_children();
     for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
@@ -106,17 +106,17 @@ void XmlMenu::ParseElement(const Element* element, MenuNode* menuNode)
     }
 }
 
-MenuNode* XmlMenu::AddSubMenuItem(string name, MenuNode* menu)
+MenuNode* MenuConfiguration::AddSubMenuItem(string name, MenuNode* menu)
 {
     return menu->AddChild(new SubMenuItem(name));
 }
 
-void XmlMenu::AddSystemMenuItem(string name, MenuNode* menu)
+void MenuConfiguration::AddSystemMenuItem(string name, MenuNode* menu)
 {
     menu->AddChild(new SystemMenuItem(name, MenuTextToVdrState(name)));
 }
 
-void XmlMenu::AddPluginMenuItem(string pluginName, MenuNode* menu)
+void MenuConfiguration::AddPluginMenuItem(string pluginName, MenuNode* menu)
 {
     const char* pluginMainMenuEntry;
     int pluginIndex;
@@ -127,7 +127,7 @@ void XmlMenu::AddPluginMenuItem(string pluginName, MenuNode* menu)
     }
 }
 
-eOSState XmlMenu::MenuTextToVdrState(string menuText)
+eOSState MenuConfiguration::MenuTextToVdrState(string menuText)
 {
     if (menuText == "Schedule")
     {
@@ -157,7 +157,7 @@ eOSState XmlMenu::MenuTextToVdrState(string menuText)
         return osContinue;
 }
 
-bool XmlMenu::FindPluginByName(string name, const char** mainMenuEntry, int& pluginIndex)
+bool MenuConfiguration::FindPluginByName(string name, const char** mainMenuEntry, int& pluginIndex)
 {
     int i = 0;
 

@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef ___XMLMENU_H
-#define ___XMLMENU_H
+#ifndef ___MENUCONFIGURARION_H
+#define ___MENUCONFIGURATION_H
 
 #include <string>
 #include <vdr/osdbase.h>
@@ -29,13 +29,13 @@
 
 namespace xmlpp { class Element; }
 
-class XmlMenu
+class MenuConfiguration
 {
     private:
         static const std::string _dtd;
     
     public:
-        MenuNode* LoadXmlMenu(std::string menuFileName, std::string schemaFileName);
+        MenuNode* LoadMenu(std::string menuFileName, std::string schemaFileName);
 
     private:
         void ParseElement(const xmlpp::Element* a_node, MenuNode* menuNode);

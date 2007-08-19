@@ -30,6 +30,7 @@
 #include <getopt.h>
 #include "version.h"
 #include "menuorg.h"
+#include "menuconfiguration.h"
 #include "i18n.h"
 
 using namespace std;
@@ -107,7 +108,7 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
 bool MenuOrgPlugin::Initialize(void)
 {
-    XmlMenu xmlMenu;
+    MenuConfiguration menuConfiguration;
 
     if(configFile.empty())
         configFile = (string) ConfigDirectory() + "/menuorg.xml";
@@ -115,7 +116,7 @@ bool MenuOrgPlugin::Initialize(void)
     if(schemaFile.empty())
         schemaFile = (string) ConfigDirectory() + "/menuorg.dtd";
 
-    MenuNode* menu = xmlMenu.LoadXmlMenu(configFile, schemaFile);
+    MenuNode* menu = menuConfiguration.LoadMenu(configFile, schemaFile);
     if (menu)
     {
         _subMenuProvider = new MainMenuItemsProvider(menu);
