@@ -14,6 +14,7 @@ any later version.
 
 See the file COPYING for the full license information
 
+
 Description:
 ------------
 
@@ -21,11 +22,13 @@ This plug-in allows to reorganise VDR's main OSD menu. The new menu structure is
 read from an XML config file. It's basic format is based on the format used in
 the setup plug-in.
 
+
 Requirements:
 -------------
 
 The plug-in has been tested with vdr 1.4.7 and 1.5.7. It requires the libxml++2.6
 library.
+
 
 Configuration:
 --------------
@@ -39,19 +42,21 @@ The following parameters are available:
                            (default: ConfigDir/plugins/menuorg.dtd)
 
 
-Upgrade from vdr-submenu plugin
--------------------------------
+Upgrading from vdr-submenu plugin
+---------------------------------
 
 There is a convert script in this package. With it you can convert your old 
-MainMenu.conf to the XML file which is needet by this plugin.
+MainMenu.conf from the submenu plugin to the XML file which is needed by
+menuorg.
 
 Example usage:
 
-submenu2menuorg /var/lib/vdr/plugins/MainMenu.conf /var/lib/vdr/plugins/menuorg.xml
+    submenu2menuorg /var/lib/vdr/plugins/MainMenu.conf /var/lib/vdr/plugins/menuorg.xml
 
-Attension: Your destination file will be overwritten without any warning!
+Attention: Your destination file will be overwritten without any warning!
 
-When your vdr runs not as root, than you should verify that the file is writeable from vdr.
+When your vdr runs not as root, than you should verify that the target file is
+readable for the which ever user runs vdr.
 
 
 Menu file format
