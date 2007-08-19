@@ -1,4 +1,4 @@
-This is a "plugin" for the Video Disk Recorder (VDR).
+This is a plug-in for the Video Disk Recorder (VDR).
 
 Written by:                  Thomas Creutz <thomas.creutz@gmx.de>
                              Tobias Grimm <tg@e-tobi.net>
@@ -7,23 +7,25 @@ Project's homepage:          URL
 
 Latest version available at: URL
 
-See the file COPYING for license information.
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2 of the License, or (at your option)
+any later version.
+
+See the file COPYING for the full license information
 
 Description:
 ------------
 
-With this plugin you can organize your Mainmenu. The config file is saved in XML file format,
-based on the format from setup plugin. 
+This plug-in allows to reorganise VDR's main OSD menu. The new menu structure is
+read from an XML config file. It's basic format is based on the format used in
+the setup plug-in.
 
 Requirements:
 -------------
 
-The plugin is tested with vdr 1.4.7
-
-The follow libraries are used:
-
- - libxml++2.6-dev
- - libxml2-dev
+The plug-in has been tested with vdr 1.4.7 and 1.5.7. It requires the libxml++2.6
+library.
 
 Configuration:
 --------------
@@ -36,31 +38,72 @@ The following parameters are available:
  -s FILE   --schema=FILE   loads the specified schema file
                            (default: ConfigDir/plugins/menuorg.dtd)
 
-The schema file is included in this release. Only the DTD schema can be used!
-
 Menu file format
 ----------------
 
-    Menu Item
-    Another Menu Item=Alternative Title
-    Submenu:
-        Menu Item In Sub Menu
-        Another Menu Item In Sub Menu
-        Sub-Submenu:
-                Menu Item In Sub-Submenu
-                Another Menu Item In Sub-Submenu
-    Yet Another Menu Item
+The menu configuration file, is a simple XML file and has to conform to it's
+syntax rules. The root node always is <menus>.
 
-e.g.
+There are only three kinds of menu items described by the following XML tags:
 
-    Schedule
-    Recordings
-    Timers
-    Plugins:
-       Burn
-       Epgsearch
-       OsdTeletext
-    Games:
-        Spider
-        Games=Tetris,Tron,Snake
-    Setup
+   <system> : System menu items, like the channels list or the timers
+   <plugin> : Plug-in menu items
+   <menu>   : A sub menu
+   
+In the menu hierarchy <system> and <plug-in> are leaf nodes, whereas <menu> is
+an internal node. <menu> may contain any number of <system>, <plugin> or <menu>
+nodes.
+
+Each node is described by a name attribute. For <system> nodes, the following
+names are possible:
+
+  - Schedule
+  - Channels
+  - Timers
+  - Recordings
+  - Commands
+  - Setup
+
+The name of a <plugin> node describes the plug-ins name, not it's main menu text.
+
+With the name attribute in <menu> nodes, the main menu title of this sub menu
+will be set.
+
+<system> or <plugin> items not configured in the menu configuration will not
+be visible in VDR's OSD. This means, if you install a new plug-in, you must
+manually add it to the menu file, in order to make it available for the
+VDR menu.
+
+e.g.:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <menus>
+        <system name="Schedule" />
+        <system name="Channels" />
+        <system name="Recordings" />
+        <menu name="Video/Audio">
+            <plug-in name="mp3" />
+            <plug-in name="mplayer" />
+            <menu name="CD/DVD">
+                <plug-in name="burn" />
+                <plug-in name="dvdselect" />
+                <plug-in name="dvd" />
+            </menu>
+        </menu>
+        <menu name="Timer">
+            <system name="Timers" />
+            <plug-in name="autotimeredit" />
+            <plug-in name="sleeptimer" />
+        </menu>
+        <menu name="Games">
+            <plug-in name="games" />
+            <plug-in name="solitaire" />
+            <plug-in name="freecell" />
+        </menu>
+        <menu name="System">
+            <system name="Setup" />
+            <system name="Commands" />
+            <plug-in name="sysinfo" />
+            <plug-in name="femon" />
+        </menu>
+    </menus>
