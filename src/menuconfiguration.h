@@ -33,9 +33,9 @@ class MenuConfiguration
 {
     private:
         static const std::string _dtd;
-    
+
     public:
-        MenuNode* LoadMenu(std::string menuFileName, std::string schemaFileName);
+        MenuNode* LoadMenu(std::string menuFileName);
 
     private:
         void ParseElement(const xmlpp::Element* a_node, MenuNode* menuNode);

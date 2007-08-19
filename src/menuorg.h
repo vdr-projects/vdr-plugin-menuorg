@@ -35,7 +35,6 @@ class MenuOrgPlugin : public cPlugin
     private:
         MainMenuItemsProvider* _subMenuProvider;
         string configFile;
-        string schemaFile;
 
     public:
         MenuOrgPlugin(void);

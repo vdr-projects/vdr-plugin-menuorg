@@ -67,9 +67,7 @@ const char* MenuOrgPlugin::MainMenuEntry(void)
 const char *MenuOrgPlugin::CommandLineHelp(void)
 {
     return " -c FILE   --config=FILE   loads the specified xml file\n"
-           "                           (default: ConfigDir/plugins/menuorg.xml)\n"
-           " -s FILE   --schema=FILE   loads the specified schema file\n"
-           "                           (default: ConfigDir/plugins/menuorg.dtd)\n";
+           "                           (default: ConfigDir/plugins/menuorg.xml)\n";
 }
 
 bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
@@ -77,7 +75,6 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
     static struct option longOptions[] =
     {
         { "config", required_argument, NULL, 'c'},
-        { "schema", required_argument, NULL, 's'},
         { NULL}
     };
 
@@ -86,16 +83,12 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
     int optionChar;
     int optionIndex = 0;
-    while ((optionChar = getopt_long(argc, argv, "c:s:", longOptions, &optionIndex)) != -1)
+    while ((optionChar = getopt_long(argc, argv, "c:", longOptions, &optionIndex)) != -1)
     {
         switch (optionChar)
         {
             case 'c':
                 configFile = optarg;
-                break;
-
-            case 's':
-                schemaFile = optarg;
                 break;
 
             default:
@@ -113,10 +106,7 @@ bool MenuOrgPlugin::Initialize(void)
     if(configFile.empty())
         configFile = (string) ConfigDirectory() + "/menuorg.xml";
 
-    if(schemaFile.empty())
-        schemaFile = (string) ConfigDirectory() + "/menuorg.dtd";
-
-    MenuNode* menu = menuConfiguration.LoadMenu(configFile, schemaFile);
+    MenuNode* menu = menuConfiguration.LoadMenu(configFile);
     if (menu)
     {
         _subMenuProvider = new MainMenuItemsProvider(menu);

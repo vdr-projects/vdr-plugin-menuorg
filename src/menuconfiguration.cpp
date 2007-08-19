@@ -40,13 +40,13 @@ const string MenuConfiguration::_dtd =
   "<!ELEMENT plugin EMPTY>\n"
   "<!ATTLIST plugin name CDATA #REQUIRED>\n";
 
-MenuNode* MenuConfiguration::LoadMenu(string menuFileName, string schemaFileName)
+MenuNode* MenuConfiguration::LoadMenu(string menuFileName)
 { 
     MenuNode* menuRoot = new MenuNode();
 
     try
     {
-        dsyslog("loading menuorg config file from %s and schema from %s", menuFileName.c_str(), schemaFileName.c_str());
+        dsyslog("loading menuorg config file from %s", menuFileName.c_str());
 
         DomParser parser;
         parser.set_substitute_entities();

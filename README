@@ -38,9 +38,6 @@ The following parameters are available:
  -c FILE   --config=FILE   loads the specified xml file
                            (default: ConfigDir/plugins/menuorg.xml)
 
- -s FILE   --schema=FILE   loads the specified schema file
-                           (default: ConfigDir/plugins/menuorg.dtd)
-
 
 Upgrading from vdr-submenu plugin
 ---------------------------------
