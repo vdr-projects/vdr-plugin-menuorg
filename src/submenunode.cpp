@@ -31,5 +31,5 @@ SubMenuNode::SubMenuNode(std::string text)
 
 IMenuItemDefinition* SubMenuNode::CreateMenuItemDefinition()
 {
-    return new OsdItemDefinition(new cOsdItem(tr(_text.c_str()), osUser1));
+    return new OsdItemDefinition(new cOsdItem(_text.c_str(), osUser1));
 }

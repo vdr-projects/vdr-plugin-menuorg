@@ -32,5 +32,8 @@ SystemMenuNode::SystemMenuNode(std::string text, eOSState state)
 
 IMenuItemDefinition* SystemMenuNode::CreateMenuItemDefinition()
 {
-    return new OsdItemDefinition(new cOsdItem(_text.c_str(), _state));
+    if(_state != osUser1)
+        return new OsdItemDefinition(new cOsdItem(tr(_text.c_str()), _state));
+    else
+        return new OsdItemDefinition(new cOsdItem(_text.c_str(), _state));
 }
