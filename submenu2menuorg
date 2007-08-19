@@ -36,7 +36,7 @@ do
 
     if [ a"$kindOfItem" != a"" ] && [ "$kindOfItem" != "0" ]
     then
-        menu[$menuLevel]="${menu[$menuLevel]} 0;$name"
+        menu[$menuLevel]="${menu[$menuLevel]} ${kindOfItem};$name"
     else
         menu[$menuLevel]="${menu[$menuLevel]} $name"
     fi
@@ -45,8 +45,7 @@ echo done
 
 echo -n "write the xml to the output file... "
 echo "<menus>" > $2
-COUNT=0
-for item in `echo ${menu[$COUNT]}`
+for item in `echo ${menu[0]}`
 do
     case $item
     in
@@ -57,11 +56,11 @@ do
         Setup)      echo "    <system name=\"${item}\" />" >> $2;;
         Commands)   echo "    <system name=\"${item}\" />" >> $2;;
 
-        0*)
+        [0-9]*)
             echo "    <menu name=\"$(echo $item|cut -d';' -f2)\">" >> $2
 
-            COUNT=$(($COUNT+1))
-            for Subitem in `echo ${menu[$COUNT]}`
+            index=`echo $item|cut -d';' -f1`
+            for Subitem in `echo ${menu[$index]}`
             do
                 case $Subitem
                 in
