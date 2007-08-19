@@ -38,6 +38,22 @@ The following parameters are available:
  -s FILE   --schema=FILE   loads the specified schema file
                            (default: ConfigDir/plugins/menuorg.dtd)
 
+
+Upgrade from vdr-submenu plugin
+-------------------------------
+
+There is a convert script in this package. With it you can convert your old 
+MainMenu.conf to the XML file which is needet by this plugin.
+
+Example usage:
+
+submenu2menuorg /var/lib/vdr/plugins/MainMenu.conf /var/lib/vdr/plugins/menuorg.xml
+
+Attension: Your destination file will be overwritten without any warning!
+
+When your vdr runs not as root, than you should verify that the file is writeable from vdr.
+
+
 Menu file format
 ----------------
 
