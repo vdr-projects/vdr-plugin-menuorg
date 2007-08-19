@@ -25,7 +25,7 @@
 
 #include <vector>
 
-namespace MenuOrgPatch { class IMainMenuItem; }
+class IMenuItemDefinition;
 class MenuNode;
 
 typedef std::vector<MenuNode*> MenuNodeList;
@@ -45,7 +45,7 @@ class MenuNode
         MenuNode* Parent();
         MenuNodeList& Childs();
         MenuNode* AddChild(MenuNode* child);
-        virtual MenuOrgPatch::IMainMenuItem* CreateMainMenuItem();
+        virtual IMenuItemDefinition* CreateMenuItemDefinition();
 };
 
 #endif

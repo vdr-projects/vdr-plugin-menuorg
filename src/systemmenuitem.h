@@ -35,7 +35,7 @@ class SystemMenuItem: public MenuNode
 
     public:
         SystemMenuItem(std::string itemText, eOSState itemState);
-        MenuOrgPatch::IMainMenuItem* CreateMainMenuItem();
+        IMenuItemDefinition* CreateMenuItemDefinition();
 };
 
 #endif

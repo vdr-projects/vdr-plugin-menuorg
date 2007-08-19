@@ -1,48 +1,99 @@
-diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
---- vdr-1.4.7~/menu.c	2007-08-11 20:48:29.000000000 +0200
-+++ vdr-1.4.7/menu.c	2007-08-11 20:48:29.000000000 +0200
-@@ -31,6 +31,7 @@
- #include "vdrttxtsubshooks.h"
- #include "dvbsub.h"
+diff -Nur vdr-1.4.7/mainmenuitemsprovider.h vdr-1.4.7.patched/mainmenuitemsprovider.h
+--- vdr-1.4.7/mainmenuitemsprovider.h	1970-01-01 01:00:00.000000000 +0100
++++ vdr-1.4.7.patched/mainmenuitemsprovider.h	2007-08-19 21:28:32.000000000 +0200
+@@ -0,0 +1,55 @@
++/*
++ * vdr-menuorg - A plugin for the Linux Video Disk Recorder
++ * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ *
++ * $Id:$
++ *
++ */
++
++#ifndef __MAINMENUITEMSPROVIDER_H
++#define __MAINMENUITEMSPROVIDER_H
++
++#include <vector>
++
++class cOsdItem;
++
++class IMenuItemDefinition
++{
++    public:
++        virtual ~IMenuItemDefinition() {};
++        virtual bool IsCustomOsdItem() = 0;
++        virtual bool IsPluginItem() = 0;
++        virtual cOsdItem* CustomOsdItem() = 0;
++        virtual const char* PluginMenuEntry() = 0;
++        virtual int PluginIndex() = 0;
++};
++
++typedef std::vector<IMenuItemDefinition*> MenuItemDefinitions;
++
++#define MENU_ITEMS_PROVIDER_SERVICE_ID "MenuOrgPatch-v0.1::MainMenuItemsProvider"
++
++class IMainMenuItemsProvider
++{
++    public:
++        virtual ~IMainMenuItemsProvider() {};
++        virtual MenuItemDefinitions* MainMenuItems() = 0;
++        virtual void EnterRootMenu() = 0;
++        virtual void EnterSubMenu(cOsdItem* item) = 0;
++        virtual bool LeaveSubMenu() = 0;
++};
++
++#endif //__MAINMENUITEMSPROVIDER_H
+diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
+--- vdr-1.4.7/menu.c	2006-12-02 12:12:02.000000000 +0100
++++ vdr-1.4.7.patched/menu.c	2007-08-19 21:28:32.000000000 +0200
+@@ -28,6 +28,7 @@
+ #include "timers.h"
+ #include "transfer.h"
  #include "videodir.h"
 +#include "menuorgpatch.h"
  
  #define MAXWAIT4EPGINFO   3 // seconds
  #define MODETIMEOUT       3 // seconds
-@@ -3057,6 +3058,13 @@
+@@ -2788,6 +2789,9 @@
    cancelEditingItem = NULL;
    stopRecordingItem = NULL;
    recordControlsState = 0;
 +
-+  MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
-+
-+  if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuitemsProvider", &mainMenuItemsProvider)) {
-+    mainMenuItemsProvider->EnterRootMenu();
-+    }
++  MenuOrgPatch::EnterRootMenu();
 +
    Set();
  
    // Initial submenus:
-@@ -3084,6 +3092,29 @@
+@@ -2815,6 +2819,25 @@
    Clear();
    SetTitle("VDR");
    SetHasHotkeys();
 +  
-+  MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
-+
-+  if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuItemsProvider", &mainMenuItemsProvider)) {
-+    MenuOrgPatch::MainMenuItemsList* menuItems = mainMenuItemsProvider->MainMenuItems();
-+    MenuOrgPatch::MainMenuItemsList::iterator i;
-+
-+    for (i = menuItems->begin(); i != menuItems->end(); i++) {       
-+      if ((*i)->IsCustomMenuItem()) {
-+        cOsdItem* osdItem = (*i)->CustomMenuItem();
++  if (MenuOrgPatch::IsCustomMenuAvailable()) {
++    MenuItemDefinitions* menuItems = MenuOrgPatch::MainMenuItems();
++    for (MenuItemDefinitions::iterator i = menuItems->begin(); i != menuItems->end(); i++) {       
++      if ((*i)->IsCustomOsdItem()) {
++        cOsdItem* osdItem = (*i)->CustomOsdItem();
 +        if (osdItem) {
 +          osdItem->SetText(hk(osdItem->Text()));
 +          Add(osdItem);
 +          }
 +        }
-+      else  if ((*i)->IsPluginMenuItem()) {
++      else  if ((*i)->IsPluginItem()) {
 +        const char *item = (*i)->PluginMenuEntry();
 +        if (item)
 +          Add(new cMenuPluginItem(hk(item), (*i)->PluginIndex()));
@@ -53,7 +104,7 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
  
    // Basic menu items:
  
-@@ -3111,6 +3142,8 @@
+@@ -2842,6 +2865,8 @@
    if (Commands.Count())
       Add(new cOsdItem(hk(tr("Commands")),  osCommands));
  
@@ -62,15 +113,14 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
    Update(true);
  
    Display();
-@@ -3238,6 +3271,35 @@
+@@ -2966,6 +2991,32 @@
                           state = osEnd;
                         }
                         break;
 +    case osBack:       {
-+                          MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
-+
-+                          if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuItemsProvider", &mainMenuItemsProvider)) {
-+                            bool leavingMenuSucceeded = mainMenuItemsProvider->LeaveSubMenu();
++                          if (MenuOrgPatch::IsCustomMenuAvailable())
++                          {
++                            bool leavingMenuSucceeded = MenuOrgPatch::LeaveSubMenu();
 +                            Set();
 +                            stopReplayItem = NULL;
 +                            cancelEditingItem = NULL;
@@ -86,10 +136,8 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
 +                       }
 +                       break;
 +    case osUser1:       {
-+                          MenuOrgPatch::IMainMenuItemsProvider* mainMenuItemsProvider;
-+
-+                          if (cPluginManager::CallFirstService("MenuOrgPatch-v0.1::MainMenuItemsProvider", &mainMenuItemsProvider)) {
-+                            mainMenuItemsProvider->EnterSubMenu(Get(Current()));
++                          if (MenuOrgPatch::IsCustomMenuAvailable()) {
++                            MenuOrgPatch::EnterSubMenu(Get(Current()));
 +                            Set();
 +                            return osContinue;
 +                          }
@@ -98,10 +146,10 @@ diff -urNad vdr-1.4.7~/menu.c vdr-1.4.7/menu.c
      default: switch (Key) {
                 case kRecord:
                 case kRed:    if (!HadSubMenu)
-diff -urNad vdr-1.4.7~/menuorgpatch.h vdr-1.4.7/menuorgpatch.h
---- vdr-1.4.7~/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.4.7/menuorgpatch.h	2007-08-11 20:48:58.000000000 +0200
-@@ -0,0 +1,58 @@
+diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
+--- vdr-1.4.7/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
++++ vdr-1.4.7.patched/menuorgpatch.h	2007-08-19 21:28:32.000000000 +0200
+@@ -0,0 +1,91 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
 + * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
@@ -127,36 +175,69 @@ diff -urNad vdr-1.4.7~/menuorgpatch.h vdr-1.4.7/menuorgpatch.h
 +#ifndef __MENUORGPATCH_H
 +#define __MENUORGPATCH_H
 +
-+#include <vector>
++#include "mainmenuitemsprovider.h"
 +
-+class cOsdItem;
-+
-+namespace MenuOrgPatch
++class MenuOrgPatch
 +{
++    private:
++        static IMainMenuItemsProvider* _mainMenuItemsProvider;
 +
-+class IMainMenuItem
-+{
++    private:
++        static IMainMenuItemsProvider* MainMenuItemsProvider()
++        {
++            if (!_mainMenuItemsProvider)
++            {
++                IMainMenuItemsProvider* mainMenuItemsProvider;
++            
++                if (cPluginManager::CallFirstService(MENU_ITEMS_PROVIDER_SERVICE_ID, &mainMenuItemsProvider))
++                {
++                    _mainMenuItemsProvider = mainMenuItemsProvider;
++                }
++            }
++            return _mainMenuItemsProvider;
++        }
++
 +    public:
-+        virtual ~IMainMenuItem() {};
-+        virtual bool IsCustomMenuItem() = 0;
-+        virtual bool IsPluginMenuItem() = 0;
-+        virtual cOsdItem* CustomMenuItem() = 0;
-+        virtual const char* PluginMenuEntry() = 0;
-+        virtual int PluginIndex() = 0;
++        static bool IsCustomMenuAvailable()
++        {
++            return (MainMenuItemsProvider() != NULL);
++        }
++        
++        static void EnterRootMenu()
++        {
++            if (MainMenuItemsProvider())
++            {
++                MainMenuItemsProvider()->EnterRootMenu();
++            }
++        }
++
++        static bool LeaveSubMenu()
++        {
++            if (MainMenuItemsProvider())
++            {
++                return MainMenuItemsProvider()->LeaveSubMenu();
++            }
++            return false;
++        }
++        
++        static void EnterSubMenu(cOsdItem* item)
++        {
++            if (MainMenuItemsProvider())
++            {
++                MainMenuItemsProvider()->EnterSubMenu(item);
++            }
++        }
++        
++        static MenuItemDefinitions* MainMenuItems()
++        {
++            if (MainMenuItemsProvider())
++            {
++                return MainMenuItemsProvider()->MainMenuItems();
++            }
++            return NULL;
++        }
 +};
 +
-+typedef std::vector<IMainMenuItem*> MainMenuItemsList;
-+
-+class IMainMenuItemsProvider
-+{
-+    public:
-+        virtual ~IMainMenuItemsProvider() {};
-+        virtual  MainMenuItemsList* MainMenuItems() = 0;
-+        virtual  void EnterRootMenu() = 0;
-+        virtual  void EnterSubMenu(cOsdItem* item) = 0;
-+        virtual  bool LeaveSubMenu() = 0;
-+};
-+
-+};
++IMainMenuItemsProvider* MenuOrgPatch::_mainMenuItemsProvider = NULL;
 +
 +#endif //__MENUORGPATCH_H

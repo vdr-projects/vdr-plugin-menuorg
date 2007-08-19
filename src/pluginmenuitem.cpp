@@ -21,7 +21,7 @@
  */
 
 #include "pluginmenuitem.h"
-#include <vdr/menuorgpatch.h>
+#include <vdr/mainmenuitemsprovider.h>
 #include "pluginmainmenuitem.h"
 
 PluginMenuItem::PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex)
@@ -30,7 +30,7 @@ PluginMenuItem::PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex)
     _pluginIndex = pluginIndex;
 }
 
-MenuOrgPatch::IMainMenuItem* PluginMenuItem::CreateMainMenuItem()
+IMenuItemDefinition* PluginMenuItem::CreateMenuItemDefinition()
 {
     return new PluginMainMenuItem(_pluginMainMenuEntry, _pluginIndex);
 }

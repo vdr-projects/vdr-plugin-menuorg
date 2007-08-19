@@ -27,17 +27,17 @@ CustomMainMenuItem::CustomMainMenuItem(cOsdItem* osdItem)
     _osdItem = osdItem;
 }
 
-bool CustomMainMenuItem::IsCustomMenuItem()
+bool CustomMainMenuItem::IsCustomOsdItem()
 {
     return true;
 }
 
-bool CustomMainMenuItem::IsPluginMenuItem()
+bool CustomMainMenuItem::IsPluginItem()
 {
     return false;
 }
 
-cOsdItem* CustomMainMenuItem::CustomMenuItem()
+cOsdItem* CustomMainMenuItem::CustomOsdItem()
 {
     return _osdItem; 
 }

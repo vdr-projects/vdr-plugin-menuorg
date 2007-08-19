@@ -21,7 +21,7 @@
  */
 
 #include "systemmenuitem.h"
-#include <vdr/menuorgpatch.h>
+#include <vdr/mainmenuitemsprovider.h>
 #include "custommainmenuitem.h"
 
 SystemMenuItem::SystemMenuItem(std::string itemText, eOSState itemState)
@@ -30,7 +30,7 @@ SystemMenuItem::SystemMenuItem(std::string itemText, eOSState itemState)
     _itemState = itemState;
 }
 
-MenuOrgPatch::IMainMenuItem* SystemMenuItem::CreateMainMenuItem()
+IMenuItemDefinition* SystemMenuItem::CreateMenuItemDefinition()
 {
     if(_itemState != osUser1)
         return new CustomMainMenuItem(new cOsdItem(tr(_itemText.c_str()), _itemState));

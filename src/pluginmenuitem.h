@@ -33,7 +33,7 @@ class PluginMenuItem: public MenuNode
 
     public:
         PluginMenuItem(const char* pluginMainMenuEntry, int pluginIndex);
-        MenuOrgPatch::IMainMenuItem* CreateMainMenuItem();
+        IMenuItemDefinition* CreateMenuItemDefinition();
 };
 
 #endif

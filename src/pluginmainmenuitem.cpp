@@ -28,17 +28,17 @@ PluginMainMenuItem::PluginMainMenuItem(const char* mainMenuEntry, int pluginInde
     _pluginIndex = pluginIndex; 
 }
 
-bool PluginMainMenuItem::IsCustomMenuItem()
+bool PluginMainMenuItem::IsCustomOsdItem()
 {
     return false;
 }
 
-bool PluginMainMenuItem::IsPluginMenuItem()
+bool PluginMainMenuItem::IsPluginItem()
 {
     return true;
 }
 
-cOsdItem* PluginMainMenuItem::CustomMenuItem()
+cOsdItem* PluginMainMenuItem::CustomOsdItem()
 {
     return NULL;
 }

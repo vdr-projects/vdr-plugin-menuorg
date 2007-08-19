@@ -23,18 +23,18 @@
 #ifndef ___CUSTOMMAINMENUITEM_H
 #define ___CUSTOMMAINMENUITEM_H
 
-#include <vdr/menuorgpatch.h>
+#include <vdr/mainmenuitemsprovider.h>
 
-class CustomMainMenuItem: public MenuOrgPatch::IMainMenuItem
+class CustomMainMenuItem: public IMenuItemDefinition
 {
     private:
         cOsdItem* _osdItem;
 
     public:
         CustomMainMenuItem(cOsdItem* osdItem);
-        virtual bool IsCustomMenuItem();
-        virtual bool IsPluginMenuItem();
-        virtual cOsdItem* CustomMenuItem();
+        virtual bool IsCustomOsdItem();
+        virtual bool IsPluginItem();
+        virtual cOsdItem* CustomOsdItem();
         virtual const char* PluginMenuEntry();
         virtual int PluginIndex();
 };

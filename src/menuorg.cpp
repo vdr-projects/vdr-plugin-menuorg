@@ -23,7 +23,7 @@
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 #include <vdr/tools.h>
-#include <vdr/menuorgpatch.h>
+#include <vdr/mainmenuitemsprovider.h>
 #include <vector>
 #include <iostream>
 #include <string>
@@ -35,7 +35,6 @@
 #include "i18n.h"
 
 using namespace std;
-using namespace MenuOrgPatch;
 
 MenuOrgPlugin::MenuOrgPlugin(void)
 {
@@ -142,7 +141,7 @@ bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)
 {
-    if (strcmp(Id, "MenuOrgPatch-v0.1::MainMenuItemsProvider") == 0) 
+    if (strcmp(Id, MENU_ITEMS_PROVIDER_SERVICE_ID) == 0) 
     {
         if (_subMenuProvider)
         {

@@ -26,8 +26,6 @@
 #include "pluginmenuitem.h"
 #include <vdr/plugin.h>
 
-using namespace MenuOrgPatch;
-
 MainMenuItemsProvider::MainMenuItemsProvider(MenuNode* rootMenu)
 {
      _currentMenu = _rootMenu = rootMenu;
@@ -39,14 +37,14 @@ MainMenuItemsProvider::~MainMenuItemsProvider()
     delete _rootMenu;
 }
 
-MainMenuItemsList* MainMenuItemsProvider::MainMenuItems()
+MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();
 
     for (MenuNodeList::iterator i = _currentMenu->Childs().begin();
       i != _currentMenu->Childs().end(); i++)
     {
-        _currentMainMenuItems.push_back((*i)->CreateMainMenuItem());
+        _currentMainMenuItems.push_back((*i)->CreateMenuItemDefinition());
     }
 
     return &_currentMainMenuItems;
@@ -55,7 +53,7 @@ MainMenuItemsList* MainMenuItemsProvider::MainMenuItems()
 void MainMenuItemsProvider::ResetMainMenuItemsList()
 {
 
-    for( MainMenuItemsList::iterator i = _currentMainMenuItems.begin();
+    for( MenuItemDefinitions::iterator i = _currentMainMenuItems.begin();
       i != _currentMainMenuItems.end(); i++)
     {
        delete *i;
@@ -72,8 +70,8 @@ void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)
 {
     for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)
     {
-        IMainMenuItem* menuItem = _currentMainMenuItems.at(itemIndex);
-        if (menuItem->IsCustomMenuItem() && (menuItem->CustomMenuItem() == item))
+        IMenuItemDefinition* menuItem = _currentMainMenuItems.at(itemIndex);
+        if (menuItem->IsCustomOsdItem() && (menuItem->CustomOsdItem() == item))
         {
             _currentMenu = _currentMenu->Childs().at(itemIndex);
             break;

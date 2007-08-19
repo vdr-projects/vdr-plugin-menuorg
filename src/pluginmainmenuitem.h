@@ -23,9 +23,9 @@
 #ifndef ___PLUGINMAINMENUITEM_H
 #define ___PLUGINMAINMENUITEM_H
 
-#include <vdr/menuorgpatch.h>
+#include <vdr/mainmenuitemsprovider.h>
 
-class PluginMainMenuItem: public MenuOrgPatch::IMainMenuItem
+class PluginMainMenuItem: public IMenuItemDefinition
 {
     private:
         const char* _mainMenuEntry;
@@ -33,9 +33,9 @@ class PluginMainMenuItem: public MenuOrgPatch::IMainMenuItem
 
     public:
         PluginMainMenuItem(const char* mainMenuEntry, int pluginIndex);
-        virtual bool IsCustomMenuItem();
-        virtual bool IsPluginMenuItem();
-        virtual cOsdItem* CustomMenuItem();
+        virtual bool IsCustomOsdItem();
+        virtual bool IsPluginItem();
+        virtual cOsdItem* CustomOsdItem();
         virtual const char* PluginMenuEntry();
         virtual int PluginIndex();
 };

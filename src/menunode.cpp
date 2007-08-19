@@ -58,7 +58,7 @@ void MenuNode::SetParent(MenuNode* parent)
     _parent = parent;
 }
 
-MenuOrgPatch::IMainMenuItem* MenuNode::CreateMainMenuItem()
+IMenuItemDefinition* MenuNode::CreateMenuItemDefinition()
 {
     return NULL;
 }
