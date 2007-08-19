@@ -22,7 +22,7 @@
 
 #include "systemmenunode.h"
 #include <vdr/mainmenuitemsprovider.h>
-#include "custommainmenuitem.h"
+#include "osditemdefinition.h"
 
 SystemMenuNode::SystemMenuNode(std::string text, eOSState state)
 {
@@ -32,5 +32,5 @@ SystemMenuNode::SystemMenuNode(std::string text, eOSState state)
 
 IMenuItemDefinition* SystemMenuNode::CreateMenuItemDefinition()
 {
-    return new CustomMainMenuItem(new cOsdItem(_text.c_str(), _state));
+    return new OsdItemDefinition(new cOsdItem(_text.c_str(), _state));
 }

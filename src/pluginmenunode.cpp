@@ -22,7 +22,7 @@
 
 #include "pluginmenunode.h"
 #include <vdr/mainmenuitemsprovider.h>
-#include "pluginmainmenuitem.h"
+#include "pluginitemdefinition.h"
 
 PluginMenuNode::PluginMenuNode(const char* pluginMainMenuEntry, int pluginIndex)
 {
@@ -32,5 +32,5 @@ PluginMenuNode::PluginMenuNode(const char* pluginMainMenuEntry, int pluginIndex)
 
 IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
 {
-    return new PluginMainMenuItem(_pluginMainMenuEntry, _pluginIndex);
+    return new PluginItemDefinition(_pluginMainMenuEntry, _pluginIndex);
 }

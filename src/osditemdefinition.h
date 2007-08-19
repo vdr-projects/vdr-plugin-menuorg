@@ -20,18 +20,18 @@
  *
  */
 
-#ifndef ___CUSTOMMAINMENUITEM_H
-#define ___CUSTOMMAINMENUITEM_H
+#ifndef ___OSDITEMDEFINITION_H
+#define ___OSDITEMDEFINITION_H
 
 #include <vdr/mainmenuitemsprovider.h>
 
-class CustomMainMenuItem: public IMenuItemDefinition
+class OsdItemDefinition: public IMenuItemDefinition
 {
     private:
         cOsdItem* _osdItem;
 
     public:
-        CustomMainMenuItem(cOsdItem* osdItem);
+        OsdItemDefinition(cOsdItem* osdItem);
         virtual bool IsCustomOsdItem();
         virtual bool IsPluginItem();
         virtual cOsdItem* CustomOsdItem();

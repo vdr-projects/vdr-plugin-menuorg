@@ -20,24 +20,34 @@
  *
  */
 
-#ifndef ___PLUGINMAINMENUITEM_H
-#define ___PLUGINMAINMENUITEM_H
+#include "osditemdefinition.h"
 
-#include <vdr/mainmenuitemsprovider.h>
-
-class PluginMainMenuItem: public IMenuItemDefinition
+OsdItemDefinition::OsdItemDefinition(cOsdItem* osdItem)
 {
-    private:
-        const char* _mainMenuEntry;
-        int _pluginIndex;
+    _osdItem = osdItem;
+}
 
-    public:
-        PluginMainMenuItem(const char* mainMenuEntry, int pluginIndex);
-        virtual bool IsCustomOsdItem();
-        virtual bool IsPluginItem();
-        virtual cOsdItem* CustomOsdItem();
-        virtual const char* PluginMenuEntry();
-        virtual int PluginIndex();
-};
+bool OsdItemDefinition::IsCustomOsdItem()
+{
+    return true;
+}
 
-#endif
+bool OsdItemDefinition::IsPluginItem()
+{
+    return false;
+}
+
+cOsdItem* OsdItemDefinition::CustomOsdItem()
+{
+    return _osdItem; 
+}
+
+const char* OsdItemDefinition::PluginMenuEntry()
+{
+    return NULL;
+}
+
+int OsdItemDefinition::PluginIndex()
+{
+    return 0;
+}

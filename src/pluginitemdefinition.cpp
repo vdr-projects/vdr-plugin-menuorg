@@ -20,34 +20,35 @@
  *
  */
 
-#include "custommainmenuitem.h"
+#include "pluginitemdefinition.h"
 
-CustomMainMenuItem::CustomMainMenuItem(cOsdItem* osdItem)
+PluginItemDefinition::PluginItemDefinition(const char* mainMenuEntry, int pluginIndex)
 {
-    _osdItem = osdItem;
+    _mainMenuEntry = mainMenuEntry;
+    _pluginIndex = pluginIndex; 
 }
 
-bool CustomMainMenuItem::IsCustomOsdItem()
-{
-    return true;
-}
-
-bool CustomMainMenuItem::IsPluginItem()
+bool PluginItemDefinition::IsCustomOsdItem()
 {
     return false;
 }
 
-cOsdItem* CustomMainMenuItem::CustomOsdItem()
+bool PluginItemDefinition::IsPluginItem()
 {
-    return _osdItem; 
+    return true;
 }
 
-const char* CustomMainMenuItem::PluginMenuEntry()
+cOsdItem* PluginItemDefinition::CustomOsdItem()
 {
     return NULL;
 }
 
-int CustomMainMenuItem::PluginIndex()
+const char* PluginItemDefinition::PluginMenuEntry()
 {
-    return 0;
+    return _mainMenuEntry;
+}
+
+int PluginItemDefinition::PluginIndex()
+{
+    return _pluginIndex;
 }

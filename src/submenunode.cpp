@@ -22,7 +22,7 @@
 
 #include "submenunode.h"
 #include <vdr/osdbase.h>
-#include "custommainmenuitem.h"
+#include "osditemdefinition.h"
 
 SubMenuNode::SubMenuNode(std::string text)
 {
@@ -31,5 +31,5 @@ SubMenuNode::SubMenuNode(std::string text)
 
 IMenuItemDefinition* SubMenuNode::CreateMenuItemDefinition()
 {
-    return new CustomMainMenuItem(new cOsdItem(tr(_text.c_str()), osUser1));
+    return new OsdItemDefinition(new cOsdItem(tr(_text.c_str()), osUser1));
 }
