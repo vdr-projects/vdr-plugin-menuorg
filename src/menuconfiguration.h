@@ -41,7 +41,7 @@ class MenuConfiguration
         void ParseElement(const xmlpp::Element* a_node, MenuNode* menuNode);
         eOSState MenuTextToVdrState(std::string menuText);
         bool FindPluginByName(std::string name, const char** mainMenuEntry, int& pluginIndex);
-        MenuNode* AddSubMenuItem(std::string name, MenuNode* menu);
+        MenuNode* AddSubMenuNode(std::string name, MenuNode* menu);
         void AddSystemMenuNode(std::string name, MenuNode* menu);
         void AddPluginMenuNode(std::string pluginName, MenuNode* menu);
 };

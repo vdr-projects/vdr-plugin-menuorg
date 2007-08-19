@@ -21,7 +21,7 @@
  */
 
 #include "mainmenuitemsprovider.h"
-#include "submenuitem.h"
+#include "submenunode.h"
 #include "systemmenunode.h"
 #include "pluginmenunode.h"
 #include <vdr/plugin.h>

@@ -20,9 +20,20 @@
  *
  */
 
-#include "submenuitem.h"
+#ifndef ___SUBMENUNODE_H
+#define ___SUBMENUNODE_H
 
-SubMenuItem::SubMenuItem(std::string itemText)
-  :SystemMenuNode(itemText, osUser1)
+#include "menunode.h"
+#include <string>
+
+class SubMenuNode: public MenuNode
 {
-}
+    private:
+        std::string _text;
+
+    public:
+        SubMenuNode(std::string text);
+        IMenuItemDefinition* CreateMenuItemDefinition();
+};
+
+#endif

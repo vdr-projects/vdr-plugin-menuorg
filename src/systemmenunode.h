@@ -24,8 +24,8 @@
 #define ___SYSTEMMENUNODE_H
 
 #include "menunode.h"
-#include <vdr/osdbase.h>
 #include <string>
+#include <vdr/osdbase.h>
 
 class SystemMenuNode: public MenuNode
 {

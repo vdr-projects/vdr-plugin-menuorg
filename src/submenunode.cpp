@@ -20,16 +20,16 @@
  *
  */
 
-#ifndef ___SUBMENUITEM_H
-#define ___SUBMENUITEM_H
+#include "submenunode.h"
+#include <vdr/osdbase.h>
+#include "custommainmenuitem.h"
 
-#include "systemmenunode.h"
-#include <string>
-
-class SubMenuItem: public SystemMenuNode
+SubMenuNode::SubMenuNode(std::string text)
 {
-    public:
-        SubMenuItem(std::string itemText);
-};
+    _text = text;
+}
 
-#endif
+IMenuItemDefinition* SubMenuNode::CreateMenuItemDefinition()
+{
+    return new CustomMainMenuItem(new cOsdItem(tr(_text.c_str()), osUser1));
+}

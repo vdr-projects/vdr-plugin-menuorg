@@ -25,7 +25,7 @@
 #include <exception>
 #include <vdr/plugin.h>
 #include "systemmenunode.h"
-#include "submenuitem.h"
+#include "submenunode.h"
 #include "pluginmenunode.h"
 
 using namespace xmlpp;
@@ -90,7 +90,7 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
 
                 if ( type == "menu")
                 {
-                    MenuNode* subMenu = AddSubMenuItem(name, menuNode);
+                    MenuNode* subMenu = AddSubMenuNode(name, menuNode);
                     ParseElement(childElement, subMenu);
                 }
                 else if (type == "system")
@@ -106,9 +106,9 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
     }
 }
 
-MenuNode* MenuConfiguration::AddSubMenuItem(string name, MenuNode* menu)
+MenuNode* MenuConfiguration::AddSubMenuNode(string name, MenuNode* menu)
 {
-    return menu->AddChild(new SubMenuItem(name));
+    return menu->AddChild(new SubMenuNode(name));
 }
 
 void MenuConfiguration::AddSystemMenuNode(string name, MenuNode* menu)
