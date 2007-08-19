@@ -1,31 +1,4 @@
-<!--
--   VDR Menu-Configuration File
--
--
--   Example:
--
- <menus>
-    <system name="Schedule" />
-    <system name="Channels" />
-    <system name="Timers" />
-    <system name="Recordings" />
-    <menu name="System">
-        <system name="Setup" />
-        <system name="Commands" />
-        <plugin name="setup" />
-        <command name="myCommand1" execute="/usr/bin/mycommand1" />
-        <command name="myCommand2" execute="/usr/bin/mycommand2" confirm="yes" />
-        <plugin name="epgsearch" />
-        <menu name="mySubSubMenu">
-            ...
-        </menu>
-    </menu>
-     <menu name="Suche">
-        <plugin name="epgsearch" />
-        ...
-    </menu>
- </menus>
--->
+<?xml version="1.0" encoding="UTF-8"?>
 <menus>
     <system name="Schedule" />
     <system name="Channels" />
