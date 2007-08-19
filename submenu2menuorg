@@ -20,7 +20,7 @@
 # $Id$
 #
 
-usage="$0 submenu-file menuorg-file"
+usage="usage: $0 submenu-file menuorg-file"
 
 if [ a"$1" ==  a"" ] || ! [ -f $1 ]; then echo $usage && exit 1; fi
 if [ a"$2" ==  a"" ]; then echo $usage && exit 1; fi
