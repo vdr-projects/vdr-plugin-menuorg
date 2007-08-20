@@ -19,7 +19,7 @@
    $Id$
 -->
 
-<!ELEMENT menu ((menu | system | plugin)+)>
+<!ELEMENT menu ((menu | system | plugin | command)+)>
 <!ATTLIST menu
     name CDATA #REQUIRED
 >

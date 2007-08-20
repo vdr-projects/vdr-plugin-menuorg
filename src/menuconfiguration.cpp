@@ -35,7 +35,7 @@ using namespace std;
 
 const string MenuConfiguration::_dtd = 
   "<!ELEMENT menus ((menu | system | plugin | command)+)>\n"
-  "<!ELEMENT menu ((menu | system | plugin)+)>\n"
+  "<!ELEMENT menu ((menu | system | plugin | command)+)>\n"
   "<!ATTLIST menu name CDATA #REQUIRED>\n"
   "<!ELEMENT system EMPTY>\n"
   "<!ATTLIST system name CDATA #REQUIRED>\n"
