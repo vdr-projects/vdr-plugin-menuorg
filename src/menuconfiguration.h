@@ -47,6 +47,7 @@ class MenuConfiguration
         void AddSystemMenuNode(std::string name, MenuNode* menu);
         void AddPluginMenuNode(std::string pluginName, MenuNode* menu);
         void AddUnconfiguredPlugins(MenuNode* menu);
+        void AddPluginMenuNode(std::string name, std::string command, bool confirm, MenuNode* menu);
 };
 
 #endif 

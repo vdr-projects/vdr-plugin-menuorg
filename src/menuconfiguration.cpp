@@ -28,6 +28,7 @@
 #include "systemmenunode.h"
 #include "submenunode.h"
 #include "pluginmenunode.h"
+#include "commandmenunode.h"
 
 using namespace xmlpp;
 using namespace std;
@@ -109,6 +110,14 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
                 else if (type == "plugin")
                 {
                     AddPluginMenuNode(name, menuNode);
+                }
+                else if (type == "command")
+                {
+                    string execute = childElement->get_attribute("execute")->get_value();
+                    const xmlpp::Attribute* confirmAttribute = childElement->get_attribute("confirm");
+                    bool confirm = confirmAttribute ? (confirmAttribute->get_value() == "yes") : false;
+
+                    AddPluginMenuNode(name, execute, confirm, menuNode);
                 }
             }
         }
@@ -203,4 +212,9 @@ void MenuConfiguration::AddUnconfiguredPlugins(MenuNode* menu)
         }
         i++;
     }
+}
+
+void MenuConfiguration::AddPluginMenuNode(string name, string command, bool confirm, MenuNode* menu)
+{
+    menu->AddChild(new CommandMenuNode(name, command, confirm));
 }

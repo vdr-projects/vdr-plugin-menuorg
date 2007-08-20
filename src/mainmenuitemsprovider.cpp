@@ -68,14 +68,10 @@ void MainMenuItemsProvider::EnterRootMenu()
 
 void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)
 {
-    for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)
+    int itemIndex = IndexOfCustomOsdItem(item);
+    if (itemIndex >= 0)
     {
-        IMenuItemDefinition* menuItem = _currentMainMenuItems.at(itemIndex);
-        if (menuItem->IsCustomOsdItem() && (menuItem->CustomOsdItem() == item))
-        {
-            _currentMenu = _currentMenu->Childs().at(itemIndex);
-            break;
-        }
+        _currentMenu = _currentMenu->Childs().at(itemIndex);
     }
 }
 
@@ -90,4 +86,26 @@ bool MainMenuItemsProvider::LeaveSubMenu()
     {
         return false;
     }
+}
+
+cOsdMenu* MainMenuItemsProvider::Execute(cOsdItem* item)
+{
+    int itemIndex = IndexOfCustomOsdItem(item);
+    if (itemIndex >= 0)
+    {
+         return _currentMenu->Childs().at(itemIndex)->Execute();
+    }
+}
+
+int MainMenuItemsProvider::IndexOfCustomOsdItem(cOsdItem* item)
+{
+    for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)
+    {
+        IMenuItemDefinition* menuItem = _currentMainMenuItems.at(itemIndex);
+        if (menuItem->IsCustomOsdItem() && (menuItem->CustomOsdItem() == item))
+        {
+            return itemIndex;
+        }
+    }
+    return -1;
 }

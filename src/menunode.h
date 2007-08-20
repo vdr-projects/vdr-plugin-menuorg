@@ -27,6 +27,7 @@
 
 class IMenuItemDefinition;
 class MenuNode;
+class cOsdMenu;
 
 typedef std::vector<MenuNode*> MenuNodeList;
 
@@ -46,6 +47,7 @@ class MenuNode
         MenuNodeList& Childs();
         MenuNode* AddChild(MenuNode* child);
         virtual IMenuItemDefinition* CreateMenuItemDefinition();
+        virtual cOsdMenu* Execute();
 };
 
 #endif

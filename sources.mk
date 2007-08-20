@@ -1,4 +1,5 @@
 SRCS = \
+  src/commandmenunode.cpp \
   src/mainmenuitemsprovider.cpp \
   src/menuconfiguration.cpp \
   src/menunode.cpp \

@@ -60,15 +60,16 @@ Menu file format
 The menu configuration file, is a simple XML file and has to conform to it's
 syntax rules. The root node always is <menus>.
 
-There are only three kinds of menu items described by the following XML tags:
+There are only four kinds of menu items described by the following XML tags:
 
-   <system> : System menu items, like the channels list or the timers
-   <plugin> : Plug-in menu items
-   <menu>   : A sub menu
+   <system>  : System menu items, like the channels list or the timers
+   <plugin>  : Plug-in menu items
+   <menu>    : A sub menu
+   <command> : An external command to be excuted, similar to VDR's commands.conf
    
-In the menu hierarchy <system> and <plug-in> are leaf nodes, whereas <menu> is
-an internal node. <menu> may contain any number of <system>, <plugin> or <menu>
-nodes.
+In the menu hierarchy <system>, <plug-in> and <command> are leaf nodes, whereas
+<menu> is an internal node. <menu> may contain any number of <system>, <plugin>,
+<command> or <menu> nodes.
 
 Each node is described by a name attribute. For <system> nodes, the following
 names are possible:
@@ -82,8 +83,16 @@ names are possible:
 
 The name of a <plugin> node describes the plug-ins name, not it's main menu text.
 
-With the name attribute in <menu> nodes, the main menu title of this sub menu
-will be set.
+With the name attribute in <menu> or <command> nodes, the main menu title of this
+sub menu or command will be set.
+
+Besides the name attribute, a <command> also requires the "execute" attribute,
+which is the command to be executed and an optional "confirm" attribute.
+With confirm="yes", you will be asked to press OK before executing the command
+or abort with any other key.
+
+e.g.:
+    <command name="Free Disk Space" execute="df -h" confirm="yes" />
 
 <system> items not configured in the menu configuration will not be visible in
 VDR's OSD. Plug-ins that are not configured in the xml file, will be shown
@@ -120,5 +129,6 @@ e.g.:
             <system name="Commands" />
             <plug-in name="sysinfo" />
             <plug-in name="femon" />
+            <command name="CPU-Info" confirm="yes" execute="cat /proc/cpuinfo" />
         </menu>
     </menus>

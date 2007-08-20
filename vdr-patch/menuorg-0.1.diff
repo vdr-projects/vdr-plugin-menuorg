@@ -1,7 +1,7 @@
 diff -Nur vdr-1.4.7/mainmenuitemsprovider.h vdr-1.4.7.patched/mainmenuitemsprovider.h
 --- vdr-1.4.7/mainmenuitemsprovider.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.4.7.patched/mainmenuitemsprovider.h	2007-08-19 21:28:32.000000000 +0200
-@@ -0,0 +1,55 @@
++++ vdr-1.4.7.patched/mainmenuitemsprovider.h	2007-08-21 01:08:25.000000000 +0200
+@@ -0,0 +1,57 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
 + * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
@@ -30,6 +30,7 @@ diff -Nur vdr-1.4.7/mainmenuitemsprovider.h vdr-1.4.7.patched/mainmenuitemsprovi
 +#include <vector>
 +
 +class cOsdItem;
++class cOsdMenu;
 +
 +class IMenuItemDefinition
 +{
@@ -54,12 +55,13 @@ diff -Nur vdr-1.4.7/mainmenuitemsprovider.h vdr-1.4.7.patched/mainmenuitemsprovi
 +        virtual void EnterRootMenu() = 0;
 +        virtual void EnterSubMenu(cOsdItem* item) = 0;
 +        virtual bool LeaveSubMenu() = 0;
++        virtual cOsdMenu* Execute(cOsdItem* item) = 0;
 +};
 +
 +#endif //__MAINMENUITEMSPROVIDER_H
 diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
 --- vdr-1.4.7/menu.c	2006-12-02 12:12:02.000000000 +0100
-+++ vdr-1.4.7.patched/menu.c	2007-08-19 21:28:32.000000000 +0200
++++ vdr-1.4.7.patched/menu.c	2007-08-21 01:08:25.000000000 +0200
 @@ -28,6 +28,7 @@
  #include "timers.h"
  #include "transfer.h"
@@ -113,7 +115,7 @@ diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
    Update(true);
  
    Display();
-@@ -2966,6 +2991,32 @@
+@@ -2966,6 +2991,41 @@
                           state = osEnd;
                         }
                         break;
@@ -135,11 +137,20 @@ diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
 +                          }
 +                       }
 +                       break;
-+    case osUser1:       {
++    case osUser1:      {
 +                          if (MenuOrgPatch::IsCustomMenuAvailable()) {
 +                            MenuOrgPatch::EnterSubMenu(Get(Current()));
 +                            Set();
 +                            return osContinue;
++                          }
++                       }
++                       break;
++    case osUser2:      {
++                          if (MenuOrgPatch::IsCustomMenuAvailable()) {
++                            cOsdMenu* osdMenu = MenuOrgPatch::Execute(Get(Current()));
++                            if (osdMenu)
++                              return AddSubMenu(osdMenu);
++                            return osEnd;
 +                          }
 +                       }
 +                       break;
@@ -148,8 +159,8 @@ diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
                 case kRed:    if (!HadSubMenu)
 diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
 --- vdr-1.4.7/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.4.7.patched/menuorgpatch.h	2007-08-19 21:28:32.000000000 +0200
-@@ -0,0 +1,91 @@
++++ vdr-1.4.7.patched/menuorgpatch.h	2007-08-21 01:08:25.000000000 +0200
+@@ -0,0 +1,100 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
 + * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
@@ -233,6 +244,15 @@ diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
 +            if (MainMenuItemsProvider())
 +            {
 +                return MainMenuItemsProvider()->MainMenuItems();
++            }
++            return NULL;
++        }
++        
++        static cOsdMenu* Execute(cOsdItem* item)
++        {
++            if (MainMenuItemsProvider())
++            {
++                return MainMenuItemsProvider()->Execute(item);
 +            }
 +            return NULL;
 +        }

@@ -41,9 +41,11 @@ class MainMenuItemsProvider: public IMainMenuItemsProvider
         virtual void EnterRootMenu();
         virtual void EnterSubMenu(cOsdItem* item);
         virtual bool LeaveSubMenu();
+        virtual cOsdMenu* Execute(cOsdItem* item);
 
     private:
         void ResetMainMenuItemsList();
+        int IndexOfCustomOsdItem(cOsdItem* item);
 };
 
 #endif
