@@ -93,32 +93,28 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
         {
             const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name");
 
-            if (nameAttribute)
+            string type = childElement->get_name();
+            string name = nameAttribute->get_value();
+
+            if ( type == "menu")
             {
-                string type = childElement->get_name();
-                string name = nameAttribute->get_value();
-
-                if ( type == "menu")
-                {
-                    MenuNode* subMenu = AddSubMenuNode(name, menuNode);
-                    ParseElement(childElement, subMenu);
-                }
-                else if (type == "system")
-                {
-                    AddSystemMenuNode(name, menuNode);
-                }
-                else if (type == "plugin")
-                {
-                    AddPluginMenuNode(name, menuNode);
-                }
-                else if (type == "command")
-                {
-                    string execute = childElement->get_attribute("execute")->get_value();
-                    const xmlpp::Attribute* confirmAttribute = childElement->get_attribute("confirm");
-                    bool confirm = confirmAttribute ? (confirmAttribute->get_value() == "yes") : false;
-
+                MenuNode* subMenu = AddSubMenuNode(name, menuNode);
+                ParseElement(childElement, subMenu);
+            }
+            else if (type == "system")
+            {
+                AddSystemMenuNode(name, menuNode);
+            }
+            else if (type == "plugin")
+            {
+                AddPluginMenuNode(name, menuNode);
+            }
+            else if (type == "command")
+            {
+                string execute = childElement->get_attribute("execute")->get_value();
+                const xmlpp::Attribute* confirmAttribute = childElement->get_attribute("confirm");
+                bool confirm = confirmAttribute ? (confirmAttribute->get_value() == "yes") : false;
                     AddPluginMenuNode(name, execute, confirm, menuNode);
-                }
             }
         }
     }
