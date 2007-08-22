@@ -28,7 +28,9 @@
 #include <vdr/osdbase.h>
 
 namespace xmlpp { class Element; }
+
 class MenuNode;
+class cPlugin;
 
 class MenuConfiguration
 {
@@ -42,12 +44,13 @@ class MenuConfiguration
     private:
         void ParseElement(const xmlpp::Element* a_node, MenuNode* menuNode);
         eOSState MenuTextToVdrState(std::string menuText);
-        bool FindPluginByName(std::string name, const char** mainMenuEntry, int& pluginIndex);
+        bool FindPluginByName(std::string name, cPlugin*& plugin, int& pluginIndex);
         MenuNode* AddSubMenuNode(std::string name, MenuNode* menu);
         void AddSystemMenuNode(std::string name, MenuNode* menu);
         void AddPluginMenuNode(std::string pluginName, MenuNode* menu);
+        void AddPluginMenuNode(cPlugin* plugin, int pluginIndex, MenuNode* menu);
         void AddUnconfiguredPlugins(MenuNode* menu);
-        void AddPluginMenuNode(std::string name, std::string command, bool confirm, MenuNode* menu);
+        void AddCommandMenuNode(std::string name, std::string command, bool confirm, MenuNode* menu);
 };
 
 #endif 

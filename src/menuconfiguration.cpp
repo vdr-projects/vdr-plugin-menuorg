@@ -29,6 +29,7 @@
 #include "submenunode.h"
 #include "pluginmenunode.h"
 #include "commandmenunode.h"
+#include "childlock.h"
 
 using namespace xmlpp;
 using namespace std;
@@ -114,7 +115,7 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
                 string execute = childElement->get_attribute("execute")->get_value();
                 const xmlpp::Attribute* confirmAttribute = childElement->get_attribute("confirm");
                 bool confirm = confirmAttribute ? (confirmAttribute->get_value() == "yes") : false;
-                    AddPluginMenuNode(name, execute, confirm, menuNode);
+                    AddCommandMenuNode(name, execute, confirm, menuNode);
             }
         }
     }
@@ -127,18 +128,21 @@ MenuNode* MenuConfiguration::AddSubMenuNode(string name, MenuNode* menu)
 
 void MenuConfiguration::AddSystemMenuNode(string name, MenuNode* menu)
 {
-    menu->AddChild(new SystemMenuNode(name, MenuTextToVdrState(name)));
+    if (!ChildLock::IsMenuHidden(name.c_str()))
+    {
+        menu->AddChild(new SystemMenuNode(name, MenuTextToVdrState(name)));
+    }
 }
 
 void MenuConfiguration::AddPluginMenuNode(string pluginName, MenuNode* menu)
 {
-    const char* pluginMainMenuEntry;
     int pluginIndex;
+    cPlugin* plugin;
 
-    if (FindPluginByName(pluginName, &pluginMainMenuEntry, pluginIndex))
+    if (FindPluginByName(pluginName, plugin, pluginIndex))
     {
         _configuredPlugins.push_back(pluginName);
-        menu->AddChild(new PluginMenuNode(pluginMainMenuEntry, pluginIndex));
+        AddPluginMenuNode(plugin, pluginIndex, menu);
     }
 }
 
@@ -172,20 +176,17 @@ eOSState MenuConfiguration::MenuTextToVdrState(string menuText)
         return osContinue;
 }
 
-bool MenuConfiguration::FindPluginByName(string name, const char** mainMenuEntry, int& pluginIndex)
+bool MenuConfiguration::FindPluginByName(string name, cPlugin*& plugin, int& pluginIndex)
 {
     int i = 0;
 
-    while (cPlugin *plugin = cPluginManager::GetPlugin(i))
+    while (cPlugin *currentPlugin = cPluginManager::GetPlugin(i))
     {
-        if (name == plugin->Name()) 
+        if (name == currentPlugin->Name()) 
         {
-            if (const char *item = plugin->MainMenuEntry())
-            {
-                pluginIndex = i;
-                *mainMenuEntry = item;
-                return true;
-            }
+            plugin = currentPlugin;
+            pluginIndex = i;
+            return true;
         }
         i++;
     }
@@ -199,18 +200,26 @@ void MenuConfiguration::AddUnconfiguredPlugins(MenuNode* menu)
 
     while (cPlugin *plugin = cPluginManager::GetPlugin(i))
     {
-        if (const char *item = plugin->MainMenuEntry())
+        if (find(_configuredPlugins.begin(), _configuredPlugins.end(), plugin->Name()) == _configuredPlugins.end())
         {
-            if (find(_configuredPlugins.begin(), _configuredPlugins.end(), plugin->Name()) == _configuredPlugins.end())
-            {
-                menu->AddChild(new PluginMenuNode(item, i));
-            }
+            AddPluginMenuNode(plugin, i, menu);
         }
         i++;
     }
 }
 
-void MenuConfiguration::AddPluginMenuNode(string name, string command, bool confirm, MenuNode* menu)
+void MenuConfiguration::AddCommandMenuNode(string name, string command, bool confirm, MenuNode* menu)
 {
     menu->AddChild(new CommandMenuNode(name, command, confirm));
+}
+
+void MenuConfiguration::AddPluginMenuNode(cPlugin* plugin, int pluginIndex, MenuNode* menu)
+{
+    if (const char *item = plugin->MainMenuEntry())
+    {
+        if (!ChildLock::IsPluginHidden(plugin))
+        {
+            menu->AddChild(new PluginMenuNode(item, pluginIndex));
+        }
+    }
 }

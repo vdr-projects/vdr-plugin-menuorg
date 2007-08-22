@@ -25,6 +25,7 @@
 #include "systemmenunode.h"
 #include "pluginmenunode.h"
 #include <vdr/plugin.h>
+#include "childlock.h"
 
 MainMenuItemsProvider::MainMenuItemsProvider(MenuNode* rootMenu)
 {
@@ -71,7 +72,10 @@ void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)
     int itemIndex = IndexOfCustomOsdItem(item);
     if (itemIndex >= 0)
     {
-        _currentMenu = _currentMenu->Childs().at(itemIndex);
+        if (!ChildLock::IsMenuProtected(item->Text()))
+        {
+            _currentMenu = _currentMenu->Childs().at(itemIndex);
+        }
     }
 }
 
@@ -93,7 +97,10 @@ cOsdMenu* MainMenuItemsProvider::Execute(cOsdItem* item)
     int itemIndex = IndexOfCustomOsdItem(item);
     if (itemIndex >= 0)
     {
-         return _currentMenu->Childs().at(itemIndex)->Execute();
+        if (!ChildLock::IsMenuProtected(item->Text()))
+        {
+            return _currentMenu->Childs().at(itemIndex)->Execute();
+        }
     }
 }
 

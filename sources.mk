@@ -1,4 +1,5 @@
 SRCS = \
+  src/childlock.cpp \
   src/commandmenunode.cpp \
   src/mainmenuitemsprovider.cpp \
   src/menuconfiguration.cpp \
