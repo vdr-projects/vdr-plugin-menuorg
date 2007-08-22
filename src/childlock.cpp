@@ -79,7 +79,7 @@ IChildLockService* ChildLock::ChildLockService()
     {
         IChildLockService* childLockService;
 
-        if (cPluginManager::CallFirstService(CHILDLOCKSERVICEID, &childLockService))
+        if (cPluginManager::CallFirstService(IChildLockService::ServiceId, &childLockService))
         {
             _childLockService = childLockService;
         }

@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -32,10 +32,11 @@ class cTimer;
 class cEvent;
 class cOsdObject;
 
-#define CHILDLOCKSERVICEID "ChildLockService-v0.1::ChildLockService"
-
 class IChildLockService
 {
+    public:
+        static const char* ServiceId;
+
     public:
         virtual ~IChildLockService() {};
         virtual bool IsUnlocked() = 0;
@@ -49,5 +50,7 @@ class IChildLockService
         virtual bool IsPluginHidden(cPlugin* Plugin) = 0;
         virtual bool IsRecordingHidden(const cRecording* Recording, const char* Name, const char* Base, bool isDirectory) = 0;
 };
+
+const char* IChildLockService::ServiceId = "ChildLockService-v0.1::ChildLockService";
 
 #endif
