@@ -46,7 +46,7 @@ menuorg.
 
 Example usage:
 
-    submenu2menuorg /var/lib/vdr/plugins/MainMenu.conf /var/lib/vdr/plugins/menuorg.xml
+    vdr-submenu2menuorg /var/lib/vdr/plugins/MainMenu.conf /var/lib/vdr/plugins/menuorg.xml
 
 Attention: Your destination file will be overwritten without any warning!
 
