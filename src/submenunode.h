@@ -34,6 +34,7 @@ class SubMenuNode: public MenuNode
     public:
         SubMenuNode(std::string text);
         IMenuItemDefinition* CreateMenuItemDefinition();
+        bool IsHidden();
 };
 
 #endif

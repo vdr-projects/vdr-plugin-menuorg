@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -25,29 +25,6 @@
 #include "childlockservice.h"
 
 IChildLockService* ChildLock::_childLockService = NULL;
-bool ChildLock::IsMenuProtected(const char* MenuName)
-{
-    if (IChildLockService* childLockService = ChildLockService())
-    {
-        return childLockService->IsMenuProtected(MenuName);
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool ChildLock::IsPluginProtected(cPlugin* Plugin)
-{
-    if (IChildLockService* childLockService = ChildLockService())
-    {
-        return childLockService->IsPluginProtected(Plugin);
-    }
-    else
-    {
-        return false;
-    }
-}
 
 bool ChildLock::IsMenuHidden(const char* MenuName)
 {

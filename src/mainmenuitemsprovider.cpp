@@ -45,7 +45,10 @@ MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
     for (MenuNodeList::iterator i = _currentMenu->Childs().begin();
       i != _currentMenu->Childs().end(); i++)
     {
-        _currentMainMenuItems.push_back((*i)->CreateMenuItemDefinition());
+        if (!(*i)->IsHidden())
+        {
+            _currentMainMenuItems.push_back((*i)->CreateMenuItemDefinition());
+        }
     }
 
     return &_currentMainMenuItems;
@@ -72,10 +75,7 @@ void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)
     int itemIndex = IndexOfCustomOsdItem(item);
     if (itemIndex >= 0)
     {
-        if (!ChildLock::IsMenuProtected(item->Text()))
-        {
-            _currentMenu = _currentMenu->Childs().at(itemIndex);
-        }
+        _currentMenu = _currentMenu->Childs().at(itemIndex);
     }
 }
 
@@ -97,10 +97,7 @@ cOsdMenu* MainMenuItemsProvider::Execute(cOsdItem* item)
     int itemIndex = IndexOfCustomOsdItem(item);
     if (itemIndex >= 0)
     {
-        if (!ChildLock::IsMenuProtected(item->Text()))
-        {
-            return _currentMenu->Childs().at(itemIndex)->Execute();
-        }
+        return _currentMenu->Childs().at(itemIndex)->Execute();
     }
 }
 

@@ -36,6 +36,7 @@ class SystemMenuNode: public MenuNode
     public:
         SystemMenuNode(std::string text, eOSState state);
         IMenuItemDefinition* CreateMenuItemDefinition();
+        bool IsHidden();
 };
 
 #endif

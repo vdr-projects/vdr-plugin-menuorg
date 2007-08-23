@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -32,8 +32,6 @@ class ChildLock
         static IChildLockService* _childLockService;
 
     public:
-        static bool IsMenuProtected(const char* MenuName);
-        static bool IsPluginProtected(cPlugin* Plugin);
         static bool IsMenuHidden(const char* MenuName);
         static bool IsPluginHidden(cPlugin* Plugin);
 

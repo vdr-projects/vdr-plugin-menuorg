@@ -67,3 +67,8 @@ cOsdMenu* MenuNode::Execute()
 {
     return NULL;
 }
+
+bool MenuNode::IsHidden()
+{
+    return false;
+}

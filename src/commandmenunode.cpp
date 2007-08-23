@@ -25,6 +25,7 @@
 #include <vdr/interface.h>
 #include <vdr/menu.h>
 #include "osditemdefinition.h"
+#include "childlock.h"
 
 using namespace std;
 
@@ -79,4 +80,9 @@ string CommandMenuNode::ExecuteCommand()
         esyslog("ERROR: can't open pipe for command '%s'", _command.c_str());
     }
     return result;
+}
+
+bool CommandMenuNode::IsHidden()
+{
+    return ChildLock::IsMenuHidden(_text.c_str());
 }

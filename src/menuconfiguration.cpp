@@ -29,7 +29,6 @@
 #include "submenunode.h"
 #include "pluginmenunode.h"
 #include "commandmenunode.h"
-#include "childlock.h"
 
 using namespace xmlpp;
 using namespace std;
@@ -128,10 +127,7 @@ MenuNode* MenuConfiguration::AddSubMenuNode(string name, MenuNode* menu)
 
 void MenuConfiguration::AddSystemMenuNode(string name, MenuNode* menu)
 {
-    if (!ChildLock::IsMenuHidden(name.c_str()))
-    {
-        menu->AddChild(new SystemMenuNode(name, MenuTextToVdrState(name)));
-    }
+    menu->AddChild(new SystemMenuNode(name, MenuTextToVdrState(name)));
 }
 
 void MenuConfiguration::AddPluginMenuNode(string pluginName, MenuNode* menu)
@@ -217,9 +213,6 @@ void MenuConfiguration::AddPluginMenuNode(cPlugin* plugin, int pluginIndex, Menu
 {
     if (const char *item = plugin->MainMenuEntry())
     {
-        if (!ChildLock::IsPluginHidden(plugin))
-        {
-            menu->AddChild(new PluginMenuNode(item, pluginIndex));
-        }
+        menu->AddChild(new PluginMenuNode(item, pluginIndex));
     }
 }

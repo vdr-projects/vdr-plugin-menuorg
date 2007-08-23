@@ -48,6 +48,7 @@ class MenuNode
         MenuNode* AddChild(MenuNode* child);
         virtual IMenuItemDefinition* CreateMenuItemDefinition();
         virtual cOsdMenu* Execute();
+        virtual bool IsHidden();
 };
 
 #endif

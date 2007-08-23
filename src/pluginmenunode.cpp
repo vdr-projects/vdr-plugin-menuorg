@@ -22,7 +22,9 @@
 
 #include "pluginmenunode.h"
 #include <vdr/mainmenuitemsprovider.h>
+#include <vdr/plugin.h>
 #include "pluginitemdefinition.h"
+#include "childlock.h"
 
 PluginMenuNode::PluginMenuNode(const char* pluginMainMenuEntry, int pluginIndex)
 {
@@ -33,4 +35,10 @@ PluginMenuNode::PluginMenuNode(const char* pluginMainMenuEntry, int pluginIndex)
 IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
 {
     return new PluginItemDefinition(_pluginMainMenuEntry, _pluginIndex);
+}
+
+bool PluginMenuNode::IsHidden()
+{
+    cPlugin* plugin = cPluginManager::GetPlugin(_pluginIndex);
+    return ChildLock::IsPluginHidden(plugin);
 }

@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
@@ -37,6 +37,7 @@ class CommandMenuNode: public MenuNode
         CommandMenuNode(std::string text, std::string _command, bool confirm);
         IMenuItemDefinition* CreateMenuItemDefinition();
         cOsdMenu* Execute();
+        bool IsHidden();
 
     private:
         std::string ExecuteCommand();
