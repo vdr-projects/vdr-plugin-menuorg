@@ -17,7 +17,7 @@
             <plugin name="vcd" />
         </menu>
     </menu>
-    <menu name="Suche/Info">
+    <menu name="Search/Info">
         <plugin name="epgsearch" />
         <plugin name="pilot" />
         <plugin name="newsticker" />
@@ -30,7 +30,7 @@
         <plugin name="prefermenu" />
         <plugin name="director" />
     </menu>
-    <menu name="Bilder">
+    <menu name="Images">
         <plugin name="image" />
         <plugin name="osdimage" />
         <plugin name="screenshot" />
@@ -39,12 +39,12 @@
         <plugin name="autotimeredit" />
         <plugin name="sleeptimer" />
     </menu>
-    <menu name="Spiele">
+    <menu name="Games">
         <plugin name="games" />
         <plugin name="solitaire" />
         <plugin name="freecell" />
     </menu>
-    <menu name="Sonstiges">
+    <menu name="Other Plugins">
         <plugin name="clock" />
         <plugin name="vbox" />
         <plugin name="pim" />
