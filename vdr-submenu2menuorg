@@ -31,12 +31,12 @@ echo -n "read the input file... "
 while read line
 do
     menuLevel=`echo $line|cut -d: -f1`
-    kindOfItem=`echo $line|cut -d: -f2`
+    rootOfItem=`echo $line|cut -d: -f2`
     name=`echo $line|cut -d: -f3`
 
-    if [ a"$kindOfItem" != a"" ] && [ "$kindOfItem" != "0" ]
+    if [ a"$rootOfItem" != a"" ] && [ "$rootOfItem" != "0" ]
     then
-        menu[$menuLevel]="${menu[$menuLevel]} ${kindOfItem};$name"
+        menu[$menuLevel]="${menu[$menuLevel]} ${rootOfItem};$name"
     else
         menu[$menuLevel]="${menu[$menuLevel]} $name"
     fi
