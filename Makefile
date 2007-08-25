@@ -25,6 +25,8 @@
 #
 PLUGIN = menuorg
 
+SVNROPOOT ?= svn+e-tobi://e-tobi.net/menuorg
+
 ### The version number of this plugin (taken from the main source file):
 
 VERSION = $(shell grep 'static const char VERSION\[\] =' src/version.h | \
@@ -113,6 +115,9 @@ dist: clean
 	  --exclude .svn --exclude tools $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tar.gz
+        
+release: dist
+	@svn cp -m"release $(VERSION)" $(SVNROOT)/trunk $(SVNROOT)/tags/$(VERSION)
 
 clean:
 	@-rm -f $(BUILD_DEPFILE) $(TESTS_DEPFILE) *.so* *.tar.gz core* *~
