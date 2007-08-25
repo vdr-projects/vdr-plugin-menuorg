@@ -25,7 +25,7 @@
 #
 PLUGIN = menuorg
 
-SVNROPOOT ?= svn+e-tobi://e-tobi.net/menuorg
+SVNROOT ?= svn+e-tobi://e-tobi.net/menuorg
 
 ### The version number of this plugin (taken from the main source file):
 
@@ -117,7 +117,7 @@ dist: clean
 	@echo Distribution package created as $(PACKAGE).tar.gz
         
 release: dist
-	@svn cp -m"release $(VERSION)" $(SVNROOT)/trunk $(SVNROOT)/tags/$(VERSION)
+	svn cp -m"release $(VERSION)" $(SVNROOT)/trunk $(SVNROOT)/tags/$(VERSION)
 
 clean:
 	@-rm -f $(BUILD_DEPFILE) $(TESTS_DEPFILE) *.so* *.tar.gz core* *~
