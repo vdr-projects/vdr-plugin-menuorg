@@ -39,5 +39,10 @@ IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
 
 bool PluginMenuNode::IsHidden()
 {
-    return ChildLock::IsPluginHidden(_plugin);
+    return (!HasMainMenuEntry()) || ChildLock::IsPluginHidden(_plugin);
+}
+
+bool PluginMenuNode::HasMainMenuEntry()
+{
+    return (_plugin->MainMenuEntry() != NULL);
 }

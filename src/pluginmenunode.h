@@ -37,6 +37,9 @@ class PluginMenuNode: public MenuNode
         PluginMenuNode(cPlugin* plugin, int pluginIndex);
         IMenuItemDefinition* CreateMenuItemDefinition();
         bool IsHidden();
+        
+    private:
+        bool HasMainMenuEntry();
 };
 
 #endif

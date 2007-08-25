@@ -138,7 +138,7 @@ void MenuConfiguration::AddPluginMenuNode(string pluginName, MenuNode* menu)
     if (FindPluginByName(pluginName, plugin, pluginIndex))
     {
         _configuredPlugins.push_back(pluginName);
-        AddPluginMenuNode(plugin, pluginIndex, menu);
+        menu->AddChild(new PluginMenuNode(plugin, pluginIndex));
     }
 }
 
@@ -198,7 +198,7 @@ void MenuConfiguration::AddUnconfiguredPlugins(MenuNode* menu)
     {
         if (find(_configuredPlugins.begin(), _configuredPlugins.end(), plugin->Name()) == _configuredPlugins.end())
         {
-            AddPluginMenuNode(plugin, i, menu);
+            menu->AddChild(new PluginMenuNode(plugin, i));
         }
         i++;
     }
@@ -207,12 +207,4 @@ void MenuConfiguration::AddUnconfiguredPlugins(MenuNode* menu)
 void MenuConfiguration::AddCommandMenuNode(string name, string command, bool confirm, MenuNode* menu)
 {
     menu->AddChild(new CommandMenuNode(name, command, confirm));
-}
-
-void MenuConfiguration::AddPluginMenuNode(cPlugin* plugin, int pluginIndex, MenuNode* menu)
-{
-    if (plugin->MainMenuEntry())
-    {
-        menu->AddChild(new PluginMenuNode(plugin, pluginIndex));
-    }
 }

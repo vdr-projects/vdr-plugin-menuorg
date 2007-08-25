@@ -48,7 +48,6 @@ class MenuConfiguration
         MenuNode* AddSubMenuNode(std::string name, MenuNode* menu);
         void AddSystemMenuNode(std::string name, MenuNode* menu);
         void AddPluginMenuNode(std::string pluginName, MenuNode* menu);
-        void AddPluginMenuNode(cPlugin* plugin, int pluginIndex, MenuNode* menu);
         void AddUnconfiguredPlugins(MenuNode* menu);
         void AddCommandMenuNode(std::string name, std::string command, bool confirm, MenuNode* menu);
 };
