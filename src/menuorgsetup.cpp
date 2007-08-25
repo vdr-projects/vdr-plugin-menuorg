@@ -25,19 +25,28 @@
 #include "menuorgsetup.h"
 #include "menusetup.h"
 
-cMenuOrgPluginSetup::cMenuOrgPluginSetup(int *pluginActive, int *getLostPlugins)
+cMenuOrgPluginSetup::cMenuOrgPluginSetup(int* pluginIsActive, int* showLostPlugins)
 {
-    newpluginActive = *pluginActive;
-    newgetLostPlugins = *getLostPlugins;
-    Add(new cMenuEditBoolItem(tr("PluginActive"), &newpluginActive));
-    Add(new cMenuEditBoolItem(tr("Add lost Plugins to MainMenu"), &newgetLostPlugins));
+    // store the pointers for writing values back
+    _pluginIsActive = pluginIsActive;
+    _showLostPlugins = showLostPlugins;
+
+    // make temporary copy the values
+    _newpluginIsActive = *pluginIsActive;
+    _newshowLostPlugins = *showLostPlugins;
+
+    // create the setup entrys
+    Add(new cMenuEditBoolItem(tr("PluginActive"), &_newpluginIsActive));
+    Add(new cMenuEditBoolItem(tr("Add lost Plugins to MainMenu"), &_newshowLostPlugins));
     Add(new cOsdItem(tr("Configure Menu"), osUser1));
 }
 
 void cMenuOrgPluginSetup::Store(void)
 {
-
-
+    _pluginIsActive = &_newpluginIsActive;
+    SetupStore("pluginIsActive", *_pluginIsActive);
+//    SetupStore("pluginIsActive", _pluginIsActive = &_newpluginIsActive);
+//    SetupStore("showLostPlugins", _showLostPlugins = &_newshowLostPlugins);
 }
 
 eOSState cMenuOrgPluginSetup::ProcessKey(eKeys Key)

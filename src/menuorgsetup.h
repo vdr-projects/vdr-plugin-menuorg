@@ -25,8 +25,10 @@
 class cMenuOrgPluginSetup : public cMenuSetupPage
 {
     private:
-        int newpluginActive;
-        int newgetLostPlugins;
+        int _newpluginIsActive;
+        int _newshowLostPlugins;
+        int* _pluginIsActive;
+        int* _showLostPlugins;
 
     protected:
         virtual void Store(void);

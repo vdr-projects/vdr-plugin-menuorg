@@ -43,7 +43,7 @@ MenuOrgPlugin::MenuOrgPlugin(void)
   // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
   // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
     _pluginIsActive = 1;
-    getLostPlugins = 1;
+    _showLostPlugins = 1;
 }
 
 MenuOrgPlugin::~MenuOrgPlugin()
@@ -132,13 +132,23 @@ cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 {
     // Return a setup menu in case the plugin supports one.
-    return new cMenuOrgPluginSetup(&_pluginIsActive, &getLostPlugins);
+    return new cMenuOrgPluginSetup(&_pluginIsActive, &_showLostPlugins);
 }
 
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 {
-    // Parse your own setup parameters and store their values.
-    return false;
+    if (!strcasecmp(Name, "pluginIsActive"))
+    {
+        _pluginIsActive = atoi(Value);
+    }
+    else if(!strcasecmp(Name, "showLostPlugins"))
+    {
+        _showLostPlugins = atoi(Value);
+    }
+    else
+        return false;
+
+    return true;
 }
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)

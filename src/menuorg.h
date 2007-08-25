@@ -34,7 +34,7 @@ class MenuOrgPlugin : public cPlugin
         MainMenuItemsProvider* _subMenuProvider;
         std::string configFile;
         int _pluginIsActive;
-        int getLostPlugins;
+        int _showLostPlugins;
 
     public:
         MenuOrgPlugin(void);
