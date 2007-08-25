@@ -43,10 +43,8 @@ cMenuOrgPluginSetup::cMenuOrgPluginSetup(int* pluginIsActive, int* showLostPlugi
 
 void cMenuOrgPluginSetup::Store(void)
 {
-    _pluginIsActive = &_newpluginIsActive;
-    SetupStore("pluginIsActive", *_pluginIsActive);
-//    SetupStore("pluginIsActive", _pluginIsActive = &_newpluginIsActive);
-//    SetupStore("showLostPlugins", _showLostPlugins = &_newshowLostPlugins);
+    SetupStore("pluginIsActive", *_pluginIsActive = _newpluginIsActive);
+    SetupStore("showLostPlugins", *_showLostPlugins = _newshowLostPlugins);
 }
 
 eOSState cMenuOrgPluginSetup::ProcessKey(eKeys Key)
