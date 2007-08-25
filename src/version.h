@@ -16,13 +16,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id:$
+ * $Id$
  *
  */
 
 #ifndef ___VERSION_H
 #define ___VERSION_H
 
-static const char VERSION[] = "0.1";
+static const char VERSION[] = "0.2";
 
 #endif
