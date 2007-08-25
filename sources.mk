@@ -11,4 +11,6 @@ SRCS = \
   src/pluginmenunode.cpp \
   src/submenunode.cpp \
   src/systemmenunode.cpp \
-  src/i18n.cpp
+  src/i18n.cpp \
+  src/menuorgsetup.cpp \
+  src/menusetup.cpp

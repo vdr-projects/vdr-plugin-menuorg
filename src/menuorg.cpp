@@ -33,6 +33,7 @@
 #include "menuconfiguration.h"
 #include "mainmenuitemsprovider.h"
 #include "i18n.h"
+#include "menuorgsetup.h"
 
 using namespace std;
 
@@ -41,6 +42,8 @@ MenuOrgPlugin::MenuOrgPlugin(void)
   // Initialize any member variables here.
   // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
   // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
+    _pluginIsActive = 1;
+    getLostPlugins = 1;
 }
 
 MenuOrgPlugin::~MenuOrgPlugin()
@@ -129,7 +132,7 @@ cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 {
     // Return a setup menu in case the plugin supports one.
-    return NULL;
+    return new cMenuOrgPluginSetup(&_pluginIsActive, &getLostPlugins);
 }
 
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
@@ -140,7 +143,7 @@ bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)
 {
-    if (strcmp(Id, MENU_ITEMS_PROVIDER_SERVICE_ID) == 0) 
+    if (strcmp(Id, MENU_ITEMS_PROVIDER_SERVICE_ID) == 0 && _pluginIsActive == 1) 
     {
         if (_subMenuProvider)
         {
