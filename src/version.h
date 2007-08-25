@@ -23,6 +23,6 @@
 #ifndef ___VERSION_H
 #define ___VERSION_H
 
-static const char VERSION[] = "0.2";
+static const char VERSION[] = "0.3";
 
 #endif

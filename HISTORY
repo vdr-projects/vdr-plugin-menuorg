@@ -10,3 +10,7 @@ VDR Plugin 'menuorg' Revision History
 - Fixed bug with burn plug-in - cPlugin::MainMenuEntry() should not be called
   before all plug-ins Intialize() and Start() were called.
 
+2007-08-25: Version 0.3
+
+- Fixed charset conversion for menu titles. They will now explicitly be converted
+  to VDR's locale charset falling back to ISO8859-2 on conversion errors.

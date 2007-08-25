@@ -25,7 +25,7 @@ Requirements:
 -------------
 
 The plug-in has been tested with vdr 1.4.7 and 1.5.7. It requires the libxml++2.6
-library.
+and libglibmm-2.4 library.
 
 
 Configuration:

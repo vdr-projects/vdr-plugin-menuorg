@@ -25,6 +25,7 @@
 #include <exception>
 #include <iostream>
 #include <vdr/plugin.h>
+#include <glibmm/convert.h>
 #include "systemmenunode.h"
 #include "submenunode.h"
 #include "pluginmenunode.h"
@@ -94,7 +95,7 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
             const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name");
 
             string type = childElement->get_name();
-            string name = nameAttribute->get_value();
+            string name = UnicodeToLocaleOrIso8859(nameAttribute->get_value());
 
             if ( type == "menu")
             {
@@ -207,4 +208,16 @@ void MenuConfiguration::AddUnconfiguredPlugins(MenuNode* menu)
 void MenuConfiguration::AddCommandMenuNode(string name, string command, bool confirm, MenuNode* menu)
 {
     menu->AddChild(new CommandMenuNode(name, command, confirm));
+}
+
+string MenuConfiguration::UnicodeToLocaleOrIso8859(Glib::ustring unicodeString)
+{
+    try
+    {
+        return Glib::locale_from_utf8(unicodeString);
+    }
+    catch (Glib::ConvertError)
+    {
+        return Glib::convert_with_fallback(unicodeString, "ISO8859-2", "UTF-8");
+    }
 }

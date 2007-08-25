@@ -26,9 +26,9 @@
 #include <string>
 #include <vector>
 #include <vdr/osdbase.h>
+#include <glibmm/ustring.h>
 
 namespace xmlpp { class Element; }
-
 class MenuNode;
 class cPlugin;
 
@@ -50,6 +50,7 @@ class MenuConfiguration
         void AddPluginMenuNode(std::string pluginName, MenuNode* menu);
         void AddUnconfiguredPlugins(MenuNode* menu);
         void AddCommandMenuNode(std::string name, std::string command, bool confirm, MenuNode* menu);
+        std::string UnicodeToLocaleOrIso8859(Glib::ustring unicodeString);
 };
 
 #endif 
