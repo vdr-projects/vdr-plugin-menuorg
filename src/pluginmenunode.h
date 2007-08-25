@@ -25,14 +25,16 @@
 
 #include "menunode.h"
 
+class cPlugin;
+
 class PluginMenuNode: public MenuNode
 {
     private:
-        const char* _pluginMainMenuEntry;
+        cPlugin* _plugin;
         int _pluginIndex;
 
     public:
-        PluginMenuNode(const char* pluginMainMenuEntry, int pluginIndex);
+        PluginMenuNode(cPlugin* plugin, int pluginIndex);
         IMenuItemDefinition* CreateMenuItemDefinition();
         bool IsHidden();
 };

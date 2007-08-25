@@ -26,19 +26,18 @@
 #include "pluginitemdefinition.h"
 #include "childlock.h"
 
-PluginMenuNode::PluginMenuNode(const char* pluginMainMenuEntry, int pluginIndex)
+PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex)
 {
-    _pluginMainMenuEntry = pluginMainMenuEntry;
+    _plugin = plugin;
     _pluginIndex = pluginIndex;
 }
 
 IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
 {
-    return new PluginItemDefinition(_pluginMainMenuEntry, _pluginIndex);
+    return new PluginItemDefinition(_plugin->MainMenuEntry(), _pluginIndex);
 }
 
 bool PluginMenuNode::IsHidden()
 {
-    cPlugin* plugin = cPluginManager::GetPlugin(_pluginIndex);
-    return ChildLock::IsPluginHidden(plugin);
+    return ChildLock::IsPluginHidden(_plugin);
 }

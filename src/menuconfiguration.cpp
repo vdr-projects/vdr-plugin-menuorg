@@ -211,8 +211,8 @@ void MenuConfiguration::AddCommandMenuNode(string name, string command, bool con
 
 void MenuConfiguration::AddPluginMenuNode(cPlugin* plugin, int pluginIndex, MenuNode* menu)
 {
-    if (const char *item = plugin->MainMenuEntry())
+    if (plugin->MainMenuEntry())
     {
-        menu->AddChild(new PluginMenuNode(item, pluginIndex));
+        menu->AddChild(new PluginMenuNode(plugin, pluginIndex));
     }
 }
