@@ -29,12 +29,6 @@
 
 using namespace std;
 
-PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex)
-{
-    _plugin = plugin;
-    _pluginIndex = pluginIndex;
-}
-
 PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex, string title)
 {
     _plugin = plugin;
@@ -44,8 +38,8 @@ PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex, string title)
 
 IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
 {
-    const char* title = _title.empty() ? _plugin->MainMenuEntry() : _title.c_str();
-    return new PluginItemDefinition(title, _pluginIndex);
+    const char* mainMenuEntry = _title.empty() ? _plugin->MainMenuEntry() : _title.c_str();
+    return new PluginItemDefinition(mainMenuEntry, _pluginIndex);
 }
 
 bool PluginMenuNode::IsHidden()

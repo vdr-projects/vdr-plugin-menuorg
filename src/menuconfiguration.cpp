@@ -109,14 +109,14 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
             else if (type == "system")
             {
                 const xmlpp::Attribute* titleAttribute = childElement->get_attribute("title");
-                name = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : name;
-                AddSystemMenuNode(name, menuNode);
+                string title = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : name;
+                AddSystemMenuNode(name, title, menuNode);
             }
             else if (type == "plugin")
             {
                 const xmlpp::Attribute* titleAttribute = childElement->get_attribute("title");
                 string title = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : name;
-                AddPluginMenuNode(name, menuNode, title);
+                AddPluginMenuNode(name, title, menuNode);
             }
             else if (type == "command")
             {
@@ -134,12 +134,12 @@ MenuNode* MenuConfiguration::AddSubMenuNode(string name, MenuNode* menu)
     return menu->AddChild(new SubMenuNode(name));
 }
 
-void MenuConfiguration::AddSystemMenuNode(string name, MenuNode* menu)
+void MenuConfiguration::AddSystemMenuNode(string name, string title, MenuNode* menu)
 {
-    menu->AddChild(new SystemMenuNode(name, MenuTextToVdrState(name)));
+    menu->AddChild(new SystemMenuNode(title, MenuTextToVdrState(name)));
 }
 
-void MenuConfiguration::AddPluginMenuNode(string pluginName, MenuNode* menu, string title)
+void MenuConfiguration::AddPluginMenuNode(string pluginName, string title, MenuNode* menu)
 {
     int pluginIndex;
     cPlugin* plugin;

@@ -36,8 +36,7 @@ class PluginMenuNode: public MenuNode
         std::string _title;
 
     public:
-        PluginMenuNode(cPlugin* plugin, int pluginIndex);
-        PluginMenuNode(cPlugin* plugin, int pluginIndex, std::string title);
+        PluginMenuNode(cPlugin* plugin, int pluginIndex, std::string title = "");
         IMenuItemDefinition* CreateMenuItemDefinition();
         bool IsHidden();
 

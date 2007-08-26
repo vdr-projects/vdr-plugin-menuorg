@@ -46,8 +46,8 @@ class MenuConfiguration
         eOSState MenuTextToVdrState(std::string menuText);
         bool FindPluginByName(std::string name, cPlugin*& plugin, int& pluginIndex);
         MenuNode* AddSubMenuNode(std::string name, MenuNode* menu);
-        void AddSystemMenuNode(std::string name, MenuNode* menu);
-        void AddPluginMenuNode(std::string pluginName, MenuNode* menu, std::string title);
+        void AddSystemMenuNode(std::string name, std::string title, MenuNode* menu);
+        void AddPluginMenuNode(std::string pluginName, std::string title, MenuNode* menu);
         void AddUnconfiguredPlugins(MenuNode* menu);
         void AddCommandMenuNode(std::string name, std::string command, bool confirm, MenuNode* menu);
         std::string UnicodeToLocaleOrIso8859(Glib::ustring unicodeString);
