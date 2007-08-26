@@ -27,6 +27,7 @@
 #include <string>
 
 class MainMenuItemsProvider;
+class MenuConfiguration;
 
 class MenuOrgPlugin : public cPlugin
 {
@@ -35,6 +36,7 @@ class MenuOrgPlugin : public cPlugin
         std::string configFile;
         bool _customMenuShouldBeActive;
         bool _unconfiguredPluginsShouldBeIncluded;
+        MenuConfiguration* _menuConfiguration;
 
     public:
         MenuOrgPlugin(void);

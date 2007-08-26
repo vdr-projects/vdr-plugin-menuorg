@@ -37,12 +37,14 @@ class MenuConfiguration
     private:
         static const std::string _dtd;
         std::vector<std::string> _configuredPlugins;
+        const xmlpp::Element* _configuration;
 
     public:
-        MenuNode* LoadMenu(std::string menuFileName);
+        MenuConfiguration(std::string menuFileName);
+        MenuNode* MenuTree();
 
     private:
-        void ParseElement(const xmlpp::Element* a_node, MenuNode* menuNode);
+        void CreateMenuTree(const xmlpp::Element* menuRoot, MenuNode* menuNode);
         eOSState MenuTextToVdrState(std::string menuText);
         bool FindPluginByName(std::string name, cPlugin*& plugin, int& pluginIndex);
         MenuNode* AddSubMenuNode(std::string name, MenuNode* menu);

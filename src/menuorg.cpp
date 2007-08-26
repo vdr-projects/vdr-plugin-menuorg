@@ -44,11 +44,14 @@ MenuOrgPlugin::MenuOrgPlugin(void)
   // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
     _customMenuShouldBeActive = true;
     _unconfiguredPluginsShouldBeIncluded = true;
+    _subMenuProvider = NULL;
+    _menuConfiguration = NULL;
 }
 
 MenuOrgPlugin::~MenuOrgPlugin()
 {
   delete _subMenuProvider;
+  delete _menuConfiguration;
 }
 
 const char* MenuOrgPlugin::Version(void)
@@ -103,12 +106,12 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
 bool MenuOrgPlugin::Initialize(void)
 {
-    MenuConfiguration menuConfiguration;
-
     if(configFile.empty())
         configFile = (string) ConfigDirectory() + "/menuorg.xml";
 
-    MenuNode* menu = menuConfiguration.LoadMenu(configFile);
+    _menuConfiguration = new MenuConfiguration(configFile);
+
+    MenuNode* menu = _menuConfiguration->MenuTree();
     if (menu)
     {
         _subMenuProvider = new MainMenuItemsProvider(menu);

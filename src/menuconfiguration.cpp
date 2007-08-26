@@ -52,9 +52,9 @@ const string MenuConfiguration::_dtd =
   " execute CDATA #REQUIRED\n"
   " confirm (yes|no) #IMPLIED>";
 
-MenuNode* MenuConfiguration::LoadMenu(string menuFileName)
-{ 
-    MenuNode* menuRoot = new MenuNode();
+MenuConfiguration::MenuConfiguration(string menuFileName)
+{
+    _configuration = NULL;
 
     try
     {
@@ -70,26 +70,34 @@ MenuNode* MenuConfiguration::LoadMenu(string menuFileName)
         Document *pDoc = parser.get_document();
         validator.validate( pDoc );
 
-        const Element* rootElement = parser.get_document()->get_root_node();
-        ParseElement(rootElement, menuRoot);
+        _configuration  = parser.get_document()->get_root_node();
 
-        AddUnconfiguredPlugins(menuRoot);
     }
     catch(const std::exception& ex)
     {
-        delete menuRoot;
-        menuRoot = NULL;
-
         cerr << "menuorg: Exception caught when parsing xml configuration: " << ex.what();
         esyslog("Exception caught when parsing xml configuration. See stderr output for details.");
     }
-
-    return menuRoot;
 }
 
-void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
+MenuNode* MenuConfiguration::MenuTree()
+{ 
+    if (_configuration)
+    {
+        MenuNode* menuRoot = new MenuNode();
+        CreateMenuTree(_configuration, menuRoot);
+        AddUnconfiguredPlugins(menuRoot);
+        return menuRoot;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+void MenuConfiguration::CreateMenuTree(const Element* menuRoot, MenuNode* menuNode)
 {
-    Node::NodeList children = element->get_children();
+    Node::NodeList children = menuRoot->get_children();
     for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
     {
         const xmlpp::Element* childElement = dynamic_cast<const xmlpp::Element*>(*i);
@@ -104,7 +112,7 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
             if ( type == "menu")
             {
                 MenuNode* subMenu = AddSubMenuNode(name, menuNode);
-                ParseElement(childElement, subMenu);
+                CreateMenuTree(childElement, subMenu);
             }
             else if (type == "system")
             {
