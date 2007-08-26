@@ -128,7 +128,7 @@ cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 {
     // Return a setup menu in case the plugin supports one.
-    return new PluginSetup(_customMenuShouldBeActive, _unconfiguredPluginsShouldBeIncluded);
+    return new PluginSetup(_customMenuShouldBeActive, _unconfiguredPluginsShouldBeIncluded, *_menuConfiguration);
 }
 
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)

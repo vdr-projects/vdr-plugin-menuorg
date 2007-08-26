@@ -28,11 +28,13 @@
 const char* PluginSetup::SetupName::CustomMenuActive = "customMenuActive";
 const char* PluginSetup::SetupName::UnconfiguredPluginsIncluded = "unconfiguredPluginsIncluded";
 
-PluginSetup::PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded)
-    :_customMenuActive(customMenuActive), _unconfiguredPluginsIncluded(unconfiguredPluginsIncluded)
+PluginSetup::PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded, MenuConfiguration& menuConfiguration)
+    :_customMenuActive(customMenuActive), _unconfiguredPluginsIncluded(unconfiguredPluginsIncluded),
+    _menuConfiguration(menuConfiguration)
 {
     _newCustomMenuActive = _customMenuActive;
     _newUnconfiguredPluginsIncluded = _unconfiguredPluginsIncluded;
+    CreateMenuItems();
 }
 
 void PluginSetup::Store(void)
@@ -47,7 +49,7 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
     switch(state)
     {
         case osUser1:
-            return AddSubMenu(new cMenuSetup);
+            return AddSubMenu(new cMenuSetup(_menuConfiguration));
             break;
 
         case osContinue:

@@ -20,14 +20,36 @@
  *
  */
 
-#include <vdr/menu.h>
 #include "menusetup.h"
+#include <vdr/menu.h>
+#include <libxml++/libxml++.h>
+#include "menuconfiguration.h"
 
-cMenuSetup::cMenuSetup(void)
-:cOsdMenu(tr("MENU"),25)
+using namespace xmlpp;
+using namespace std;
+
+cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration)
+:cOsdMenu(tr("MENU"),25),_menuConfiguration(menuConfiguration)
 {
     //TODO
+    
+    Element* root = _menuConfiguration.Configuration();
+    
+    Node::NodeList children = root->get_children();
+    for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
+    {
+        const Element* childElement = dynamic_cast<const Element*>(*i);
 
+        if (childElement)
+        {
+            const Attribute* nameAttribute = childElement->get_attribute("name");
+
+            string type = childElement->get_name();
+            string name = nameAttribute->get_value();
+            
+            Add(new cOsdItem(name.c_str(), osUser1));
+        }
+    }
 }
 
 eOSState cMenuSetup::ProcessKey(eKeys Key)

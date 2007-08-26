@@ -21,7 +21,6 @@
  */
 
 #include "menuconfiguration.h"
-#include <libxml++/libxml++.h>
 #include <exception>
 #include <iostream>
 #include <vdr/plugin.h>
@@ -60,17 +59,16 @@ MenuConfiguration::MenuConfiguration(string menuFileName)
     {
         dsyslog("loading menuorg config file from %s", menuFileName.c_str());
 
-        DomParser parser;
-        parser.set_substitute_entities();
-        parser.parse_file(menuFileName);
+        _parser.set_substitute_entities();
+        _parser.parse_file(menuFileName);
 
         DtdValidator validator;
         validator.parse_memory(_dtd);
 
-        Document *pDoc = parser.get_document();
+        Document *pDoc = _parser.get_document();
         validator.validate( pDoc );
 
-        _configuration  = parser.get_document()->get_root_node();
+        _configuration  = _parser.get_document()->get_root_node();
 
     }
     catch(const std::exception& ex)
@@ -78,6 +76,11 @@ MenuConfiguration::MenuConfiguration(string menuFileName)
         cerr << "menuorg: Exception caught when parsing xml configuration: " << ex.what();
         esyslog("Exception caught when parsing xml configuration. See stderr output for details.");
     }
+}
+
+Element* MenuConfiguration::Configuration()
+{
+    return _configuration;
 }
 
 MenuNode* MenuConfiguration::MenuTree()
@@ -100,11 +103,11 @@ void MenuConfiguration::CreateMenuTree(const Element* menuRoot, MenuNode* menuNo
     Node::NodeList children = menuRoot->get_children();
     for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
     {
-        const xmlpp::Element* childElement = dynamic_cast<const xmlpp::Element*>(*i);
+        const Element* childElement = dynamic_cast<const Element*>(*i);
 
         if (childElement)
         {
-            const xmlpp::Attribute* nameAttribute = childElement->get_attribute("name");
+            const Attribute* nameAttribute = childElement->get_attribute("name");
 
             string type = childElement->get_name();
             string name = UnicodeToLocaleOrIso8859(nameAttribute->get_value());
@@ -116,20 +119,20 @@ void MenuConfiguration::CreateMenuTree(const Element* menuRoot, MenuNode* menuNo
             }
             else if (type == "system")
             {
-                const xmlpp::Attribute* titleAttribute = childElement->get_attribute("title");
+                const Attribute* titleAttribute = childElement->get_attribute("title");
                 string title = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : name;
                 AddSystemMenuNode(name, title, menuNode);
             }
             else if (type == "plugin")
             {
-                const xmlpp::Attribute* titleAttribute = childElement->get_attribute("title");
+                const Attribute* titleAttribute = childElement->get_attribute("title");
                 string title = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : name;
                 AddPluginMenuNode(name, title, menuNode);
             }
             else if (type == "command")
             {
                 string execute = childElement->get_attribute("execute")->get_value();
-                const xmlpp::Attribute* confirmAttribute = childElement->get_attribute("confirm");
+                const Attribute* confirmAttribute = childElement->get_attribute("confirm");
                 bool confirm = confirmAttribute ? (confirmAttribute->get_value() == "yes") : false;
                 AddCommandMenuNode(name, execute, confirm, menuNode);
             }

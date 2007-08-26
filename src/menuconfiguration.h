@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 #include <vdr/osdbase.h>
+#include <libxml++/libxml++.h>
 #include <glibmm/ustring.h>
 
 namespace xmlpp { class Element; }
@@ -37,11 +38,13 @@ class MenuConfiguration
     private:
         static const std::string _dtd;
         std::vector<std::string> _configuredPlugins;
-        const xmlpp::Element* _configuration;
+        xmlpp::Element* _configuration;
+        xmlpp::DomParser _parser;
 
     public:
         MenuConfiguration(std::string menuFileName);
         MenuNode* MenuTree();
+        xmlpp::Element* Configuration();
 
     private:
         void CreateMenuTree(const xmlpp::Element* menuRoot, MenuNode* menuNode);

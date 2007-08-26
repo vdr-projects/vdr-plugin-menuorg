@@ -32,6 +32,7 @@ class PluginSetup : public cMenuSetupPage
         int _newUnconfiguredPluginsIncluded;
         bool& _customMenuActive;
         bool& _unconfiguredPluginsIncluded;
+        MenuConfiguration& _menuConfiguration;
         
     public:
         struct SetupName
@@ -41,7 +42,7 @@ class PluginSetup : public cMenuSetupPage
         };
 
     public:
-        PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded);
+        PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded, MenuConfiguration& menuConfiguration);
         virtual eOSState ProcessKey(eKeys Key);
 
     protected:

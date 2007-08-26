@@ -20,11 +20,21 @@
  *
  */
 
+#ifndef ___MENUSETUP_H
+#define ___MENUSETUP_H
+
 #include <vdr/menu.h>
+
+class MenuConfiguration;
 
 class cMenuSetup : public cOsdMenu
 {
+    private:
+        MenuConfiguration& _menuConfiguration;
+
     public:
-        cMenuSetup(void);
+        cMenuSetup(MenuConfiguration& menuConfiguration);
         virtual eOSState ProcessKey(eKeys Key);
 };
+
+#endif
