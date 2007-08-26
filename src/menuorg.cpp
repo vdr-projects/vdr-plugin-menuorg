@@ -50,8 +50,8 @@ MenuOrgPlugin::MenuOrgPlugin(void)
 
 MenuOrgPlugin::~MenuOrgPlugin()
 {
-  delete _subMenuProvider;
-  delete _menuConfiguration;
+    delete _subMenuProvider;
+    delete _menuConfiguration;
 }
 
 const char* MenuOrgPlugin::Version(void)
@@ -110,16 +110,9 @@ bool MenuOrgPlugin::Initialize(void)
         configFile = (string) ConfigDirectory() + "/menuorg.xml";
 
     _menuConfiguration = new MenuConfiguration(configFile);
+    // TODO need handling of unloadable config File here!!!
 
-    MenuNode* menu = _menuConfiguration->MenuTree();
-    if (menu)
-    {
-        _subMenuProvider = new MainMenuItemsProvider(menu);
-    }
-    else
-    {
-        _subMenuProvider = NULL;
-    }
+    _subMenuProvider = new MainMenuItemsProvider(*_menuConfiguration);
 
     RegisterI18n(Phrases);
 

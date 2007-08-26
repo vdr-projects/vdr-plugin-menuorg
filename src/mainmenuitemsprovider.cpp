@@ -26,16 +26,17 @@
 #include "pluginmenunode.h"
 #include <vdr/plugin.h>
 #include "childlock.h"
+#include "menuconfiguration.h"
 
-MainMenuItemsProvider::MainMenuItemsProvider(MenuNode* rootMenu)
+MainMenuItemsProvider::MainMenuItemsProvider(MenuConfiguration& menuConfiguration)
+    :_menuConfiguration(menuConfiguration)
 {
-     _currentMenu = _rootMenu = rootMenu;
+    EnterRootMenu();
 }
 
 MainMenuItemsProvider::~MainMenuItemsProvider()
 {
     ResetMainMenuItemsList();
-    delete _rootMenu;
 }
 
 MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
@@ -67,7 +68,7 @@ void MainMenuItemsProvider::ResetMainMenuItemsList()
 
 void MainMenuItemsProvider::EnterRootMenu()
 {
-    _currentMenu = _rootMenu;
+     _currentMenu = _rootMenu = _menuConfiguration.MenuTree();;
 }
 
 void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)

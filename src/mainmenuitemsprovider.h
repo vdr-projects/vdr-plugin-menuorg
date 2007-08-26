@@ -26,6 +26,7 @@
 #include <vdr/mainmenuitemsprovider.h>
 
 class MenuNode;
+class MenuConfiguration;
 
 class MainMenuItemsProvider: public IMainMenuItemsProvider
 {
@@ -33,9 +34,10 @@ class MainMenuItemsProvider: public IMainMenuItemsProvider
         MenuNode* _rootMenu;
         MenuNode* _currentMenu;
         MenuItemDefinitions _currentMainMenuItems;
+        MenuConfiguration& _menuConfiguration;
 
     public:
-        MainMenuItemsProvider(MenuNode* rootMenu);
+        MainMenuItemsProvider(MenuConfiguration& menuConfiguration);
         ~MainMenuItemsProvider();
         virtual MenuItemDefinitions* MainMenuItems();
         virtual void EnterRootMenu();
