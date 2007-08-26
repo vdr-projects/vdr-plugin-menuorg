@@ -23,6 +23,7 @@
 #ifndef ___PLUGINMENUNODE_H
 #define ___PLUGINMENUNODE_H
 
+#include <string>
 #include "menunode.h"
 
 class cPlugin;
@@ -32,12 +33,14 @@ class PluginMenuNode: public MenuNode
     private:
         cPlugin* _plugin;
         int _pluginIndex;
+        std::string _title;
 
     public:
         PluginMenuNode(cPlugin* plugin, int pluginIndex);
+        PluginMenuNode(cPlugin* plugin, int pluginIndex, std::string title);
         IMenuItemDefinition* CreateMenuItemDefinition();
         bool IsHidden();
-        
+
     private:
         bool HasMainMenuEntry();
 };

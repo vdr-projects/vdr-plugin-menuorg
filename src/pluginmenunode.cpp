@@ -20,11 +20,14 @@
  *
  */
 
+#include <string>
 #include "pluginmenunode.h"
 #include <vdr/mainmenuitemsprovider.h>
 #include <vdr/plugin.h>
 #include "pluginitemdefinition.h"
 #include "childlock.h"
+
+using namespace std;
 
 PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex)
 {
@@ -32,9 +35,17 @@ PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex)
     _pluginIndex = pluginIndex;
 }
 
+PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex, string title)
+{
+    _plugin = plugin;
+    _pluginIndex = pluginIndex;
+    _title = title;
+}
+
 IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
 {
-    return new PluginItemDefinition(_plugin->MainMenuEntry(), _pluginIndex);
+    const char* title = _title.empty() ? _plugin->MainMenuEntry() : _title.c_str();
+    return new PluginItemDefinition(title, _pluginIndex);
 }
 
 bool PluginMenuNode::IsHidden()
