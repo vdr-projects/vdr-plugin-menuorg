@@ -17,4 +17,7 @@ VDR Plugin 'menuorg' Revision History
 
 UNRELEASED: Version 0.4
 
-- Added title attribute for system and plugin menu items
+- Added optional title attribute for system and plugin menu items
+- Added Setup OSD and Setup parameter load and save routines
+
+
