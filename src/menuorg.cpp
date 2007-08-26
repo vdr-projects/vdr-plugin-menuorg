@@ -33,7 +33,7 @@
 #include "menuconfiguration.h"
 #include "mainmenuitemsprovider.h"
 #include "i18n.h"
-#include "menuorgsetup.h"
+#include "pluginsetup.h"
 
 using namespace std;
 
@@ -42,8 +42,8 @@ MenuOrgPlugin::MenuOrgPlugin(void)
   // Initialize any member variables here.
   // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
   // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
-    _pluginIsActive = 1;
-    _showLostPlugins = 1;
+    _customMenuShouldBeActive = true;
+    _unconfiguredPluginsShouldBeIncluded = true;
 }
 
 MenuOrgPlugin::~MenuOrgPlugin()
@@ -132,18 +132,18 @@ cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 {
     // Return a setup menu in case the plugin supports one.
-    return new cMenuOrgPluginSetup(&_pluginIsActive, &_showLostPlugins);
+    return new PluginSetup(_customMenuShouldBeActive, _unconfiguredPluginsShouldBeIncluded);
 }
 
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 {
-    if (!strcasecmp(Name, "pluginIsActive"))
+    if (!strcasecmp(Name, PluginSetup::SetupName::CustomMenuActive))
     {
-        _pluginIsActive = atoi(Value);
+        _customMenuShouldBeActive = (atoi(Value) != 0);
     }
-    else if(!strcasecmp(Name, "showLostPlugins"))
+    else if(!strcasecmp(Name, PluginSetup::SetupName::UnconfiguredPluginsIncluded))
     {
-        _showLostPlugins = atoi(Value);
+        _unconfiguredPluginsShouldBeIncluded = (atoi(Value) != 0);
     }
     else
         return false;
@@ -153,7 +153,7 @@ bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)
 {
-    if (strcmp(Id, MENU_ITEMS_PROVIDER_SERVICE_ID) == 0 && _pluginIsActive == 1) 
+    if (strcmp(Id, MENU_ITEMS_PROVIDER_SERVICE_ID) == 0 && _customMenuShouldBeActive) 
     {
         if (_subMenuProvider)
         {

@@ -9,8 +9,8 @@ SRCS = \
   src/plugincreator.cpp \
   src/pluginitemdefinition.cpp \
   src/pluginmenunode.cpp \
+  src/pluginsetup.cpp \
   src/submenunode.cpp \
   src/systemmenunode.cpp \
   src/i18n.cpp \
-  src/menuorgsetup.cpp \
-  src/menusetup.cpp
+  src/menusetup.cpp \

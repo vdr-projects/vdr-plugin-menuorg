@@ -20,20 +20,32 @@
  *
  */
 
+#ifndef ___PLUGINSETUP_H
+#define ___PLUGINSETUP_H
+
 #include <vdr/menu.h>
 
-class cMenuOrgPluginSetup : public cMenuSetupPage
+class PluginSetup : public cMenuSetupPage
 {
     private:
-        int _newpluginIsActive;
-        int _newshowLostPlugins;
-        int* _pluginIsActive;
-        int* _showLostPlugins;
+        int _newCustomMenuActive;
+        int _newUnconfiguredPluginsIncluded;
+        bool& _customMenuActive;
+        bool& _unconfiguredPluginsIncluded;
+        
+    public:
+        struct SetupName
+        {
+            static const char* CustomMenuActive;
+            static const char* UnconfiguredPluginsIncluded;
+        };
 
     protected:
         virtual void Store(void);
 
     public:
-        cMenuOrgPluginSetup(int *pluginActive, int *getLostPlugins);
+        PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded);
         virtual eOSState ProcessKey(eKeys Key);
 };
+
+#endif

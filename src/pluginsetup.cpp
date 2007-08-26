@@ -22,32 +22,31 @@
 
 #include <vdr/menu.h>
 #include "menuorg.h"
-#include "menuorgsetup.h"
+#include "pluginsetup.h"
 #include "menusetup.h"
 
-cMenuOrgPluginSetup::cMenuOrgPluginSetup(int* pluginIsActive, int* showLostPlugins)
-{
-    // store the pointers for writing values back
-    _pluginIsActive = pluginIsActive;
-    _showLostPlugins = showLostPlugins;
+const char* PluginSetup::SetupName::CustomMenuActive = "customMenuActive";
+const char* PluginSetup::SetupName::UnconfiguredPluginsIncluded = "unconfiguredPluginsIncluded";
 
-    // make a temporary copy of the values
-    _newpluginIsActive = *pluginIsActive;
-    _newshowLostPlugins = *showLostPlugins;
+PluginSetup::PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded)
+    :_customMenuActive(customMenuActive), _unconfiguredPluginsIncluded(unconfiguredPluginsIncluded)
+{
+    _newCustomMenuActive = _customMenuActive;
+    _newUnconfiguredPluginsIncluded = _unconfiguredPluginsIncluded;
 
     // create the setup entrys
-    Add(new cMenuEditBoolItem(tr("PluginActive"), &_newpluginIsActive));
-    Add(new cMenuEditBoolItem(tr("Add lost Plugins to MainMenu"), &_newshowLostPlugins));
+    Add(new cMenuEditBoolItem(tr("Enable custom menu"), &_newCustomMenuActive));
+    Add(new cMenuEditBoolItem(tr("Include unconfigured Plugins"), &_newUnconfiguredPluginsIncluded));
     Add(new cOsdItem(tr("Configure Menu"), osUser1));
 }
 
-void cMenuOrgPluginSetup::Store(void)
+void PluginSetup::Store(void)
 {
-    SetupStore("pluginIsActive", *_pluginIsActive = _newpluginIsActive);
-    SetupStore("showLostPlugins", *_showLostPlugins = _newshowLostPlugins);
+    SetupStore(SetupName::CustomMenuActive, _customMenuActive = _newCustomMenuActive);
+    SetupStore(SetupName::UnconfiguredPluginsIncluded, _unconfiguredPluginsIncluded = _newUnconfiguredPluginsIncluded);
 }
 
-eOSState cMenuOrgPluginSetup::ProcessKey(eKeys Key)
+eOSState PluginSetup::ProcessKey(eKeys Key)
 {
     eOSState state = cOsdMenu::ProcessKey(Key);
     switch(state)
