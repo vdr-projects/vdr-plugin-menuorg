@@ -40,12 +40,15 @@ class PluginSetup : public cMenuSetupPage
             static const char* UnconfiguredPluginsIncluded;
         };
 
-    protected:
-        virtual void Store(void);
-
     public:
         PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded);
         virtual eOSState ProcessKey(eKeys Key);
+
+    protected:
+        virtual void Store(void);
+
+    private:
+        void CreateMenuItems();
 };
 
 #endif

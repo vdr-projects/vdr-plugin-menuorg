@@ -33,11 +33,6 @@ PluginSetup::PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsInclu
 {
     _newCustomMenuActive = _customMenuActive;
     _newUnconfiguredPluginsIncluded = _unconfiguredPluginsIncluded;
-
-    // create the setup entrys
-    Add(new cMenuEditBoolItem(tr("Enable custom menu"), &_newCustomMenuActive));
-    Add(new cMenuEditBoolItem(tr("Include unconfigured Plugins"), &_newUnconfiguredPluginsIncluded));
-    Add(new cOsdItem(tr("Configure Menu"), osUser1));
 }
 
 void PluginSetup::Store(void)
@@ -75,4 +70,11 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
             break;
     }
     return state;
+}
+
+void PluginSetup::CreateMenuItems()
+{
+    Add(new cMenuEditBoolItem(tr("Enable custom menu"), &_newCustomMenuActive));
+    Add(new cMenuEditBoolItem(tr("Include unconfigured Plugins"), &_newUnconfiguredPluginsIncluded));
+    Add(new cOsdItem(tr("Configure Menu"), osUser1));
 }
