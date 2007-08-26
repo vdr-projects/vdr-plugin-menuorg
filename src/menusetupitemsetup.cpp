@@ -20,36 +20,23 @@
  *
  */
 
-#ifndef ___PLUGINSETUP_H
-#define ___PLUGINSETUP_H
+#include "menusetupitemsetup.h"
 
-#include <vdr/menu.h>
-
-class PluginSetup : public cMenuSetupPage
+cMenuSetupItemSetup::cMenuSetupItemSetup(void)
+:cOsdMenu(tr("Item Setup"),25)
 {
-    private:
-        int _newCustomMenuActive;
-        int _newUnconfiguredPluginsIncluded;
-        bool& _customMenuActive;
-        bool& _unconfiguredPluginsIncluded;
-        MenuConfiguration& _menuConfiguration;
+    itemTypeText[0] = "System";
+    itemTypeText[1] = "Plugin";
+    itemTypeText[2] = "Submenu";
+    itemTypeText[3] = "Command";
 
-    public:
-        struct SetupName
-        {
-            static const char* CustomMenuActive;
-            static const char* UnconfiguredPluginsIncluded;
-        };
+    Add(new cMenuEditStraItem(tr("Item Type"),&_itemType, 4, itemTypeText));
+    // TODO: add osd items for the selectet item type
+}
 
-    public:
-        PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded, MenuConfiguration& menuConfiguration);
-        virtual eOSState ProcessKey(eKeys Key);
-
-    protected:
-        virtual void Store(void);
-
-    private:
-        void CreateMenuItems();
-};
-
-#endif
+eOSState cMenuSetupItemSetup::ProcessKey(eKeys Key)
+{
+    dsyslog("menuorg: cMenuSetupItemSetup::ProcessKey called");
+    eOSState state = cOsdMenu::ProcessKey(Key);
+    return state;
+}

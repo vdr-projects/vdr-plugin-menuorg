@@ -20,36 +20,20 @@
  *
  */
 
-#ifndef ___PLUGINSETUP_H
-#define ___PLUGINSETUP_H
+#ifndef ___MENUSETUP_ITEMSETUP_H
+#define ___MENUSETUP_ITEMSETUP_H
 
 #include <vdr/menu.h>
 
-class PluginSetup : public cMenuSetupPage
+class cMenuSetupItemSetup : public cOsdMenu
 {
     private:
-        int _newCustomMenuActive;
-        int _newUnconfiguredPluginsIncluded;
-        bool& _customMenuActive;
-        bool& _unconfiguredPluginsIncluded;
-        MenuConfiguration& _menuConfiguration;
+        int _itemType;
+        const char* itemTypeText[4];
 
     public:
-        struct SetupName
-        {
-            static const char* CustomMenuActive;
-            static const char* UnconfiguredPluginsIncluded;
-        };
-
-    public:
-        PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded, MenuConfiguration& menuConfiguration);
+        cMenuSetupItemSetup(void);
         virtual eOSState ProcessKey(eKeys Key);
-
-    protected:
-        virtual void Store(void);
-
-    private:
-        void CreateMenuItems();
 };
 
 #endif

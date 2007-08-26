@@ -35,6 +35,7 @@ class cMenuSetup : public cOsdMenu
     public:
         cMenuSetup(MenuConfiguration& menuConfiguration);
         virtual eOSState ProcessKey(eKeys Key);
+        void DrawButton(void);
 };
 
 #endif

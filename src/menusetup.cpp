@@ -22,19 +22,21 @@
 
 #include "menusetup.h"
 #include <vdr/menu.h>
+#include <vdr/interface.h>
 #include <libxml++/libxml++.h>
 #include "menuconfiguration.h"
+#include "menusetupitemsetup.h"
 
 using namespace xmlpp;
 using namespace std;
 
 cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration)
-:cOsdMenu(tr("MENU"),25),_menuConfiguration(menuConfiguration)
+:cOsdMenu(tr("Menu Setup"),25),_menuConfiguration(menuConfiguration)
 {
     //TODO
-    
+
     Element* root = _menuConfiguration.Configuration();
-    
+
     Node::NodeList children = root->get_children();
     for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
     {
@@ -46,15 +48,66 @@ cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration)
 
             string type = childElement->get_name();
             string name = nameAttribute->get_value();
-            
-            Add(new cOsdItem(name.c_str(), osUser1));
+
+            Add(new cOsdItem(name.c_str(), osContinue));
         }
     }
+    DrawButton();
 }
 
 eOSState cMenuSetup::ProcessKey(eKeys Key)
 {
-    eOSState state=cOsdMenu::ProcessKey(Key);
-    if(state==osUnknown && Key==kOk) state=osBack;
+    dsyslog("menuorg: cMenuSetup::ProcessKey called");
+
+    eOSState state = cOsdMenu::ProcessKey(Key);
+    
+    if (state == osUnknown)
+    {
+        switch(Key)
+        {
+                case kRed:
+                    DrawButton();
+                    break;
+    
+                case kGreen:
+                    state = AddSubMenu(new cMenuSetupItemSetup());
+                    break;
+    
+                case kYellow:
+                    DrawButton();
+                    break;
+    
+                case kBlue:
+                    DrawButton();
+                    break;
+    
+                case kUp:
+                case kDown:
+                case kLeft:
+                    DrawButton();
+                    break;
+    
+                case kOk:
+                    if (Interface->Confirm(tr("Apply Changes?")))
+                    {
+                            // Save it!
+                    }
+                    return osEnd;
+                    break;
+    
+                case kBack :
+                    return osBack;
+                    break;
+    
+                default: 
+                    DrawButton();
+                    break;
+        }
+    }
     return state;
+}
+
+void cMenuSetup::DrawButton(void)
+{
+    SetHelp(tr("Create"),tr("Edit"),tr("Delete"),tr("Move"));
 }

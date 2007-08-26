@@ -45,15 +45,17 @@ void PluginSetup::Store(void)
 
 eOSState PluginSetup::ProcessKey(eKeys Key)
 {
+    dsyslog("menuorg: PluginSetup::ProcessKey called");
+
     eOSState state = cOsdMenu::ProcessKey(Key);
     switch(state)
     {
         case osUser1:
-            return AddSubMenu(new cMenuSetup(_menuConfiguration));
+            state = AddSubMenu(new cMenuSetup(_menuConfiguration));
             break;
-
+/*
         case osContinue:
-            if(NORMALKEY(Key)==kUp || NORMALKEY(Key)==kDown)
+            if(NORMALKEY(Key)==kUp || NORMALKEY(Key)==kDown || NORMALKEY(Key)==kGreen)
             {
                 cOsdItem *item=Get(Current());
                 if(item) item->ProcessKey(kNone);
@@ -67,7 +69,7 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
                 state=osBack;
             }
             break;
-
+*/
         default:
             break;
     }
