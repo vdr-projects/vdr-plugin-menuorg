@@ -14,3 +14,7 @@ VDR Plugin 'menuorg' Revision History
 
 - Fixed charset conversion for menu titles. They will now explicitly be converted
   to VDR's locale charset falling back to ISO8859-2 on conversion errors.
+
+UNRELEASED: Version 0.4
+
+- Added title attribute for system and plugin menu items
