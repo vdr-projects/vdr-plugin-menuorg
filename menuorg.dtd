@@ -26,10 +26,12 @@
 <!ELEMENT system EMPTY>
 <!ATTLIST system
     name CDATA #REQUIRED
+    title CDATA #IMPLIED
 >
 <!ELEMENT plugin EMPTY>
 <!ATTLIST plugin
     name CDATA #REQUIRED
+    title CDATA #IMPLIED
 >
 <!ELEMENT command EMPTY>
 <!ATTLIST plugin

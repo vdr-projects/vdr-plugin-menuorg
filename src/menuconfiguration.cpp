@@ -39,9 +39,13 @@ const string MenuConfiguration::_dtd =
   "<!ELEMENT menu ((menu | system | plugin | command)+)>\n"
   "<!ATTLIST menu name CDATA #REQUIRED>\n"
   "<!ELEMENT system EMPTY>\n"
-  "<!ATTLIST system name CDATA #REQUIRED>\n"
+  "<!ATTLIST system\n"
+  " name CDATA #REQUIRED\n"
+  " title CDATA #IMPLIED>\n"
   "<!ELEMENT plugin EMPTY>\n"
-  "<!ATTLIST plugin name CDATA #REQUIRED>\n"
+  "<!ATTLIST plugin\n"
+  " name CDATA #REQUIRED\n"
+  " title CDATA #IMPLIED>\n"
   "<!ELEMENT command EMPTY>\n"
   "<!ATTLIST command\n"
   " name CDATA #REQUIRED\n"
@@ -104,10 +108,14 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
             }
             else if (type == "system")
             {
+                const xmlpp::Attribute* titleAttribute = childElement->get_attribute("title");
+                name = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : name;
                 AddSystemMenuNode(name, menuNode);
             }
             else if (type == "plugin")
             {
+                const xmlpp::Attribute* titleAttribute = childElement->get_attribute("title");
+                name = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : name;
                 AddPluginMenuNode(name, menuNode);
             }
             else if (type == "command")
@@ -115,7 +123,7 @@ void MenuConfiguration::ParseElement(const Element* element, MenuNode* menuNode)
                 string execute = childElement->get_attribute("execute")->get_value();
                 const xmlpp::Attribute* confirmAttribute = childElement->get_attribute("confirm");
                 bool confirm = confirmAttribute ? (confirmAttribute->get_value() == "yes") : false;
-                    AddCommandMenuNode(name, execute, confirm, menuNode);
+                AddCommandMenuNode(name, execute, confirm, menuNode);
             }
         }
     }

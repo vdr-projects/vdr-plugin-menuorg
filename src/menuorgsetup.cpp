@@ -31,7 +31,7 @@ cMenuOrgPluginSetup::cMenuOrgPluginSetup(int* pluginIsActive, int* showLostPlugi
     _pluginIsActive = pluginIsActive;
     _showLostPlugins = showLostPlugins;
 
-    // make temporary copy the values
+    // make a temporary copy of the values
     _newpluginIsActive = *pluginIsActive;
     _newshowLostPlugins = *showLostPlugins;
 
