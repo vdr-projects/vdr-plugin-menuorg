@@ -36,6 +36,7 @@ MainMenuItemsProvider::MainMenuItemsProvider(MenuConfiguration& menuConfiguratio
 
 MainMenuItemsProvider::~MainMenuItemsProvider()
 {
+    delete _rootMenu;
     ResetMainMenuItemsList();
 }
 
@@ -68,7 +69,7 @@ void MainMenuItemsProvider::ResetMainMenuItemsList()
 
 void MainMenuItemsProvider::EnterRootMenu()
 {
-     _currentMenu = _rootMenu = _menuConfiguration.MenuTree();;
+    _currentMenu = _rootMenu = _menuConfiguration.MenuTree();;
 }
 
 void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)
