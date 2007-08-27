@@ -24,6 +24,9 @@
 #define ___MENUSETUP_H
 
 #include <vdr/menu.h>
+#include <libxml++/libxml++.h>
+
+namespace xmlpp { class Element; }
 
 class MenuConfiguration;
 
@@ -31,11 +34,15 @@ class cMenuSetup : public cOsdMenu
 {
     private:
         MenuConfiguration& _menuConfiguration;
+        int _displayMode;
 
     public:
-        cMenuSetup(MenuConfiguration& menuConfiguration);
+        cMenuSetup(MenuConfiguration& menuConfiguration, int displayMode);
         virtual eOSState ProcessKey(eKeys Key);
+
+    private:
         void DrawButton(void);
+        void DrawMenu(const xmlpp::Element* menuRoot, int iCount);
 };
 
 #endif

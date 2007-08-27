@@ -21,23 +21,31 @@
  */
 
 #include "menusetup.h"
+#include "menuconfiguration.h"
+#include "menuitemsetup.h"
 #include <vdr/menu.h>
 #include <vdr/interface.h>
 #include <libxml++/libxml++.h>
-#include "menuconfiguration.h"
-#include "menuitemsetup.h"
+#include <iostream>
 
 using namespace xmlpp;
 using namespace std;
 
-cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration)
+cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration, int displayMode)
 :cOsdMenu(tr("Menu Setup")),_menuConfiguration(menuConfiguration)
 {
-    //TODO
+    _displayMode = displayMode;
+    DrawMenu(_menuConfiguration.Configuration(), 0);
+}
 
-    Element* root = _menuConfiguration.Configuration();
+void cMenuSetup::DrawMenu(const Element* menuRoot, int iCount)
+{
+    int cur=Current();
 
-    Node::NodeList children = root->get_children();
+    if(iCount == 0) 
+        Clear();
+
+    Node::NodeList children = menuRoot->get_children();
     for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
     {
         const Element* childElement = dynamic_cast<const Element*>(*i);
@@ -49,18 +57,43 @@ cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration)
             string type = childElement->get_name();
             string name = nameAttribute->get_value();
 
-            Add(new cOsdItem(name.c_str(), osContinue));
+            for (int i=0; i <= iCount ;i++)
+                name = " " + name;
+
+            if ( type == "menu" && _displayMode == 1)
+            {
+                name = "+" + name;
+                Add(new cOsdItem(name.c_str()),true);
+                DrawMenu(childElement, iCount+1);
+            }
+            else
+            {
+                if(iCount > 0)
+                    name = "  " + name;
+
+                Add(new cOsdItem(name.c_str()),true);
+            }
         }
     }
-    DrawButton();
+    if(iCount == 0)
+    {
+        SetCurrent(Get(cur));
+        Display();
+        DrawButton();
+    }
 }
 
 eOSState cMenuSetup::ProcessKey(eKeys Key)
 {
     dsyslog("menuorg: cMenuSetup::ProcessKey called");
+    std::cerr << "menuorg: cMenuSetup::ProcessKey called" << std::endl;
 
     eOSState state = cOsdMenu::ProcessKey(Key);
-    
+
+    if (HasSubMenu())
+    {
+        return state;
+    }
     if (state == osUnknown)
     {
         switch(Key)
@@ -110,4 +143,5 @@ eOSState cMenuSetup::ProcessKey(eKeys Key)
 void cMenuSetup::DrawButton(void)
 {
     SetHelp(tr("Create"),tr("Edit"),tr("Delete"),tr("Move"));
+    Display();
 }

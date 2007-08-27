@@ -20,6 +20,7 @@
  *
  */
 
+#include <iostream>
 #include <vdr/menu.h>
 #include "menuorg.h"
 #include "pluginsetup.h"
@@ -46,16 +47,21 @@ void PluginSetup::Store(void)
 eOSState PluginSetup::ProcessKey(eKeys Key)
 {
     dsyslog("menuorg: PluginSetup::ProcessKey called");
-
+    std::cerr << "menuorg: PluginSetup::ProcessKey called" << std::endl;
+    bool HadSubMenu = HasSubMenu();
     eOSState state = cOsdMenu::ProcessKey(Key);
+    if (HasSubMenu() || HadSubMenu)
+    {
+        return state;
+    }
     switch(state)
     {
         case osUser1:
-            state = AddSubMenu(new cMenuSetup(_menuConfiguration));
+            return AddSubMenu(new cMenuSetup(_menuConfiguration, 1));
             break;
 
         case osContinue:
-            if(NORMALKEY(Key)==kUp || NORMALKEY(Key)==kDown || NORMALKEY(Key)==kGreen)
+            if(NORMALKEY(Key)==kUp || NORMALKEY(Key)==kDown)
             {
                 cOsdItem *item=Get(Current());
                 if(item) item->ProcessKey(kNone);

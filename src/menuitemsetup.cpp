@@ -21,6 +21,7 @@
  */
 
 #include "menuitemsetup.h"
+#include <iostream>
 
 cMenuItemSetup::cMenuItemSetup(void)
 :cOsdMenu(tr("Item Setup"))
@@ -37,6 +38,7 @@ cMenuItemSetup::cMenuItemSetup(void)
 eOSState cMenuItemSetup::ProcessKey(eKeys Key)
 {
     dsyslog("menuorg: cMenuSetupItemSetup::ProcessKey called");
+    std::cerr << "menuorg: cMenuSetupItemSetup::ProcessKey called" << std::endl;
     eOSState state = cOsdMenu::ProcessKey(Key);
     return state;
 }
