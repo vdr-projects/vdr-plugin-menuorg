@@ -31,7 +31,7 @@ using namespace xmlpp;
 using namespace std;
 
 cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration)
-:cOsdMenu(tr("Menu Setup"),25),_menuConfiguration(menuConfiguration)
+:cOsdMenu(tr("Menu Setup")),_menuConfiguration(menuConfiguration)
 {
     //TODO
 

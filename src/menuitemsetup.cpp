@@ -23,7 +23,7 @@
 #include "menuitemsetup.h"
 
 cMenuItemSetup::cMenuItemSetup(void)
-:cOsdMenu(tr("Item Setup"),25)
+:cOsdMenu(tr("Item Setup"))
 {
     itemTypeText[0] = "System";
     itemTypeText[1] = "Plugin";

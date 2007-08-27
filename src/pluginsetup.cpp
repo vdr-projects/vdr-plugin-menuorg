@@ -53,7 +53,7 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
         case osUser1:
             state = AddSubMenu(new cMenuSetup(_menuConfiguration));
             break;
-/*
+
         case osContinue:
             if(NORMALKEY(Key)==kUp || NORMALKEY(Key)==kDown || NORMALKEY(Key)==kGreen)
             {
@@ -69,7 +69,7 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
                 state=osBack;
             }
             break;
-*/
+
         default:
             break;
     }
