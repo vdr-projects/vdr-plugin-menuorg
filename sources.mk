@@ -14,4 +14,4 @@ SRCS = \
   src/systemmenunode.cpp \
   src/i18n.cpp \
   src/menusetup.cpp \
-  src/menusetupitemsetup.cpp \
+  src/menuitemsetup.cpp \

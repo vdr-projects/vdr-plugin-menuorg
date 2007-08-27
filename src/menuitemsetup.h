@@ -20,23 +20,20 @@
  *
  */
 
-#include "menusetupitemsetup.h"
+#ifndef ___MENUITEMSETUP_H
+#define ___MENUITEMSETUP_H
 
-cMenuSetupItemSetup::cMenuSetupItemSetup(void)
-:cOsdMenu(tr("Item Setup"),25)
+#include <vdr/menu.h>
+
+class cMenuItemSetup : public cOsdMenu
 {
-    itemTypeText[0] = "System";
-    itemTypeText[1] = "Plugin";
-    itemTypeText[2] = "Submenu";
-    itemTypeText[3] = "Command";
+    private:
+        int _itemType;
+        const char* itemTypeText[4];
 
-    Add(new cMenuEditStraItem(tr("Item Type"),&_itemType, 4, itemTypeText));
-    // TODO: add osd items for the selectet item type
-}
+    public:
+        cMenuItemSetup(void);
+        virtual eOSState ProcessKey(eKeys Key);
+};
 
-eOSState cMenuSetupItemSetup::ProcessKey(eKeys Key)
-{
-    dsyslog("menuorg: cMenuSetupItemSetup::ProcessKey called");
-    eOSState state = cOsdMenu::ProcessKey(Key);
-    return state;
-}
+#endif

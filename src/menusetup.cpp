@@ -25,7 +25,7 @@
 #include <vdr/interface.h>
 #include <libxml++/libxml++.h>
 #include "menuconfiguration.h"
-#include "menusetupitemsetup.h"
+#include "menuitemsetup.h"
 
 using namespace xmlpp;
 using namespace std;
@@ -70,7 +70,7 @@ eOSState cMenuSetup::ProcessKey(eKeys Key)
                     break;
     
                 case kGreen:
-                    state = AddSubMenu(new cMenuSetupItemSetup());
+                    state = AddSubMenu(new cMenuItemSetup());
                     break;
     
                 case kYellow:
