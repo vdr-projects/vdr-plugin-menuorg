@@ -42,7 +42,7 @@ class cMenuSetup : public cOsdMenu
 
     private:
         void DrawButton(void);
-        void DrawMenu(const xmlpp::Element* menuRoot, int iCount);
+        void CreateMenuItems(const xmlpp::Element* menuRoot, int iCount);
 };
 
 #endif

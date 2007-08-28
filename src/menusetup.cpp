@@ -35,10 +35,10 @@ cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration, int displayMode)
 :cOsdMenu(tr("Menu Setup")),_menuConfiguration(menuConfiguration)
 {
     _displayMode = displayMode;
-    DrawMenu(_menuConfiguration.Configuration(), 0);
+    CreateMenuItems(_menuConfiguration.Configuration(), 0);
 }
 
-void cMenuSetup::DrawMenu(const Element* menuRoot, int iCount)
+void cMenuSetup::CreateMenuItems(const Element* menuRoot, int iCount)
 {
     int cur=Current();
 
@@ -64,7 +64,7 @@ void cMenuSetup::DrawMenu(const Element* menuRoot, int iCount)
             {
                 name = "+" + name;
                 Add(new cOsdItem(name.c_str()),true);
-                DrawMenu(childElement, iCount+1);
+                CreateMenuItems(childElement, iCount+1);
             }
             else
             {

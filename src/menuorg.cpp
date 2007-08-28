@@ -30,6 +30,7 @@
 #include <getopt.h>
 #include "version.h"
 #include "menuorg.h"
+#include "menusetup.h"
 #include "menuconfiguration.h"
 #include "mainmenuitemsprovider.h"
 #include "i18n.h"
@@ -122,7 +123,7 @@ bool MenuOrgPlugin::Initialize(void)
 cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 {
     // Perform the action when selected from the main VDR menu.
-    return NULL;
+    return new cMenuSetup(*_menuConfiguration, 1);
 }
 
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
