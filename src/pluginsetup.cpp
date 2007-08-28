@@ -52,11 +52,9 @@ void PluginSetup::Store(void)
 
 eOSState PluginSetup::ProcessKey(eKeys Key)
 {
-    dsyslog("menuorg: PluginSetup::ProcessKey called");
-    std::cerr << "menuorg: PluginSetup::ProcessKey called" << std::endl;
-    bool HadSubMenu = HasSubMenu();
     eOSState state = cOsdMenu::ProcessKey(Key);
-    if (HasSubMenu() || HadSubMenu)
+
+    if (HasSubMenu())
     {
         return state;
     }

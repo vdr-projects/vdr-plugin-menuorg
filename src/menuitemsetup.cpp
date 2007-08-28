@@ -32,13 +32,34 @@ cMenuItemSetup::cMenuItemSetup(void)
     itemTypeText[3] = "Command";
 
     Add(new cMenuEditStraItem(tr("Item Type"),&_itemType, 4, itemTypeText));
-    // TODO: add osd items for the selectet item type
+
+    switch(_itemType)
+    {
+        case 0:
+            // Add listItem of valid System Items
+            // Add textItem for title attribute
+            Add()
+            break;
+
+        case 1:
+            // Add listItem of unused plugins or a submenu with the items
+            // Add textItem for title attribute
+            break;
+
+        case 2:
+            // Add textItem for name attribute
+            break;
+
+        case 3:
+            // Add textItem for name attribute
+            // Add textItem for command attribute
+            // Add boolItem for confirm attribute
+            break;
+    }
 }
 
 eOSState cMenuItemSetup::ProcessKey(eKeys Key)
 {
-    dsyslog("menuorg: cMenuSetupItemSetup::ProcessKey called");
-    std::cerr << "menuorg: cMenuSetupItemSetup::ProcessKey called" << std::endl;
     eOSState state = cOsdMenu::ProcessKey(Key);
     return state;
 }

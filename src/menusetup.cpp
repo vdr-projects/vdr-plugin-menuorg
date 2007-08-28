@@ -85,9 +85,6 @@ void cMenuOrgSetup::CreateMenuItems(const Element* menuRoot, int iCount)
 
 eOSState cMenuOrgSetup::ProcessKey(eKeys Key)
 {
-    dsyslog("menuorg: cMenuSetup::ProcessKey called");
-    std::cerr << "menuorg: cMenuSetup::ProcessKey called" << std::endl;
-
     eOSState state = cOsdMenu::ProcessKey(Key);
 
     if(HasSubMenu())
