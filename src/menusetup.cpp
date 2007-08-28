@@ -64,7 +64,7 @@ void cMenuOrgSetup::CreateMenuItems(const Element* menuRoot, int iCount)
             if ( type == "menu" && _flatMenuSetup)
             {
                 name = "+" + name;
-                Add(new cOsdXmlItem(name.c_str(), childElement));
+                Add(new cOsdXmlItem(name.c_str(), childElement, osUnknown));
                 CreateMenuItems(childElement, iCount+1);
             }
             else
@@ -72,7 +72,7 @@ void cMenuOrgSetup::CreateMenuItems(const Element* menuRoot, int iCount)
                 if(iCount > 0)
                     name = "  " + name;
 
-                Add(new cOsdXmlItem(name.c_str(), childElement));
+                Add(new cOsdXmlItem(name.c_str(), childElement, osUnknown));
             }
         }
     }
@@ -101,8 +101,10 @@ eOSState cMenuOrgSetup::ProcessKey(eKeys Key)
                     break;
     
                 case kGreen:
-                    cOsdItem *item=Get(Current());
-                    state = AddSubMenu(new cMenuItemSetup(item));
+                    {
+                        cOsdXmlItem *item = (cOsdXmlItem*) Get(Current());
+                        state = AddSubMenu(new cMenuItemSetup(item));
+                    }
                     break;
     
                 case kYellow:

@@ -32,9 +32,9 @@ cMenuItemSetup::cMenuItemSetup(cOsdXmlItem* osdXmlItem)
     itemTypeText[2] = "Submenu";
     itemTypeText[3] = "Command";
 
-    Add(new cMenuEditStraItem(tr("Item Type"),&_itemType, 4, itemTypeText));
+    Add(new cMenuEditStraItem(tr("Item Type"), (int*) &_newItemType, 4, itemTypeText));
 
-    switch(_itemType)
+    switch(_newItemType)
     {
         case 0:
             // Add listItem of valid System Items

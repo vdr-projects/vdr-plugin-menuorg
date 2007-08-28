@@ -51,7 +51,7 @@ class cOsdXmlItem: public cOsdItem
         string _confirmAttribute;
 
     public:
-        cOsdXmlItem(const char* Text, const xmlpp::Element* xmlElement, eOSState State=osUnknown);
+        cOsdXmlItem(const char* Text, const xmlpp::Element* xmlElement, eOSState State);
 
         sItemType getItemType(void);
         string getNameAttribute(void);

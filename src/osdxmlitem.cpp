@@ -20,19 +20,18 @@
  *
  */
 
+#include <string>
 #include <vdr/menu.h>
 #include <libxml++/libxml++.h>
+#include "osdxmlitem.h"
+
+using namespace std;
 
 cOsdXmlItem::cOsdXmlItem(const char* Text, const xmlpp::Element* xmlElement, eOSState State=osUnknown)
+: cOsdItem()
 {
-    text = NULL;
-    offset = -1;
-    state = State;
-    selectable = true;
-    fresh = true;
     _xmlElement = xmlElement;
     parseXmlElement();
-    SetText(Text);
 }
 
 void cOsdXmlItem::parseXmlElement(void)
