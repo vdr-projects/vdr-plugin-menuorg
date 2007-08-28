@@ -22,8 +22,11 @@
 
 #include "menuitemsetup.h"
 #include <iostream>
+#include <libxml++/libxml++.h>
 
-cMenuItemSetup::cMenuItemSetup(void)
+using namespace xmlpp;
+
+cMenuItemSetup::cMenuItemSetup(const Element* xmlElement)
 :cOsdMenu(tr("Item Setup"))
 {
     itemTypeText[0] = "System";
@@ -31,32 +34,43 @@ cMenuItemSetup::cMenuItemSetup(void)
     itemTypeText[2] = "Submenu";
     itemTypeText[3] = "Command";
 
+    _xmlElement = xmlElement;
+
     Add(new cMenuEditStraItem(tr("Item Type"),&_itemType, 4, itemTypeText));
 
     switch(_itemType)
     {
         case 0:
             // Add listItem of valid System Items
+            //Add(new cMenuEditStraItem(tr("available System Items"),))
             // Add textItem for title attribute
-            Add()
+            //Add(new cMenuEditStrItem(tr("title"), VAR, 64, NULL))
             break;
 
         case 1:
             // Add listItem of unused plugins or a submenu with the items
+            //Add(new cMenuEditStraItem(tr("available Plugins Items"),))
             // Add textItem for title attribute
+            //Add(new cMenuEditStrItem(tr("title"), VAR, 64, NULL))
             break;
 
         case 2:
             // Add textItem for name attribute
+            //Add(new cMenuEditStrItem(tr("name"), VAR, 64, NULL))
             break;
 
         case 3:
             // Add textItem for name attribute
+            //Add(new cMenuEditStrItem(tr("name"), VAR, 64, NULL))
             // Add textItem for command attribute
+            //Add(new cMenuEditStrItem(tr("command"), VAR, 64, NULL))
             // Add boolItem for confirm attribute
+            //Add(new cMenuEditBoolItem(tr("confirm"), &_confirm));
             break;
     }
 }
+
+// TODO: When exit check if the type was menu and now is changed -> bring a warning on the osd that the subitems will be deleted
 
 eOSState cMenuItemSetup::ProcessKey(eKeys Key)
 {

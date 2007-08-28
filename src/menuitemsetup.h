@@ -24,15 +24,19 @@
 #define ___MENUITEMSETUP_H
 
 #include <vdr/menu.h>
+#include <libxml++/libxml++.h>
+
+namespace xmlpp { class Element; }
 
 class cMenuItemSetup : public cOsdMenu
 {
     private:
         int _itemType;
+        const xmlpp::Element* _xmlElement;
         const char* itemTypeText[4];
 
     public:
-        cMenuItemSetup(void);
+        cMenuItemSetup(const xmlpp::Element* xmlElement);
         virtual eOSState ProcessKey(eKeys Key);
 };
 

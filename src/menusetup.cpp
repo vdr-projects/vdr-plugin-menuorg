@@ -100,7 +100,7 @@ eOSState cMenuOrgSetup::ProcessKey(eKeys Key)
                     break;
     
                 case kGreen:
-                    state = AddSubMenu(new cMenuItemSetup());
+                    state = AddSubMenu(new cMenuItemSetup(NULL));
                     break;
     
                 case kYellow:
