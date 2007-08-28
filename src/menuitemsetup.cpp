@@ -32,8 +32,6 @@ cMenuItemSetup::cMenuItemSetup(cOsdXmlItem* osdXmlItem)
     itemTypeText[2] = "Submenu";
     itemTypeText[3] = "Command";
 
-    _xmlElement = xmlElement;
-
     Add(new cMenuEditStraItem(tr("Item Type"),&_itemType, 4, itemTypeText));
 
     switch(_itemType)

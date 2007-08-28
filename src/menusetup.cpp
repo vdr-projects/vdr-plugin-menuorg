@@ -101,7 +101,7 @@ eOSState cMenuOrgSetup::ProcessKey(eKeys Key)
                     break;
     
                 case kGreen:
-                    cOsdXmlItem *item=Get(Current());
+                    cOsdItem *item=Get(Current());
                     state = AddSubMenu(new cMenuItemSetup(item));
                     break;
     

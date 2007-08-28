@@ -30,7 +30,7 @@
 using namespace std;
 namespace xmlpp { class Element; }
 
-class cOsdXmlItem: cOsdItem
+class cOsdXmlItem: public cOsdItem
 {
     public:
         const xmlpp::Element* _xmlElement;
