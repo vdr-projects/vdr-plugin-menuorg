@@ -30,8 +30,12 @@ class PluginSetup : public cMenuSetupPage
     private:
         int _newCustomMenuActive;
         int _newUnconfiguredPluginsIncluded;
+        int _newHideMainMenuEntry;
+        int _newMenuSetupStyle;
         bool& _customMenuActive;
         bool& _unconfiguredPluginsIncluded;
+        bool& _hideMainMenuEntry;
+        bool& _menuSetupStyle;
         MenuConfiguration& _menuConfiguration;
 
     public:
@@ -39,10 +43,12 @@ class PluginSetup : public cMenuSetupPage
         {
             static const char* CustomMenuActive;
             static const char* UnconfiguredPluginsIncluded;
+            static const char* HideMainMenuEntry;
+            static const char* MenuSetupStyle;
         };
 
     public:
-        PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded, MenuConfiguration& menuConfiguration);
+        PluginSetup(bool& customMenuActive, bool& unconfiguredPluginsIncluded, bool& hideMainMenuEntry, bool& menuSetupStyle, MenuConfiguration& menuConfiguration);
         virtual eOSState ProcessKey(eKeys Key);
 
     protected:

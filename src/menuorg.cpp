@@ -45,6 +45,8 @@ MenuOrgPlugin::MenuOrgPlugin(void)
   // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
     _customMenuShouldBeActive = true;
     _unconfiguredPluginsShouldBeIncluded = true;
+    _hideMainMenuEntry = true;
+    _flatMenuSetup = false;
     _subMenuProvider = NULL;
     _menuConfiguration = NULL;
 }
@@ -67,7 +69,10 @@ const char* MenuOrgPlugin::Description(void)
 
 const char* MenuOrgPlugin::MainMenuEntry(void)
 {
-    return NULL;
+    if(_hideMainMenuEntry)
+        return NULL;
+    else
+        return tr("Menu-Organizer");
 }
 
 const char *MenuOrgPlugin::CommandLineHelp(void)
@@ -123,13 +128,13 @@ bool MenuOrgPlugin::Initialize(void)
 cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 {
     // Perform the action when selected from the main VDR menu.
-    return new cMenuSetup(*_menuConfiguration, 1);
+    return new cMenuOrgSetup(*_menuConfiguration, _flatMenuSetup);
 }
 
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 {
     // Return a setup menu in case the plugin supports one.
-    return new PluginSetup(_customMenuShouldBeActive, _unconfiguredPluginsShouldBeIncluded, *_menuConfiguration);
+    return new PluginSetup(_customMenuShouldBeActive, _unconfiguredPluginsShouldBeIncluded, _hideMainMenuEntry, _flatMenuSetup, *_menuConfiguration);
 }
 
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
@@ -141,6 +146,14 @@ bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
     else if(!strcasecmp(Name, PluginSetup::SetupName::UnconfiguredPluginsIncluded))
     {
         _unconfiguredPluginsShouldBeIncluded = (atoi(Value) != 0);
+    }
+    else if(!strcasecmp(Name, PluginSetup::SetupName::HideMainMenuEntry))
+    {
+        _hideMainMenuEntry = (atoi(Value) != 0);
+    }
+    else if(!strcasecmp(Name, PluginSetup::SetupName::MenuSetupStyle))
+    {
+        _flatMenuSetup = (atoi(Value) != 0);
     }
     else
         return false;

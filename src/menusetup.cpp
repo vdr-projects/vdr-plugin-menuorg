@@ -31,14 +31,14 @@
 using namespace xmlpp;
 using namespace std;
 
-cMenuSetup::cMenuSetup(MenuConfiguration& menuConfiguration, int displayMode)
+cMenuOrgSetup::cMenuOrgSetup(MenuConfiguration& menuConfiguration, bool flatMenuSetup)
 :cOsdMenu(tr("Menu Setup")),_menuConfiguration(menuConfiguration)
 {
-    _displayMode = displayMode;
+    _flatMenuSetup = flatMenuSetup;
     CreateMenuItems(_menuConfiguration.Configuration(), 0);
 }
 
-void cMenuSetup::CreateMenuItems(const Element* menuRoot, int iCount)
+void cMenuOrgSetup::CreateMenuItems(const Element* menuRoot, int iCount)
 {
     int cur=Current();
 
@@ -60,10 +60,10 @@ void cMenuSetup::CreateMenuItems(const Element* menuRoot, int iCount)
             for (int i=0; i <= iCount ;i++)
                 name = " " + name;
 
-            if ( type == "menu" && _displayMode == 1)
+            if ( type == "menu" && _flatMenuSetup)
             {
                 name = "+" + name;
-                Add(new cOsdItem(name.c_str()),true);
+                Add(new cOsdItem(name.c_str()), true);
                 CreateMenuItems(childElement, iCount+1);
             }
             else
@@ -71,7 +71,7 @@ void cMenuSetup::CreateMenuItems(const Element* menuRoot, int iCount)
                 if(iCount > 0)
                     name = "  " + name;
 
-                Add(new cOsdItem(name.c_str()),true);
+                Add(new cOsdItem(name.c_str()), true);
             }
         }
     }
@@ -83,18 +83,18 @@ void cMenuSetup::CreateMenuItems(const Element* menuRoot, int iCount)
     }
 }
 
-eOSState cMenuSetup::ProcessKey(eKeys Key)
+eOSState cMenuOrgSetup::ProcessKey(eKeys Key)
 {
     dsyslog("menuorg: cMenuSetup::ProcessKey called");
     std::cerr << "menuorg: cMenuSetup::ProcessKey called" << std::endl;
 
     eOSState state = cOsdMenu::ProcessKey(Key);
 
-    if (HasSubMenu())
+    if(HasSubMenu())
     {
         return state;
     }
-    if (state == osUnknown)
+    if(state == osUnknown)
     {
         switch(Key)
         {
@@ -140,7 +140,7 @@ eOSState cMenuSetup::ProcessKey(eKeys Key)
     return state;
 }
 
-void cMenuSetup::DrawButton(void)
+void cMenuOrgSetup::DrawButton(void)
 {
     SetHelp(tr("Create"),tr("Edit"),tr("Delete"),tr("Move"));
     Display();

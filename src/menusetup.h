@@ -30,14 +30,14 @@ namespace xmlpp { class Element; }
 
 class MenuConfiguration;
 
-class cMenuSetup : public cOsdMenu
+class cMenuOrgSetup : public cOsdMenu
 {
     private:
         MenuConfiguration& _menuConfiguration;
-        int _displayMode;
+        bool _flatMenuSetup;
 
     public:
-        cMenuSetup(MenuConfiguration& menuConfiguration, int displayMode);
+        cMenuOrgSetup(MenuConfiguration& menuConfiguration, bool flatMenuSetup);
         virtual eOSState ProcessKey(eKeys Key);
 
     private:

@@ -36,6 +36,8 @@ class MenuOrgPlugin : public cPlugin
         std::string configFile;
         bool _customMenuShouldBeActive;
         bool _unconfiguredPluginsShouldBeIncluded;
+        bool _hideMainMenuEntry;
+        bool _flatMenuSetup;
         MenuConfiguration* _menuConfiguration;
 
     public:

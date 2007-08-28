@@ -28,13 +28,17 @@
 
 const char* PluginSetup::SetupName::CustomMenuActive = "customMenuActive";
 const char* PluginSetup::SetupName::UnconfiguredPluginsIncluded = "unconfiguredPluginsIncluded";
+const char* PluginSetup::SetupName::HideMainMenuEntry = "hideMainMenuEntry";
+const char* PluginSetup::SetupName::MenuSetupStyle = "menuSetupStyle";
 
-PluginSetup::PluginSetup(bool& customMenuActive, bool&  unconfiguredPluginsIncluded, MenuConfiguration& menuConfiguration)
-    :_customMenuActive(customMenuActive), _unconfiguredPluginsIncluded(unconfiguredPluginsIncluded),
+PluginSetup::PluginSetup(bool& customMenuActive, bool& unconfiguredPluginsIncluded, bool& hideMainMenuEntry, bool& menuSetupStyle, MenuConfiguration& menuConfiguration)
+    :_customMenuActive(customMenuActive), _unconfiguredPluginsIncluded(unconfiguredPluginsIncluded), _hideMainMenuEntry(hideMainMenuEntry), _menuSetupStyle(menuSetupStyle),
     _menuConfiguration(menuConfiguration)
 {
     _newCustomMenuActive = _customMenuActive;
     _newUnconfiguredPluginsIncluded = _unconfiguredPluginsIncluded;
+    _newHideMainMenuEntry = _hideMainMenuEntry;
+    _newMenuSetupStyle = _menuSetupStyle;
     CreateMenuItems();
 }
 
@@ -42,6 +46,8 @@ void PluginSetup::Store(void)
 {
     SetupStore(SetupName::CustomMenuActive, _customMenuActive = _newCustomMenuActive);
     SetupStore(SetupName::UnconfiguredPluginsIncluded, _unconfiguredPluginsIncluded = _newUnconfiguredPluginsIncluded);
+    SetupStore(SetupName::HideMainMenuEntry, _hideMainMenuEntry = _newHideMainMenuEntry);
+    SetupStore(SetupName::MenuSetupStyle, _menuSetupStyle = _newMenuSetupStyle);
 }
 
 eOSState PluginSetup::ProcessKey(eKeys Key)
@@ -57,7 +63,7 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
     switch(state)
     {
         case osUser1:
-            return AddSubMenu(new cMenuSetup(_menuConfiguration, 1));
+            return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _menuSetupStyle));
             break;
 
         case osContinue:
@@ -86,5 +92,7 @@ void PluginSetup::CreateMenuItems()
 {
     Add(new cMenuEditBoolItem(tr("Enable custom menu"), &_newCustomMenuActive));
     Add(new cMenuEditBoolItem(tr("Include unconfigured Plugins"), &_newUnconfiguredPluginsIncluded));
+    Add(new cMenuEditBoolItem(tr("Hide MainMenu Entry"), &_newHideMainMenuEntry));
+    Add(new cMenuEditBoolItem(tr("Menusetup Style"), &_newMenuSetupStyle, tr("MenuBased"),tr("Flat")));
     Add(new cOsdItem(tr("Configure Menu"), osUser1));
 }
