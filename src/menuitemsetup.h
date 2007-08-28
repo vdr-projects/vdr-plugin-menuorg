@@ -29,6 +29,7 @@
 class cMenuItemSetup : public cOsdMenu
 {
     private:
+        cOsdXmlItem* _osdXmlItem;
         cOsdXmlItem::sItemType _newItemType;
         const char* itemTypeText[4];
 

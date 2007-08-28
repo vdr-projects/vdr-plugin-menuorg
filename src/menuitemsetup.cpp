@@ -32,6 +32,11 @@ cMenuItemSetup::cMenuItemSetup(cOsdXmlItem* osdXmlItem)
     itemTypeText[2] = "Submenu";
     itemTypeText[3] = "Command";
 
+    _osdXmlItem = osdXmlItem;
+    _newItemType = _osdXmlItem->getItemType();
+
+    esyslog("menuorg: _newItemType=%d", _newItemType);
+
     Add(new cMenuEditStraItem(tr("Item Type"), (int*) &_newItemType, 4, itemTypeText));
 
     switch(_newItemType)

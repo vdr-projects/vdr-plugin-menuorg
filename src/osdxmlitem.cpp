@@ -29,7 +29,7 @@ using namespace std;
 using namespace xmlpp;
 
 cOsdXmlItem::cOsdXmlItem(const char* Text, const xmlpp::Element* xmlElement, eOSState State=osUnknown)
-: cOsdItem()
+: cOsdItem(Text, State)
 {
     _xmlElement = xmlElement;
     parseXmlElement();
