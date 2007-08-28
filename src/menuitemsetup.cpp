@@ -20,13 +20,11 @@
  *
  */
 
-#include "menuitemsetup.h"
 #include <iostream>
-#include <libxml++/libxml++.h>
+#include "menuitemsetup.h"
+#include "osdxmlitem.h"
 
-using namespace xmlpp;
-
-cMenuItemSetup::cMenuItemSetup(const Element* xmlElement)
+cMenuItemSetup::cMenuItemSetup(cOsdXmlItem* osdXmlItem)
 :cOsdMenu(tr("Item Setup"))
 {
     itemTypeText[0] = "System";

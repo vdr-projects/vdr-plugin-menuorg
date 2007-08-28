@@ -15,3 +15,4 @@ SRCS = \
   src/i18n.cpp \
   src/menusetup.cpp \
   src/menuitemsetup.cpp \
+  src/osdxmlitem.cpp \

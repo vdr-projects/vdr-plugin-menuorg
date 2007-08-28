@@ -23,6 +23,7 @@
 #include "menusetup.h"
 #include "menuconfiguration.h"
 #include "menuitemsetup.h"
+#include "osdxmlitem.h"
 #include <vdr/menu.h>
 #include <vdr/interface.h>
 #include <libxml++/libxml++.h>
@@ -63,7 +64,7 @@ void cMenuOrgSetup::CreateMenuItems(const Element* menuRoot, int iCount)
             if ( type == "menu" && _flatMenuSetup)
             {
                 name = "+" + name;
-                Add(new cOsdItem(name.c_str()), true);
+                Add(new cOsdXmlItem(name.c_str(), childElement));
                 CreateMenuItems(childElement, iCount+1);
             }
             else
@@ -71,7 +72,7 @@ void cMenuOrgSetup::CreateMenuItems(const Element* menuRoot, int iCount)
                 if(iCount > 0)
                     name = "  " + name;
 
-                Add(new cOsdItem(name.c_str()), true);
+                Add(new cOsdXmlItem(name.c_str(), childElement));
             }
         }
     }
@@ -100,7 +101,8 @@ eOSState cMenuOrgSetup::ProcessKey(eKeys Key)
                     break;
     
                 case kGreen:
-                    state = AddSubMenu(new cMenuItemSetup(NULL));
+                    cOsdXmlItem *item=Get(Current());
+                    state = AddSubMenu(new cMenuItemSetup(item));
                     break;
     
                 case kYellow:
