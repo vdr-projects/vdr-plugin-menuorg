@@ -115,7 +115,7 @@ bool MenuOrgPlugin::Initialize(void)
     if(configFile.empty())
         configFile = (string) ConfigDirectory() + "/menuorg.xml";
 
-    _menuConfiguration = new MenuConfiguration(configFile);
+    _menuConfiguration = new MenuConfiguration(configFile, &_unconfiguredPluginsShouldBeIncluded);
     // TODO need handling of unloadable config File here!!!
 
     _subMenuProvider = new MainMenuItemsProvider(*_menuConfiguration);

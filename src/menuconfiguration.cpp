@@ -51,9 +51,10 @@ const string MenuConfiguration::_dtd =
   " execute CDATA #REQUIRED\n"
   " confirm (yes|no) #IMPLIED>";
 
-MenuConfiguration::MenuConfiguration(string menuFileName)
+MenuConfiguration::MenuConfiguration(string menuFileName, bool* unconfiguredPluginsShouldBeIncluded)
 {
     _configuration = NULL;
+    _unconfiguredPluginsShouldBeIncluded = unconfiguredPluginsShouldBeIncluded;
 
     try
     {
@@ -89,7 +90,10 @@ MenuNode* MenuConfiguration::MenuTree()
     {
         MenuNode* menuRoot = new MenuNode();
         CreateMenuTree(_configuration, menuRoot);
-        AddUnconfiguredPlugins(menuRoot);
+
+        if(_unconfiguredPluginsShouldBeIncluded)
+            AddUnconfiguredPlugins(menuRoot);
+
         return menuRoot;
     }
     else
