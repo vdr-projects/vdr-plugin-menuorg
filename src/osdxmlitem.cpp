@@ -26,6 +26,7 @@
 #include "osdxmlitem.h"
 
 using namespace std;
+using namespace xmlpp;
 
 cOsdXmlItem::cOsdXmlItem(const char* Text, const xmlpp::Element* xmlElement, eOSState State=osUnknown)
 : cOsdItem()
@@ -38,7 +39,7 @@ void cOsdXmlItem::parseXmlElement(void)
 {
     const Attribute* nameAttribute = _xmlElement->get_attribute("name");
 
-    string type = childElement->get_name();
+    string type = _xmlElement->get_name();
     string name = nameAttribute->get_value();
 
     setNameAttribute(name);
@@ -46,14 +47,14 @@ void cOsdXmlItem::parseXmlElement(void)
     if (type == "system")
     {
         setItemType(SYSTEM);
-        const Attribute* titleAttribute = childElement->get_attribute("title");
+        const Attribute* titleAttribute = _xmlElement->get_attribute("title");
         string title = titleAttribute ? (string) titleAttribute->get_value() : "";
         setTitleAttribute(title);
     }
     else if (type == "plugin")
     {
         setItemType(PLUGIN);
-        const Attribute* titleAttribute = childElement->get_attribute("title");
+        const Attribute* titleAttribute = _xmlElement->get_attribute("title");
         string title = titleAttribute ? (string) titleAttribute->get_value() : "";
         setTitleAttribute(title);
     }
@@ -64,57 +65,62 @@ void cOsdXmlItem::parseXmlElement(void)
     else if (type == "command")
     {
         setItemType(COMMAND);
-        setCommandAttribute();
-        setConfirmAttribute();
+
+        string execute = _xmlElement->get_attribute("execute")->get_value();
+        setCommandAttribute(execute);
+
+        const Attribute* confirmAttribute = _xmlElement->get_attribute("confirm");
+        if (confirmAttribute)
+            setConfirmAttribute(confirmAttribute->get_value());
     }
 }
 
-sItemType getItemType(void)
+cOsdXmlItem::sItemType cOsdXmlItem::getItemType(void)
 {
     return _ItemType;
 }
 
-string getNameAttribute(void)
+string cOsdXmlItem::getNameAttribute(void)
 {
     return _nameAttribute;
 }
 
-string getTitleAttribute(void)
+string cOsdXmlItem::getTitleAttribute(void)
 {
     return _titleAttribute;
 }
 
-string getCommandAttribute(void)
+string cOsdXmlItem::getCommandAttribute(void)
 {
     return _commandAttribute;
 }
 
-string getConfirmAttribute(void)
+string cOsdXmlItem::getConfirmAttribute(void)
 {
     return _confirmAttribute;
 }
 
-void setItemType(sItemType type)
+void cOsdXmlItem::setItemType(sItemType type)
 {
     _ItemType = type;
 }
 
-void setNameAttribute(string name);
+void cOsdXmlItem::setNameAttribute(string name)
 {
     _nameAttribute = name;
 }
 
-void setTitleAttribute(string title)
+void cOsdXmlItem::setTitleAttribute(string title)
 {
     _titleAttribute = title;
 }
 
-void setCommandAttribute(string command)
+void cOsdXmlItem::setCommandAttribute(string command)
 {
     _commandAttribute = command;
 }
 
-void setConfirmAttribute(string confirm)
+void cOsdXmlItem::setConfirmAttribute(string confirm)
 {
     _confirmAttribute = confirm;
 }
