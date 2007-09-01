@@ -20,33 +20,39 @@
  *
  */
 
-#ifndef ___PLUGINSETUP_H
-#define ___PLUGINSETUP_H
+#ifndef ___PLUGINCONFIGURATION_H_
+#define ___PLUGINCONFIGURATION_H_
 
-#include <vdr/menu.h>
-
-class PluginConfiguration;
-class MenuConfiguration;
-
-class PluginSetup : public cMenuSetupPage
+class PluginConfiguration
 {
+    friend class PluginSetup;
+    
     private:
-        int _newCustomMenuActive;
-        int _newUnconfiguredPluginsIncluded;
-        int _newHideMainMenuEntry;
-        int _newMenuSetupStyle;
-        PluginConfiguration& _pluginConfiguration;
-        MenuConfiguration& _menuConfiguration;
+        struct SetupName
+        {
+            static const char* CustomMenuActive;
+            static const char* UnconfiguredPluginsIncluded;
+            static const char* HideMainMenuEntry;
+            static const char* MenuSetupStyle;
+        };
 
-    public:
-        PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfiguration& menuConfiguration);
-        virtual eOSState ProcessKey(eKeys Key);
+	private:
+        bool _customMenuActive;
+        bool _unconfiguredPluginsIncluded; 
+        bool _hideMainMenuEntry;
+        int _menuSetupStyle;
 
-    protected:
-        virtual void Store(void);
+	public:
+        PluginConfiguration();
+        bool SetConfigurationOptionByName(const char* Name, const char* Value);
+        bool CustomMenuActive();
+        bool UnconfiguredPluginsInluded();
+        bool MainMenuEntryHidden();
+        int MenuSetupStyle();
 
-    private:
-        void CreateMenuItems();
+	private:
+        void SetDefaults();
 };
 
 #endif
+

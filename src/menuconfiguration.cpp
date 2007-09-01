@@ -51,7 +51,7 @@ const string MenuConfiguration::_dtd =
   " execute CDATA #REQUIRED\n"
   " confirm (yes|no) #IMPLIED>";
 
-MenuConfiguration::MenuConfiguration(string menuFileName, bool* unconfiguredPluginsShouldBeIncluded)
+MenuConfiguration::MenuConfiguration(string menuFileName, bool unconfiguredPluginsShouldBeIncluded)
 {
     _configuration = NULL;
     _unconfiguredPluginsShouldBeIncluded = unconfiguredPluginsShouldBeIncluded;

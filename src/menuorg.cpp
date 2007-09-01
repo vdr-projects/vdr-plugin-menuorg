@@ -40,15 +40,12 @@ using namespace std;
 
 MenuOrgPlugin::MenuOrgPlugin(void)
 {
-  // Initialize any member variables here.
-  // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
-  // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
-    _customMenuShouldBeActive = true;
-    _unconfiguredPluginsShouldBeIncluded = true;
-    _hideMainMenuEntry = true;
-    _flatMenuSetup = false;
+    // Initialize any member variables here.
+    // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
+    // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
+    
     _subMenuProvider = NULL;
-    _menuConfiguration = NULL;
+    _configFile = (string) ConfigDirectory() + "/menuorg.xml";
 }
 
 MenuOrgPlugin::~MenuOrgPlugin()
@@ -64,12 +61,12 @@ const char* MenuOrgPlugin::Version(void)
 
 const char* MenuOrgPlugin::Description(void)
 {
-    return tr("organize your Mainmenu");
+    return tr("reorganize main menu");
 }
 
 const char* MenuOrgPlugin::MainMenuEntry(void)
 {
-    if(_hideMainMenuEntry)
+    if(_pluginConfiguration.MainMenuEntryHidden())
         return NULL;
     else
         return tr("Menu-Organizer");
@@ -99,7 +96,7 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
         switch (optionChar)
         {
             case 'c':
-                configFile = optarg;
+                _configFile = optarg;
                 break;
 
             default:
@@ -112,10 +109,7 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
 bool MenuOrgPlugin::Initialize(void)
 {
-    if(configFile.empty())
-        configFile = (string) ConfigDirectory() + "/menuorg.xml";
-
-    _menuConfiguration = new MenuConfiguration(configFile, &_unconfiguredPluginsShouldBeIncluded);
+    _menuConfiguration = new MenuConfiguration(_configFile, _pluginConfiguration.UnconfiguredPluginsInluded());
     // TODO need handling of unloadable config File here!!!
 
     _subMenuProvider = new MainMenuItemsProvider(*_menuConfiguration);
@@ -127,43 +121,22 @@ bool MenuOrgPlugin::Initialize(void)
 
 cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 {
-    // Perform the action when selected from the main VDR menu.
-    return new cMenuOrgSetup(*_menuConfiguration, _flatMenuSetup);
+    return new cMenuOrgSetup(*_menuConfiguration, _pluginConfiguration.MenuSetupStyle());
 }
 
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 {
-    // Return a setup menu in case the plugin supports one.
-    return new PluginSetup(_customMenuShouldBeActive, _unconfiguredPluginsShouldBeIncluded, _hideMainMenuEntry, _flatMenuSetup, *_menuConfiguration);
+    return new PluginSetup(_pluginConfiguration, *_menuConfiguration);
 }
 
 bool MenuOrgPlugin::SetupParse(const char *Name, const char *Value)
 {
-    if (!strcasecmp(Name, PluginSetup::SetupName::CustomMenuActive))
-    {
-        _customMenuShouldBeActive = (atoi(Value) != 0);
-    }
-    else if(!strcasecmp(Name, PluginSetup::SetupName::UnconfiguredPluginsIncluded))
-    {
-        _unconfiguredPluginsShouldBeIncluded = (atoi(Value) != 0);
-    }
-    else if(!strcasecmp(Name, PluginSetup::SetupName::HideMainMenuEntry))
-    {
-        _hideMainMenuEntry = (atoi(Value) != 0);
-    }
-    else if(!strcasecmp(Name, PluginSetup::SetupName::MenuSetupStyle))
-    {
-        _flatMenuSetup = (atoi(Value) != 0);
-    }
-    else
-        return false;
-
-    return true;
+    return _pluginConfiguration.SetConfigurationOptionByName(Name, Value);
 }
 
 bool MenuOrgPlugin::Service(const char *Id, void *Data)
 {
-    if (strcmp(Id, MENU_ITEMS_PROVIDER_SERVICE_ID) == 0 && _customMenuShouldBeActive) 
+    if (strcmp(Id, MENU_ITEMS_PROVIDER_SERVICE_ID) == 0 && _pluginConfiguration.CustomMenuActive()) 
     {
         if (_subMenuProvider)
         {
@@ -174,6 +147,7 @@ bool MenuOrgPlugin::Service(const char *Id, void *Data)
         }
         else
         {
+            // TODO; Handling of unloadable config file should not be done here
             Skins.Message(mtError, tr("Failed to load MenuOrg's config file!"));
         }
     }

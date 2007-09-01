@@ -25,6 +25,7 @@
 
 #include <vdr/plugin.h>
 #include <string>
+#include "pluginconfiguration.h"
 
 class MainMenuItemsProvider;
 class MenuConfiguration;
@@ -33,11 +34,8 @@ class MenuOrgPlugin : public cPlugin
 {
     private:
         MainMenuItemsProvider* _subMenuProvider;
-        std::string configFile;
-        bool _customMenuShouldBeActive;
-        bool _unconfiguredPluginsShouldBeIncluded;
-        bool _hideMainMenuEntry;
-        bool _flatMenuSetup;
+        std::string _configFile;
+        PluginConfiguration _pluginConfiguration;
         MenuConfiguration* _menuConfiguration;
 
     public:

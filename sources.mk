@@ -6,6 +6,7 @@ SRCS = \
   src/menunode.cpp \
   src/menuorg.cpp \
   src/osditemdefinition.cpp \
+  src/pluginconfiguration.cpp \
   src/plugincreator.cpp \
   src/pluginitemdefinition.cpp \
   src/pluginmenunode.cpp \

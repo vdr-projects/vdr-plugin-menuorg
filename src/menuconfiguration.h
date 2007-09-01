@@ -37,13 +37,13 @@ class MenuConfiguration
 {
     private:
         static const std::string _dtd;
-        bool* _unconfiguredPluginsShouldBeIncluded;
+        bool _unconfiguredPluginsShouldBeIncluded;
         std::vector<std::string> _configuredPlugins;
         xmlpp::Element* _configuration;
         xmlpp::DomParser _parser;
 
     public:
-        MenuConfiguration(std::string menuFileName, bool* unconfiguredPluginsShouldBeIncluded);
+        MenuConfiguration(std::string menuFileName, bool unconfiguredPluginsShouldBeIncluded);
         MenuNode* MenuTree();
         xmlpp::Element* Configuration();
 

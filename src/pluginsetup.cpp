@@ -26,28 +26,18 @@
 #include "pluginsetup.h"
 #include "menusetup.h"
 
-const char* PluginSetup::SetupName::CustomMenuActive = "customMenuActive";
-const char* PluginSetup::SetupName::UnconfiguredPluginsIncluded = "unconfiguredPluginsIncluded";
-const char* PluginSetup::SetupName::HideMainMenuEntry = "hideMainMenuEntry";
-const char* PluginSetup::SetupName::MenuSetupStyle = "menuSetupStyle";
-
-PluginSetup::PluginSetup(bool& customMenuActive, bool& unconfiguredPluginsIncluded, bool& hideMainMenuEntry, bool& menuSetupStyle, MenuConfiguration& menuConfiguration)
-    :_customMenuActive(customMenuActive), _unconfiguredPluginsIncluded(unconfiguredPluginsIncluded), _hideMainMenuEntry(hideMainMenuEntry), _menuSetupStyle(menuSetupStyle),
-    _menuConfiguration(menuConfiguration)
+PluginSetup::PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfiguration& menuConfiguration)
+    :_pluginConfiguration(pluginConfiguration), _menuConfiguration(menuConfiguration)
 {
-    _newCustomMenuActive = _customMenuActive;
-    _newUnconfiguredPluginsIncluded = _unconfiguredPluginsIncluded;
-    _newHideMainMenuEntry = _hideMainMenuEntry;
-    _newMenuSetupStyle = _menuSetupStyle;
     CreateMenuItems();
 }
 
 void PluginSetup::Store(void)
 {
-    SetupStore(SetupName::CustomMenuActive, _customMenuActive = _newCustomMenuActive);
-    SetupStore(SetupName::UnconfiguredPluginsIncluded, _unconfiguredPluginsIncluded = _newUnconfiguredPluginsIncluded);
-    SetupStore(SetupName::HideMainMenuEntry, _hideMainMenuEntry = _newHideMainMenuEntry);
-    SetupStore(SetupName::MenuSetupStyle, _menuSetupStyle = _newMenuSetupStyle);
+    SetupStore(PluginConfiguration::SetupName::CustomMenuActive, _pluginConfiguration._customMenuActive = _newCustomMenuActive);
+    SetupStore(PluginConfiguration::SetupName::UnconfiguredPluginsIncluded, _pluginConfiguration._unconfiguredPluginsIncluded = _newUnconfiguredPluginsIncluded);
+    SetupStore(PluginConfiguration::SetupName::HideMainMenuEntry, _pluginConfiguration._hideMainMenuEntry = _newHideMainMenuEntry);
+    SetupStore(PluginConfiguration::SetupName::MenuSetupStyle, _pluginConfiguration._menuSetupStyle = _newMenuSetupStyle);
 }
 
 eOSState PluginSetup::ProcessKey(eKeys Key)
@@ -61,7 +51,7 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
     switch(state)
     {
         case osUser1:
-            return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _menuSetupStyle));
+            return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _pluginConfiguration._menuSetupStyle));
             break;
 
         case osContinue:
