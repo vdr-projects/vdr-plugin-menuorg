@@ -25,7 +25,7 @@
 #include "osditemdefinition.h"
 #include "childlock.h"
 
-SystemMenuNode::SystemMenuNode(std::string text, eOSState state)
+SystemMenuNode::SystemMenuNode(eOSState state, std::string text)
 {
     _text = text;
     _state = state;

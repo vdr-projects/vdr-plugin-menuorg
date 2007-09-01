@@ -151,7 +151,7 @@ MenuNode* MenuConfiguration::AddSubMenuNode(string name, MenuNode* menu)
 
 void MenuConfiguration::AddSystemMenuNode(string name, string title, MenuNode* menu)
 {
-    menu->AddChild(new SystemMenuNode(title, MenuTextToVdrState(name)));
+    menu->AddChild(new SystemMenuNode(MenuTextToVdrState(name), title));
 }
 
 void MenuConfiguration::AddPluginMenuNode(string pluginName, string title, MenuNode* menu)

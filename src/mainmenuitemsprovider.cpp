@@ -101,6 +101,7 @@ cOsdMenu* MainMenuItemsProvider::Execute(cOsdItem* item)
     {
         return _currentMenu->Childs().at(itemIndex)->Execute();
     }
+    return NULL;
 }
 
 int MainMenuItemsProvider::IndexOfCustomOsdItem(cOsdItem* item)
