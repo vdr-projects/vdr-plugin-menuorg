@@ -24,9 +24,12 @@
 #include "submenunode.h"
 #include "systemmenunode.h"
 #include "pluginmenunode.h"
+#include "commandmenunode.h"
 #include <vdr/plugin.h>
 #include "childlock.h"
 #include "menuconfiguration.h"
+#include "osditemdefinition.h"
+#include "pluginitemdefinition.h"
 
 MainMenuItemsProvider::MainMenuItemsProvider(MenuConfiguration& menuConfiguration)
     :_menuConfiguration(menuConfiguration)
@@ -49,7 +52,8 @@ MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
     {
         if (!(*i)->IsHidden())
         {
-            _currentMainMenuItems.push_back((*i)->CreateMenuItemDefinition());
+            (*i)->Process(this);
+            _currentMainMenuItems.push_back(_createdMenuItemDefinition);
         }
     }
 
@@ -115,4 +119,25 @@ int MainMenuItemsProvider::IndexOfCustomOsdItem(cOsdItem* item)
         }
     }
     return -1;
+}
+
+void MainMenuItemsProvider::ProcessCommandMenuNode(CommandMenuNode* node)
+{
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser2));
+}
+
+void MainMenuItemsProvider::ProcessPluginMenuNode(PluginMenuNode* node)
+{
+    _createdMenuItemDefinition = new PluginItemDefinition(node->Title().c_str(), node->PluginIndex());   
+}
+
+void MainMenuItemsProvider::ProcessSubMenuNode(SubMenuNode* node)
+{
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser1));
+}
+
+void MainMenuItemsProvider::ProcessSystemMenuNode(SystemMenuNode* node)
+{
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(tr(node->Text().c_str()), node->State()));
+    
 }

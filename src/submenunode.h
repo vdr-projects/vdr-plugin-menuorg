@@ -26,14 +26,19 @@
 #include "menunode.h"
 #include <string>
 
+class IMenuNodeProcessor;
+
 class SubMenuNode: public MenuNode
 {
-    private:
+	private:
         std::string _text;
 
-    public:
+	public:
         SubMenuNode(std::string text);
-        IMenuItemDefinition* CreateMenuItemDefinition();
+        std::string Text();
+        
+        // MenuNode
+        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
         bool IsHidden();
 };
 

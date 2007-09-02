@@ -27,15 +27,22 @@
 #include <string>
 #include <vdr/osdbase.h>
 
+class IMenuNodeProcessor;
+
 class SystemMenuNode: public MenuNode
 {
-    private:
+	private:
         std::string _text;
         eOSState _state;
 
-    public:
+	public:
         SystemMenuNode(eOSState state, std::string text);
-        IMenuItemDefinition* CreateMenuItemDefinition();
+        
+        std::string Text();
+        eOSState State();
+
+        // MenuNode
+        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
         bool IsHidden();
 };
 

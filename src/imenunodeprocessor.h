@@ -20,50 +20,22 @@
  *
  */
 
-#include "menunode.h"
+#ifndef ___IMENUNODEPROCESSOR_H_
+#define ___IMENUNODEPROCESSOR_H_
 
-MenuNode::MenuNode()
-{
-    _parent = NULL;
-}
+class SystemMenuNode;
+class PluginMenuNode;
+class SubMenuNode;
+class CommandMenuNode;
 
-MenuNode::~MenuNode()
+class IMenuNodeProcessor
 {
-    while (!_childs.empty())
-    {
-        delete _childs.back();
-        _childs.pop_back();
-    }
-}
+public:
+	virtual ~IMenuNodeProcessor() {};
+    virtual void ProcessSystemMenuNode(SystemMenuNode* node) = 0;
+    virtual void ProcessPluginMenuNode(PluginMenuNode* node) = 0;
+    virtual void ProcessSubMenuNode(SubMenuNode* node) = 0;
+    virtual void ProcessCommandMenuNode(CommandMenuNode* node) = 0;
+};
 
-MenuNode* MenuNode::Parent()
-{
-    return _parent;
-}
-
-MenuNodeList& MenuNode::Childs()
-{
-    return _childs;
-}
-
-MenuNode* MenuNode::AddChild(MenuNode* child)
-{
-    _childs.push_back(child);
-    child->SetParent(this);
-    return child;
-}
-
-void MenuNode::SetParent(MenuNode* parent)
-{
-    _parent = parent;
-}
-
-cOsdMenu* MenuNode::Execute()
-{
-    return NULL;
-}
-
-bool MenuNode::IsHidden()
-{
-    return false;
-}
+#endif

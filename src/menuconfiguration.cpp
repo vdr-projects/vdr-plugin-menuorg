@@ -88,7 +88,7 @@ MenuNode* MenuConfiguration::MenuTree()
 { 
     if (_configuration)
     {
-        MenuNode* menuRoot = new MenuNode();
+        MenuNode* menuRoot = new SubMenuNode("root");
         CreateMenuTree(_configuration, menuRoot);
 
         if(_unconfiguredPluginsShouldBeIncluded)

@@ -24,18 +24,26 @@
 #include <vdr/osdbase.h>
 #include "osditemdefinition.h"
 #include "childlock.h"
+#include "imenunodeprocessor.h"
 
-SubMenuNode::SubMenuNode(std::string text)
+using namespace std;
+
+SubMenuNode::SubMenuNode(string text)
 {
     _text = text;
 }
 
-IMenuItemDefinition* SubMenuNode::CreateMenuItemDefinition()
+string SubMenuNode::Text()
 {
-    return new OsdItemDefinition(new cOsdItem(_text.c_str(), osUser1));
+    return _text;
 }
 
 bool SubMenuNode::IsHidden()
 {
     return ChildLock::IsMenuHidden(_text.c_str());
+}
+
+void SubMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
+{
+    menuNodeProcessor->ProcessSubMenuNode(this);
 }

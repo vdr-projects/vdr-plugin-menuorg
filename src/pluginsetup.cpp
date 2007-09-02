@@ -34,10 +34,14 @@ PluginSetup::PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfigura
 
 void PluginSetup::Store(void)
 {
-    SetupStore(PluginConfiguration::SetupName::CustomMenuActive, _pluginConfiguration._customMenuActive = _newCustomMenuActive);
-    SetupStore(PluginConfiguration::SetupName::UnconfiguredPluginsIncluded, _pluginConfiguration._unconfiguredPluginsIncluded = _newUnconfiguredPluginsIncluded);
-    SetupStore(PluginConfiguration::SetupName::HideMainMenuEntry, _pluginConfiguration._hideMainMenuEntry = _newHideMainMenuEntry);
-    SetupStore(PluginConfiguration::SetupName::MenuSetupStyle, _pluginConfiguration._menuSetupStyle = _newMenuSetupStyle);
+    SetupStore(PluginConfiguration::SetupName::CustomMenuActive,
+      _pluginConfiguration._customMenuActive = _newCustomMenuActive);
+    SetupStore(PluginConfiguration::SetupName::UnconfiguredPluginsIncluded,
+      _pluginConfiguration._unconfiguredPluginsIncluded = _newUnconfiguredPluginsIncluded);
+    SetupStore(PluginConfiguration::SetupName::HideMainMenuEntry,
+      _pluginConfiguration._hideMainMenuEntry = _newHideMainMenuEntry);
+    SetupStore(PluginConfiguration::SetupName::MenuSetupStyle,
+      _pluginConfiguration._menuSetupStyle = _newMenuSetupStyle);
 }
 
 eOSState PluginSetup::ProcessKey(eKeys Key)
@@ -79,8 +83,8 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
 void PluginSetup::CreateMenuItems()
 {
     Add(new cMenuEditBoolItem(tr("Enable custom menu"), &_newCustomMenuActive));
-    Add(new cMenuEditBoolItem(tr("Include unconfigured Plugins"), &_newUnconfiguredPluginsIncluded));
-    Add(new cMenuEditBoolItem(tr("Hide MainMenu Entry"), &_newHideMainMenuEntry));
-    Add(new cMenuEditBoolItem(tr("Menusetup Style"), &_newMenuSetupStyle, tr("MenuBased"),tr("Flat")));
-    Add(new cOsdItem(tr("Configure Menu"), osUser1));
+    Add(new cMenuEditBoolItem(tr("Include unconfigured plugins"), &_newUnconfiguredPluginsIncluded));
+    Add(new cMenuEditBoolItem(tr("Hide main menu entry"), &_newHideMainMenuEntry));
+    Add(new cMenuEditBoolItem(tr("Menu setup style"), &_newMenuSetupStyle, tr("MenuBased"), tr("Flat")));
+    Add(new cOsdItem(tr("Configure menu"), osUser1));
 }

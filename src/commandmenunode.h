@@ -26,20 +26,27 @@
 #include "menunode.h"
 #include <string>
 
+class IMenuNodeProcessor;
+
 class CommandMenuNode: public MenuNode
 {
-    private:
+	private:
         std::string _text;
         std::string _command;
         bool _confirm;
 
-    public:
+	public:
         CommandMenuNode(std::string text, std::string _command, bool confirm);
-        IMenuItemDefinition* CreateMenuItemDefinition();
-        cOsdMenu* Execute();
+        std::string Text();
+        std::string Command();
+        bool ShouldConfirm();
+        
+        // MenuNode
+        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
         bool IsHidden();
+        cOsdMenu* Execute();
 
-    private:
+	private:
         std::string ExecuteCommand();
 };
 

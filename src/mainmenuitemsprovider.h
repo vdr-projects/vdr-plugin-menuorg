@@ -24,28 +24,38 @@
 #define ___MAINMENUITEMSPROVIDER_H
 
 #include <vdr/mainmenuitemsprovider.h>
+#include "imenunodeprocessor.h"
 
 class MenuNode;
 class MenuConfiguration;
 
-class MainMenuItemsProvider: public IMainMenuItemsProvider
+class MainMenuItemsProvider: public IMainMenuItemsProvider, public IMenuNodeProcessor
 {
-    private:
+	private:
         MenuNode* _rootMenu;
         MenuNode* _currentMenu;
         MenuItemDefinitions _currentMainMenuItems;
         MenuConfiguration& _menuConfiguration;
+        IMenuItemDefinition* _createdMenuItemDefinition;
 
-    public:
+	public:
         MainMenuItemsProvider(MenuConfiguration& menuConfiguration);
         ~MainMenuItemsProvider();
-        virtual MenuItemDefinitions* MainMenuItems();
-        virtual void EnterRootMenu();
-        virtual void EnterSubMenu(cOsdItem* item);
-        virtual bool LeaveSubMenu();
-        virtual cOsdMenu* Execute(cOsdItem* item);
 
-    private:
+        // IMenuNodeProcessor
+        MenuItemDefinitions* MainMenuItems();
+        void EnterRootMenu();
+        void EnterSubMenu(cOsdItem* item);
+        bool LeaveSubMenu();
+        cOsdMenu* Execute(cOsdItem* item);
+
+        // IMenuNodeProcessor
+        void ProcessSystemMenuNode(SystemMenuNode* node);
+        void ProcessPluginMenuNode(PluginMenuNode* node);
+        void ProcessSubMenuNode(SubMenuNode* node);
+        void ProcessCommandMenuNode(CommandMenuNode* node);
+
+	private:
         void ResetMainMenuItemsList();
         int IndexOfCustomOsdItem(cOsdItem* item);
 };

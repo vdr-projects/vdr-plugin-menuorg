@@ -26,6 +26,7 @@
 #include <vdr/plugin.h>
 #include "pluginitemdefinition.h"
 #include "childlock.h"
+#include "imenunodeprocessor.h"
 
 using namespace std;
 
@@ -36,12 +37,6 @@ PluginMenuNode::PluginMenuNode(cPlugin* plugin, int pluginIndex, string title)
     _title = title;
 }
 
-IMenuItemDefinition* PluginMenuNode::CreateMenuItemDefinition()
-{
-    const char* mainMenuEntry = _title.empty() ? _plugin->MainMenuEntry() : _title.c_str();
-    return new PluginItemDefinition(mainMenuEntry, _pluginIndex);
-}
-
 bool PluginMenuNode::IsHidden()
 {
     return (!HasMainMenuEntry()) || ChildLock::IsPluginHidden(_plugin);
@@ -50,4 +45,22 @@ bool PluginMenuNode::IsHidden()
 bool PluginMenuNode::HasMainMenuEntry()
 {
     return (_plugin->MainMenuEntry() != NULL);
+}
+
+cPlugin* PluginMenuNode::Plugin()
+{
+	return _plugin;
+}
+
+void PluginMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
+{
+    menuNodeProcessor->ProcessPluginMenuNode(this);
+}
+
+int PluginMenuNode::PluginIndex(){
+	return _pluginIndex;
+}
+
+std::string PluginMenuNode::Title(){
+	return NULL;
 }

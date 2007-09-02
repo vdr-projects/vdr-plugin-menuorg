@@ -28,6 +28,7 @@
 class IMenuItemDefinition;
 class MenuNode;
 class cOsdMenu;
+class IMenuNodeProcessor;
 
 typedef std::vector<MenuNode*> MenuNodeList;
 
@@ -46,7 +47,7 @@ class MenuNode
         MenuNode* Parent();
         MenuNodeList& Childs();
         MenuNode* AddChild(MenuNode* child);
-        virtual IMenuItemDefinition* CreateMenuItemDefinition();
+        virtual void Process(IMenuNodeProcessor* menuNodeProcessor) = 0;
         virtual cOsdMenu* Execute();
         virtual bool IsHidden();
 };

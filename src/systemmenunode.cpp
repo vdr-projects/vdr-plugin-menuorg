@@ -24,19 +24,32 @@
 #include <vdr/mainmenuitemsprovider.h>
 #include "osditemdefinition.h"
 #include "childlock.h"
+#include "imenunodeprocessor.h"
 
-SystemMenuNode::SystemMenuNode(eOSState state, std::string text)
+using namespace std;
+
+SystemMenuNode::SystemMenuNode(eOSState state, string text)
 {
     _text = text;
     _state = state;
 }
 
-IMenuItemDefinition* SystemMenuNode::CreateMenuItemDefinition()
-{
-    return new OsdItemDefinition(new cOsdItem(tr(_text.c_str()), _state));
-}
-
 bool SystemMenuNode::IsHidden()
 {
     return ChildLock::IsMenuHidden(_text.c_str());
+}
+
+void SystemMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
+{
+    menuNodeProcessor->ProcessSystemMenuNode(this);
+}
+
+eOSState SystemMenuNode::State()
+{
+	return _state;
+}
+
+string SystemMenuNode::Text()
+{
+	return _text;
 }

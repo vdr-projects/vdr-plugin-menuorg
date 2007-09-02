@@ -26,6 +26,7 @@
 #include <vdr/menu.h>
 #include "osditemdefinition.h"
 #include "childlock.h"
+#include "imenunodeprocessor.h"
 
 using namespace std;
 
@@ -34,11 +35,6 @@ CommandMenuNode::CommandMenuNode(string text, string command, bool confirm)
     _text = text;
     _command = command;
     _confirm = confirm;
-}
-
-IMenuItemDefinition* CommandMenuNode::CreateMenuItemDefinition()
-{
-    return new OsdItemDefinition(new cOsdItem(_text.c_str(), osUser2));
 }
 
 cOsdMenu* CommandMenuNode::Execute()
@@ -85,4 +81,24 @@ string CommandMenuNode::ExecuteCommand()
 bool CommandMenuNode::IsHidden()
 {
     return ChildLock::IsMenuHidden(_text.c_str());
+}
+
+void CommandMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
+{
+    menuNodeProcessor->ProcessCommandMenuNode(this);
+}
+
+string CommandMenuNode::Command()
+{
+	return _command;
+}
+
+bool CommandMenuNode::ShouldConfirm()
+{
+	return _confirm;
+}
+
+string CommandMenuNode::Text()
+{
+	return _text;
 }
