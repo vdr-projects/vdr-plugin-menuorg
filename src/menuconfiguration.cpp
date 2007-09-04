@@ -116,9 +116,9 @@ void MenuConfiguration::CreateMenuTree(const Element* menuRoot, MenuNode* menuNo
         if (childElement)
         {
             const Attribute* nameAttribute = childElement->get_attribute("name");
+            string name = nameAttribute ? (string) UnicodeToLocaleOrIso8859(nameAttribute->get_value()) : "";
 
             string type = childElement->get_name();
-            string name = nameAttribute ? (string) UnicodeToLocaleOrIso8859(nameAttribute->get_value()) : "";
 
             if ( type == "menu")
             {
