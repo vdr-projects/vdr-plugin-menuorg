@@ -144,5 +144,5 @@ void MainMenuItemsProvider::ProcessSystemMenuNode(SystemMenuNode* node)
 
 void MainMenuItemsProvider::ProcessLineMenuNode(LineMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdLineItem((node->Text().c_str()), osContinue);
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdLineItem(node->Text().c_str());
 }
