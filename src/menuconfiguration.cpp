@@ -35,8 +35,8 @@ using namespace xmlpp;
 using namespace std;
 
 const string MenuConfiguration::_dtd = 
-  "<!ELEMENT menus ((menu | system | plugin | command)+)>\n"
-  "<!ELEMENT menu ((menu | system | plugin | command)+)>\n"
+  "<!ELEMENT menus ((menu | system | plugin | command | line)+)>\n"
+  "<!ELEMENT menu ((menu | system | plugin | command | line)+)>\n"
   "<!ATTLIST menu name CDATA #REQUIRED>\n"
   "<!ELEMENT system EMPTY>\n"
   "<!ATTLIST system\n"
@@ -50,7 +50,10 @@ const string MenuConfiguration::_dtd =
   "<!ATTLIST command\n"
   " name CDATA #REQUIRED\n"
   " execute CDATA #REQUIRED\n"
-  " confirm (yes|no) #IMPLIED>";
+  " confirm (yes|no) #IMPLIED>"
+  "<!ELEMENT line EMPTY>\n"
+  "<!ATTLIST line\n"
+  " title CDATA #IMPLIED>\n";
 
 MenuConfiguration::MenuConfiguration(string menuFileName, bool unconfiguredPluginsShouldBeIncluded)
 {

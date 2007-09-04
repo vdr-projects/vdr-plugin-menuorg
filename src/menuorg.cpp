@@ -43,9 +43,8 @@ MenuOrgPlugin::MenuOrgPlugin(void)
     // Initialize any member variables here.
     // DON'T DO ANYTHING ELSE THAT MAY HAVE SIDE EFFECTS, REQUIRE GLOBAL
     // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
-    
+
     _subMenuProvider = NULL;
-    _configFile = (string) ConfigDirectory() + "/menuorg.xml";
 }
 
 MenuOrgPlugin::~MenuOrgPlugin()
@@ -109,6 +108,7 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
 bool MenuOrgPlugin::Initialize(void)
 {
+    _configFile = (string) ConfigDirectory() + "/menuorg.xml";
     _menuConfiguration = new MenuConfiguration(_configFile, _pluginConfiguration.UnconfiguredPluginsInluded());
     // TODO need handling of unloadable config File here!!!
 
