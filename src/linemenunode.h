@@ -20,13 +20,26 @@
  *
  */
 
-#ifndef ___LINEITEM_H
-#define ___LINEITEM_H
+#ifndef ___COMMANDMENUNODE_H
+#define ___COMMANDMENUNODE_H
 
-class cLineItem : public cOsdItem
+#include "menunode.h"
+#include <string>
+
+class IMenuNodeProcessor;
+
+class LineMenuNode: public MenuNode
 {
-    public:
-        cLineItem(const char *Text);
-};
+    private:
+        std::string _text;
 
+    public:
+        LineMenuNode(std::string text);
+        std::string Text();
+
+        // MenuNode
+        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
+        virtual cOsdMenu* Execute();
+        virtual bool IsHidden();
+};
 #endif

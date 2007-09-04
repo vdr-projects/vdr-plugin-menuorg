@@ -31,14 +31,14 @@ class MenuConfiguration;
 
 class MainMenuItemsProvider: public IMainMenuItemsProvider, public IMenuNodeProcessor
 {
-	private:
+    private:
         MenuNode* _rootMenu;
         MenuNode* _currentMenu;
         MenuItemDefinitions _currentMainMenuItems;
         MenuConfiguration& _menuConfiguration;
         IMenuItemDefinition* _createdMenuItemDefinition;
 
-	public:
+    public:
         MainMenuItemsProvider(MenuConfiguration& menuConfiguration);
         ~MainMenuItemsProvider();
 
@@ -54,8 +54,9 @@ class MainMenuItemsProvider: public IMainMenuItemsProvider, public IMenuNodeProc
         void ProcessPluginMenuNode(PluginMenuNode* node);
         void ProcessSubMenuNode(SubMenuNode* node);
         void ProcessCommandMenuNode(CommandMenuNode* node);
+        void ProcessLineMenuNode(LineMenuNode* node);
 
-	private:
+    private:
         void ResetMainMenuItemsList();
         int IndexOfCustomOsdItem(cOsdItem* item);
 };

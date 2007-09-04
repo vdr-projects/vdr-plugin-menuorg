@@ -46,10 +46,10 @@ void SystemMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
 
 eOSState SystemMenuNode::State()
 {
-	return _state;
+    return _state;
 }
 
 string SystemMenuNode::Text()
 {
-	return _text;
+    return _text;
 }

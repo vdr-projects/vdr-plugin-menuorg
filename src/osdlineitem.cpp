@@ -20,26 +20,10 @@
  *
  */
 
-#ifndef ___SUBMENUNODE_H
-#define ___SUBMENUNODE_H
+#include "osdlineitem.h"
 
-#include "menunode.h"
-#include <string>
-
-class IMenuNodeProcessor;
-
-class SubMenuNode: public MenuNode
+cOsdLineItem::cOsdLineItem(const char *Text)
 {
-    private:
-        std::string _text;
-
-    public:
-        SubMenuNode(std::string text);
-        std::string Text();
-
-        // MenuNode
-        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
-        bool IsHidden();
-};
-
-#endif
+  SetSelectable(false);
+  SetText(Text);
+}

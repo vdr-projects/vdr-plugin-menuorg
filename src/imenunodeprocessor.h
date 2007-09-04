@@ -27,15 +27,17 @@ class SystemMenuNode;
 class PluginMenuNode;
 class SubMenuNode;
 class CommandMenuNode;
+class LineMenuNode;
 
 class IMenuNodeProcessor
 {
-public:
-	virtual ~IMenuNodeProcessor() {};
-    virtual void ProcessSystemMenuNode(SystemMenuNode* node) = 0;
-    virtual void ProcessPluginMenuNode(PluginMenuNode* node) = 0;
-    virtual void ProcessSubMenuNode(SubMenuNode* node) = 0;
-    virtual void ProcessCommandMenuNode(CommandMenuNode* node) = 0;
+    public:
+        virtual ~IMenuNodeProcessor() {};
+        virtual void ProcessSystemMenuNode(SystemMenuNode* node) = 0;
+        virtual void ProcessPluginMenuNode(PluginMenuNode* node) = 0;
+        virtual void ProcessSubMenuNode(SubMenuNode* node) = 0;
+        virtual void ProcessCommandMenuNode(CommandMenuNode* node) = 0;
+        virtual void ProcessLineMenuNode(LineMenuNode* node) = 0;
 };
 
 #endif

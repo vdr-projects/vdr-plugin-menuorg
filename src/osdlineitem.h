@@ -20,10 +20,13 @@
  *
  */
 
-#include "lineitem.h"
+#ifndef ___OSDLINEITEM_H
+#define ___OSDLINEITEM_H
 
-cLineItem::cLineItem(const char *Text)
+class cOsdLineItem : public cOsdItem
 {
-  SetSelectable(false);
-  SetText(Text);
-}
+    public:
+        cOsdLineItem(const char *Text);
+};
+
+#endif

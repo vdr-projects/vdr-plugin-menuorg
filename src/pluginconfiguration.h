@@ -26,7 +26,7 @@
 class PluginConfiguration
 {
     friend class PluginSetup;
-    
+
     private:
         struct SetupName
         {
@@ -36,13 +36,13 @@ class PluginConfiguration
             static const char* MenuSetupStyle;
         };
 
-	private:
+    private:
         bool _customMenuActive;
         bool _unconfiguredPluginsIncluded; 
         bool _hideMainMenuEntry;
         int _menuSetupStyle;
 
-	public:
+    public:
         PluginConfiguration();
         bool SetConfigurationOptionByName(const char* Name, const char* Value);
         bool CustomMenuActive();
@@ -50,7 +50,7 @@ class PluginConfiguration
         bool MainMenuEntryHidden();
         int MenuSetupStyle();
 
-	private:
+    private:
         void SetDefaults();
 };
 

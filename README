@@ -66,6 +66,7 @@ There are only four kinds of menu items described by the following XML tags:
    <plugin>  : Plug-in menu items
    <menu>    : A sub menu
    <command> : An external command to be excuted, similar to VDR's commands.conf
+   <line>    : a line item
    
 In the menu hierarchy <system>, <plug-in> and <command> are leaf nodes, whereas
 <menu> is an internal node. <menu> may contain any number of <system>, <plugin>,
@@ -124,6 +125,7 @@ e.g.:
             <plug-in name="solitaire" />
             <plug-in name="freecell" />
         </menu>
+        <line />
         <menu name="System">
             <system name="Setup" />
             <system name="Commands" />

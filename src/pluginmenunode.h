@@ -31,22 +31,22 @@ class IMenuNodeProcessor;
 
 class PluginMenuNode: public MenuNode
 {
-	private:
+    private:
         cPlugin* _plugin;
         int _pluginIndex;
         std::string _title;
 
-	public:
+    public:
         PluginMenuNode(cPlugin* plugin, int pluginIndex, std::string title = "");
         cPlugin* Plugin();
         int PluginIndex();
         std::string Title();
-        
+
         // MenuNode
         virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
         bool IsHidden();
 
-	private:
+    private:
         bool HasMainMenuEntry();
 };
 

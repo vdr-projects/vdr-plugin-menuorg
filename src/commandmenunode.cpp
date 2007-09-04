@@ -90,15 +90,15 @@ void CommandMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
 
 string CommandMenuNode::Command()
 {
-	return _command;
+    return _command;
 }
 
 bool CommandMenuNode::ShouldConfirm()
 {
-	return _confirm;
+    return _confirm;
 }
 
 string CommandMenuNode::Text()
 {
-	return _text;
+    return _text;
 }

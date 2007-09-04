@@ -56,6 +56,7 @@ class MenuConfiguration
         void AddPluginMenuNode(std::string pluginName, std::string title, MenuNode* menu);
         void AddUnconfiguredPlugins(MenuNode* menu);
         void AddCommandMenuNode(std::string name, std::string command, bool confirm, MenuNode* menu);
+        void AddLineMenuNode(std::string text, MenuNode* menu);
         std::string UnicodeToLocaleOrIso8859(Glib::ustring unicodeString);
 };
 

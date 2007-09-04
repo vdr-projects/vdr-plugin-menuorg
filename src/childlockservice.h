@@ -45,7 +45,7 @@ class IChildLockService
         virtual bool IsChannelProtected(const cChannel* Channel) = 0;
         virtual bool IsRecordingProtected(const cRecording* Recording, const char* Name, const char* Base, bool isDirectory) = 0;
         virtual bool IsPluginProtected(cPlugin* Plugin) = 0;
-        
+
         virtual bool IsMenuHidden(const char* MenuName) = 0;
         virtual bool IsPluginHidden(cPlugin* Plugin) = 0;
         virtual bool IsRecordingHidden(const cRecording* Recording, const char* Name, const char* Base, bool isDirectory) = 0;

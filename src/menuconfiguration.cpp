@@ -29,6 +29,7 @@
 #include "submenunode.h"
 #include "pluginmenunode.h"
 #include "commandmenunode.h"
+#include "linemenunode.h"
 
 using namespace xmlpp;
 using namespace std;
@@ -114,7 +115,7 @@ void MenuConfiguration::CreateMenuTree(const Element* menuRoot, MenuNode* menuNo
             const Attribute* nameAttribute = childElement->get_attribute("name");
 
             string type = childElement->get_name();
-            string name = UnicodeToLocaleOrIso8859(nameAttribute->get_value());
+            string name = nameAttribute ? (string) UnicodeToLocaleOrIso8859(nameAttribute->get_value()) : "";
 
             if ( type == "menu")
             {
@@ -139,6 +140,12 @@ void MenuConfiguration::CreateMenuTree(const Element* menuRoot, MenuNode* menuNo
                 const Attribute* confirmAttribute = childElement->get_attribute("confirm");
                 bool confirm = confirmAttribute ? (confirmAttribute->get_value() == "yes") : false;
                 AddCommandMenuNode(name, execute, confirm, menuNode);
+            }
+            else if (type == "line")
+            {
+                const Attribute* titleAttribute = childElement->get_attribute("title");
+                string title = titleAttribute ? (string) UnicodeToLocaleOrIso8859(titleAttribute->get_value()) : "-----------------------------------";
+                AddLineMenuNode(title, menuNode);
             }
         }
     }
@@ -231,6 +238,11 @@ void MenuConfiguration::AddUnconfiguredPlugins(MenuNode* menu)
 void MenuConfiguration::AddCommandMenuNode(string name, string command, bool confirm, MenuNode* menu)
 {
     menu->AddChild(new CommandMenuNode(name, command, confirm));
+}
+
+void MenuConfiguration::AddLineMenuNode(string text, MenuNode* menu)
+{
+    menu->AddChild(new LineMenuNode(text));
 }
 
 string MenuConfiguration::UnicodeToLocaleOrIso8859(Glib::ustring unicodeString)

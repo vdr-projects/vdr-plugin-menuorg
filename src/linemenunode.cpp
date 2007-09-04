@@ -20,26 +20,32 @@
  *
  */
 
-#ifndef ___SUBMENUNODE_H
-#define ___SUBMENUNODE_H
+#include "linemenunode.h"
+#include "imenunodeprocessor.h"
 
-#include "menunode.h"
-#include <string>
+using namespace std;
 
-class IMenuNodeProcessor;
-
-class SubMenuNode: public MenuNode
+LineMenuNode::LineMenuNode(std::string text)
 {
-    private:
-        std::string _text;
+    _text = text;
+}
 
-    public:
-        SubMenuNode(std::string text);
-        std::string Text();
+void LineMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
+{
+    menuNodeProcessor->ProcessCommandMenuNode(this);
+}
 
-        // MenuNode
-        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
-        bool IsHidden();
-};
+bool LineMenuNode::IsHidden()
+{
+    return false;
+}
 
-#endif
+cOsdMenu* LineMenuNode::Execute()
+{
+    return NULL;
+}
+
+string LineMenuNode::Text()
+{
+    return _text;
+}

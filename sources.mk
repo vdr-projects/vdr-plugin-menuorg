@@ -17,3 +17,5 @@ SRCS = \
   src/menusetup.cpp \
   src/menuitemsetup.cpp \
   src/osdxmlitem.cpp \
+  src/osdlineitem.cpp \
+  src/linemenunode.cpp \

@@ -31,13 +31,13 @@ class IMenuNodeProcessor;
 
 class SystemMenuNode: public MenuNode
 {
-	private:
+    private:
         std::string _text;
         eOSState _state;
 
-	public:
+    public:
         SystemMenuNode(eOSState state, std::string text);
-        
+
         std::string Text();
         eOSState State();
 
