@@ -23,6 +23,8 @@
 #ifndef ___OSDLINEITEM_H
 #define ___OSDLINEITEM_H
 
+#include <vdr/osdbase.h>
+
 class cOsdLineItem : public cOsdItem
 {
     public:
