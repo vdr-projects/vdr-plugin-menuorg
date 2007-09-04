@@ -25,6 +25,7 @@
 #include "systemmenunode.h"
 #include "pluginmenunode.h"
 #include "commandmenunode.h"
+#include "linemenunode.h"
 #include <vdr/plugin.h>
 #include "childlock.h"
 #include "menuconfiguration.h"
