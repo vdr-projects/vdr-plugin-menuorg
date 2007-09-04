@@ -32,7 +32,7 @@ LineMenuNode::LineMenuNode(std::string text)
 
 void LineMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
 {
-    menuNodeProcessor->ProcessCommandMenuNode(this);
+    menuNodeProcessor->ProcessLineMenuNode(this);
 }
 
 bool LineMenuNode::IsHidden()
@@ -48,4 +48,5 @@ cOsdMenu* LineMenuNode::Execute()
 string LineMenuNode::Text()
 {
     return _text;
+
 }
