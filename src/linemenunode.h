@@ -39,7 +39,5 @@ class LineMenuNode: public MenuNode
 
         // MenuNode
         virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
-        virtual cOsdMenu* Execute();
-        virtual bool IsHidden();
 };
 #endif

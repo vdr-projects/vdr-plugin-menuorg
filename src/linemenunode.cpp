@@ -35,16 +35,6 @@ void LineMenuNode::Process(IMenuNodeProcessor* menuNodeProcessor)
     menuNodeProcessor->ProcessLineMenuNode(this);
 }
 
-bool LineMenuNode::IsHidden()
-{
-    return false;
-}
-
-cOsdMenu* LineMenuNode::Execute()
-{
-    return NULL;
-}
-
 string LineMenuNode::Text()
 {
     return _text;
