@@ -30,6 +30,7 @@
 #include "menuconfiguration.h"
 #include "osditemdefinition.h"
 #include "pluginitemdefinition.h"
+#include "osdlineitem.h"
 
 MainMenuItemsProvider::MainMenuItemsProvider(MenuConfiguration& menuConfiguration)
     :_menuConfiguration(menuConfiguration)
@@ -139,5 +140,9 @@ void MainMenuItemsProvider::ProcessSubMenuNode(SubMenuNode* node)
 void MainMenuItemsProvider::ProcessSystemMenuNode(SystemMenuNode* node)
 {
     _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(tr(node->Text().c_str()), node->State()));
-    
+}
+
+void MainMenuItemsProvider::ProcessLineMenuNode(LineMenuNode* node)
+{
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdLineItem((node->Text().c_str()), osContinue);
 }
