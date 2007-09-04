@@ -20,29 +20,10 @@
  *
  */
 
-#ifndef ___MENUITEMSETUP_H
-#define ___MENUITEMSETUP_H
+#include "lineitem.h"
 
-#include <vdr/menu.h>
-#include "osdxmlitem.h"
-
-class cMenuItemSetup : public cOsdMenu
+cLineItem::cLineItem(const char *Text)
 {
-    private:
-        cOsdXmlItem* _osdXmlItem;
-        cOsdXmlItem::sItemType _newItemType;
-        const char* itemTypeText[4];
-        char* _newName;
-        char* _newTitle;
-        char* _newCommand;
-
-    public:
-        cMenuItemSetup(cOsdXmlItem* osdXmlItem);
-        ~cMenuItemSetup(void);
-        virtual eOSState ProcessKey(eKeys Key);
-
-    private:
-        void CreateMenuItems(void);
-};
-
-#endif
+  SetSelectable(false);
+  SetText(Text);
+}

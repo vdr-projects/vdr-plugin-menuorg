@@ -34,8 +34,31 @@ cMenuItemSetup::cMenuItemSetup(cOsdXmlItem* osdXmlItem)
 
     _osdXmlItem = osdXmlItem;
     _newItemType = _osdXmlItem->getItemType();
+    //_newName = _osdXmlItem->getNameAttribute().c_str();
+    //_newTitle = _osdXmlItem->getTitleAttribute().c_str();
+    asprintf(&_newTitle, "%s", _osdXmlItem->getTitleAttribute().c_str());
+    //_newCommand = _osdXmlItem->getCommandAttribute().c_str();
+    CreateMenuItems();
+}
 
+cMenuItemSetup::~cMenuItemSetup()
+{
+    _osdXmlItem->setNameAttribute(_newName);
+    _osdXmlItem->setTitleAttribute(_newTitle);
+    _osdXmlItem->setCommandAttribute(_newCommand);
+    free(_newName);
+    free(_newTitle);
+    free(_newCommand);
+}
+
+// TODO: When exit check if the type was menu and now is changed -> bring a warning on the osd that the subitems will be deleted
+
+void cMenuItemSetup::CreateMenuItems(void)
+{
     esyslog("menuorg: _newItemType=%d", _newItemType);
+    esyslog("menuorg: _newTitle=%s", &_newTitle);
+
+    Clear();
 
     Add(new cMenuEditStraItem(tr("Item Type"), (int*) &_newItemType, 4, itemTypeText));
 
@@ -45,7 +68,7 @@ cMenuItemSetup::cMenuItemSetup(cOsdXmlItem* osdXmlItem)
             // Add listItem of valid System Items
             //Add(new cMenuEditStraItem(tr("available System Items"),))
             // Add textItem for title attribute
-            //Add(new cMenuEditStrItem(tr("title"), VAR, 64, NULL))
+            Add(new cMenuEditStrItem(tr("title"), _newTitle, 64, NULL));
             break;
 
         case 1:
@@ -70,8 +93,6 @@ cMenuItemSetup::cMenuItemSetup(cOsdXmlItem* osdXmlItem)
             break;
     }
 }
-
-// TODO: When exit check if the type was menu and now is changed -> bring a warning on the osd that the subitems will be deleted
 
 eOSState cMenuItemSetup::ProcessKey(eKeys Key)
 {

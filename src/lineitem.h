@@ -20,29 +20,13 @@
  *
  */
 
-#ifndef ___MENUITEMSETUP_H
-#define ___MENUITEMSETUP_H
+#ifndef ___LINEITEM_H
+#define ___LINEITEM_H
 
-#include <vdr/menu.h>
-#include "osdxmlitem.h"
-
-class cMenuItemSetup : public cOsdMenu
+class cLineItem : public cOsdItem
 {
-    private:
-        cOsdXmlItem* _osdXmlItem;
-        cOsdXmlItem::sItemType _newItemType;
-        const char* itemTypeText[4];
-        char* _newName;
-        char* _newTitle;
-        char* _newCommand;
-
     public:
-        cMenuItemSetup(cOsdXmlItem* osdXmlItem);
-        ~cMenuItemSetup(void);
-        virtual eOSState ProcessKey(eKeys Key);
-
-    private:
-        void CreateMenuItems(void);
+        cLineItem(const char *Text);
 };
 
 #endif
