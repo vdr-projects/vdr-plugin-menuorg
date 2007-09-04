@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef ___COMMANDMENUNODE_H
-#define ___COMMANDMENUNODE_H
+#ifndef ___LINEMENUNODE_H
+#define ___LINEMENUNODE_H
 
 #include "menunode.h"
 #include <string>
