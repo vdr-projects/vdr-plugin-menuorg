@@ -62,5 +62,5 @@ int PluginMenuNode::PluginIndex(){
 }
 
 std::string PluginMenuNode::Title(){
-	return NULL;
+	return _title;
 }

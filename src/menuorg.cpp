@@ -108,7 +108,11 @@ bool MenuOrgPlugin::ProcessArgs(int argc, char *argv[])
 
 bool MenuOrgPlugin::Initialize(void)
 {
-    _configFile = (string) ConfigDirectory() + "/menuorg.xml";
+	if (_configFile.empty())
+	{
+		_configFile = (string) ConfigDirectory() + "/menuorg.xml";
+	}
+
     _menuConfiguration = new MenuConfiguration(_configFile, _pluginConfiguration.UnconfiguredPluginsInluded());
     // TODO need handling of unloadable config File here!!!
 

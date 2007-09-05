@@ -11,6 +11,7 @@ SRCS = \
   src/pluginitemdefinition.cpp \
   src/pluginmenunode.cpp \
   src/pluginsetup.cpp \
+  src/RecursiveMenuSetup.cpp \
   src/submenunode.cpp \
   src/systemmenunode.cpp \
   src/i18n.cpp \
@@ -19,3 +20,4 @@ SRCS = \
   src/osdxmlitem.cpp \
   src/osdlineitem.cpp \
   src/linemenunode.cpp \
+#  src/XmlConfigBuilder.cpp \

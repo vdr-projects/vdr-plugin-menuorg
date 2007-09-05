@@ -33,6 +33,11 @@ SubMenuNode::SubMenuNode(string text)
     _text = text;
 }
 
+bool SubMenuNode::IsLeaf()
+{
+	return false;
+}
+
 string SubMenuNode::Text()
 {
     return _text;

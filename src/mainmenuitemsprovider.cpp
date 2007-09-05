@@ -49,8 +49,8 @@ MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
 {
     ResetMainMenuItemsList();
 
-    for (MenuNodeList::iterator i = _currentMenu->Childs().begin();
-      i != _currentMenu->Childs().end(); i++)
+    for (MenuNodeList::iterator i = _currentMenu->Childs()->begin();
+      i != _currentMenu->Childs()->end(); i++)
     {
         if (!(*i)->IsHidden())
         {
@@ -83,7 +83,7 @@ void MainMenuItemsProvider::EnterSubMenu(cOsdItem* item)
     int itemIndex = IndexOfCustomOsdItem(item);
     if (itemIndex >= 0)
     {
-        _currentMenu = _currentMenu->Childs().at(itemIndex);
+        _currentMenu = _currentMenu->Childs()->at(itemIndex);
     }
 }
 
@@ -105,7 +105,7 @@ cOsdMenu* MainMenuItemsProvider::Execute(cOsdItem* item)
     int itemIndex = IndexOfCustomOsdItem(item);
     if (itemIndex >= 0)
     {
-        return _currentMenu->Childs().at(itemIndex)->Execute();
+        return _currentMenu->Childs()->at(itemIndex)->Execute();
     }
     return NULL;
 }

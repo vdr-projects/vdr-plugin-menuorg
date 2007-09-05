@@ -25,6 +25,8 @@
 #include "menuorg.h"
 #include "pluginsetup.h"
 #include "menusetup.h"
+#include "RecursiveMenuSetup.h"
+#include "menuconfiguration.h"
 
 PluginSetup::PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfiguration& menuConfiguration)
     :_pluginConfiguration(pluginConfiguration), _menuConfiguration(menuConfiguration)
@@ -55,8 +57,14 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
     switch(state)
     {
         case osUser1:
-            return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _pluginConfiguration._menuSetupStyle));
-            break;
+        	if (_pluginConfiguration.MenuSetupStyle() == 0 )
+        	{
+        		return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _pluginConfiguration._menuSetupStyle));
+        	}
+        	else
+        	{
+        		return AddSubMenu(new RecursiveMenuSetup(*_menuConfiguration.MenuTree()));
+        	}
 
         case osContinue:
             if(NORMALKEY(Key)==kUp || NORMALKEY(Key)==kDown)

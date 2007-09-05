@@ -36,7 +36,7 @@ class MenuNode
 {
     private:
         MenuNode* _parent;
-        MenuNodeList _childs;
+		MenuNodeList _childs;
 
     protected:
         void SetParent(MenuNode* parent);
@@ -45,8 +45,9 @@ class MenuNode
         MenuNode();
         virtual ~MenuNode();
         MenuNode* Parent();
-        MenuNodeList& Childs();
+        MenuNodeList* Childs();
         MenuNode* AddChild(MenuNode* child);
+        virtual bool IsLeaf();
         virtual void Process(IMenuNodeProcessor* menuNodeProcessor) = 0;
         virtual cOsdMenu* Execute();
         virtual bool IsHidden();

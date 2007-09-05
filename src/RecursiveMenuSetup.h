@@ -20,27 +20,36 @@
  *
  */
 
-#ifndef ___SUBMENUNODE_H
-#define ___SUBMENUNODE_H
+#ifndef ___RECURSIVEMENUSETUP_H_
+#define ___RECURSIVEMENUSETUP_H_
 
-#include "menunode.h"
-#include <string>
+#include <vdr/menu.h>
+#include "imenunodeprocessor.h"
 
-class IMenuNodeProcessor;
+class MenuNode;
 
-class SubMenuNode: public MenuNode
+class RecursiveMenuSetup: public cOsdMenu
 {
-    private:
-        std::string _text;
+	private:
+		MenuNode& _rootMenu;
+		bool _moving;
 
-    public:
-        SubMenuNode(std::string text);
-        std::string Text();
+	public:
+		RecursiveMenuSetup(MenuNode& rootMenu);
+	   	~RecursiveMenuSetup();
 
-        // MenuNode
-        bool IsLeaf();
-        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
-        bool IsHidden();
+	   	// cOsdMenu
+	   	eOSState ProcessKey(eKeys Key);
+
+	private:
+		void CreateMenuItems();
+		void ShowHelp();
+		void StartMoving();
+		void StopMoving();
+		eOSState MoveCurrentItem(bool moveUp);
+		eOSState ShowEditMenuForSelectedItem();
+		eOSState ShowSubOrEditMenuForSelectedItem();
+		MenuNode* SelectedItem();
 };
 
 #endif

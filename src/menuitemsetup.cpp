@@ -56,7 +56,7 @@ cMenuItemSetup::~cMenuItemSetup()
 void cMenuItemSetup::CreateMenuItems(void)
 {
     esyslog("menuorg: _newItemType=%d", _newItemType);
-    esyslog("menuorg: _newTitle=%s", &_newTitle);
+    esyslog("menuorg: _newTitle=%s", _newTitle);
 
     Clear();
 

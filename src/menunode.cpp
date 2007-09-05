@@ -41,9 +41,9 @@ MenuNode* MenuNode::Parent()
     return _parent;
 }
 
-MenuNodeList& MenuNode::Childs()
+MenuNodeList* MenuNode::Childs()
 {
-    return _childs;
+    return &_childs;
 }
 
 MenuNode* MenuNode::AddChild(MenuNode* child)
@@ -51,6 +51,11 @@ MenuNode* MenuNode::AddChild(MenuNode* child)
     _childs.push_back(child);
     child->SetParent(this);
     return child;
+}
+
+bool MenuNode::IsLeaf()
+{
+	return true;
 }
 
 void MenuNode::SetParent(MenuNode* parent)
