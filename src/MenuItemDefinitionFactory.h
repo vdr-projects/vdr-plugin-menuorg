@@ -20,38 +20,36 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef MENUITEMDEFINITIONFACTORY_H_
+#define MENUITEMDEFINITIONFACTORY_H_
 
-#include <vdr/menu.h>
+#include <vdr/mainmenuitemsprovider.h>
 #include "IMenuNodeProcessor.h"
 
-class MenuConfigurationRepository;
 class MenuNode;
+class SystemMenuNode;
+class PluginMenuNode;
+class SubMenuNode;
+class CommandMenuNode;
+class SeparatorMenuNode;
 
-class RecursiveMenuSetup: public cOsdMenu
+class MenuItemDefinitionFactory: IMenuNodeProcessor
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        IMenuItemDefinition* _createdMenuItemDefinition;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
+        static IMenuItemDefinition* CreateFromMenuNode(MenuNode* menuNode);
 
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+        // IMenuNodeProcessor
+        void ProcessSystemMenuNode(SystemMenuNode* node);
+        void ProcessPluginMenuNode(PluginMenuNode* node);
+        void ProcessSubMenuNode(SubMenuNode* node);
+        void ProcessCommandMenuNode(CommandMenuNode* node);
+        void ProcessSeparatorMenuNode(SeparatorMenuNode* node);
 
     private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        MenuItemDefinitionFactory(){};
 };
 
 #endif

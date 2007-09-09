@@ -20,38 +20,33 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___PLUGINSETUP_H
+#define ___PLUGINSETUP_H
 
 #include <vdr/menu.h>
-#include "IMenuNodeProcessor.h"
 
+class PluginConfiguration;
 class MenuConfigurationRepository;
-class MenuNode;
 
-class RecursiveMenuSetup: public cOsdMenu
+class PluginSetup : public cMenuSetupPage
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        int _newCustomMenuActive;
+        int _newUnconfiguredPluginsIncluded;
+        int _newHideMainMenuEntry;
+        int _newMenuSetupStyle;
+        PluginConfiguration& _pluginConfiguration;
+        MenuConfigurationRepository& _menuConfiguration;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
+        PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfigurationRepository& menuConfiguration);
+        virtual eOSState ProcessKey(eKeys Key);
 
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+    protected:
+        virtual void Store(void);
 
     private:
         void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
 };
 
 #endif

@@ -20,38 +20,35 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___COMMANDMENUNODE_H
+#define ___COMMANDMENUNODE_H
 
-#include <vdr/menu.h>
-#include "IMenuNodeProcessor.h"
+#include "MenuNode.h"
+#include <string>
 
-class MenuConfigurationRepository;
-class MenuNode;
+class IMenuNodeProcessor;
 
-class RecursiveMenuSetup: public cOsdMenu
+class CommandMenuNode: public MenuNode
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        std::string _text;
+        std::string _command;
+        bool _confirm;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
+        CommandMenuNode(std::string text, std::string _command, bool confirm);
+        std::string Text();
+        std::string Command();
+        bool ShouldConfirm();
 
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+        // MenuNode
+        virtual void Process(IMenuNodeProcessor* menuNodeProcessor);
+        bool IsHidden();
+        cOsdMenu* Execute();
+        CommandMenuNode* Clone();
 
     private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        std::string ExecuteCommand();
 };
 
 #endif

@@ -20,38 +20,35 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___MENUNODE_H
+#define ___MENUNODE_H
 
-#include <vdr/menu.h>
-#include "IMenuNodeProcessor.h"
+#include <vector>
 
-class MenuConfigurationRepository;
+class IMenuItemDefinition;
 class MenuNode;
+class cOsdMenu;
+class IMenuNodeProcessor;
+class SubMenuNode;
 
-class RecursiveMenuSetup: public cOsdMenu
+typedef std::vector<MenuNode*> MenuNodeList;
+
+class SubMenuNode;
+
+class MenuNode
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        SubMenuNode* _parent;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
-
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
-
-    private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        MenuNode();
+        virtual ~MenuNode() {};
+        virtual MenuNode* Clone() = 0;
+        SubMenuNode* Parent();
+        virtual void AddToParent(SubMenuNode* parent);
+        virtual void Process(IMenuNodeProcessor* menuNodeProcessor) = 0;
+        virtual cOsdMenu* Execute();
+        virtual bool IsHidden();
 };
 
 #endif

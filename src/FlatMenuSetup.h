@@ -20,38 +20,29 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___MENUSETUP_H
+#define ___MENUSETUP_H
 
 #include <vdr/menu.h>
-#include "IMenuNodeProcessor.h"
+#include <libxml++/libxml++.h>
+
+namespace xmlpp { class Element; }
 
 class MenuConfigurationRepository;
-class MenuNode;
 
-class RecursiveMenuSetup: public cOsdMenu
+class cMenuOrgSetup : public cOsdMenu
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        MenuConfigurationRepository& _menuConfiguration;
+        bool _flatMenuSetup;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
-
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+        cMenuOrgSetup(MenuConfigurationRepository& menuConfiguration, bool flatMenuSetup);
+        virtual eOSState ProcessKey(eKeys Key);
 
     private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        void DrawButton(void);
+        void CreateMenuItems(const xmlpp::Element* menuRoot, int iCount);
 };
 
 #endif

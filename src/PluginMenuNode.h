@@ -20,38 +20,38 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___PLUGINMENUNODE_H
+#define ___PLUGINMENUNODE_H
 
-#include <vdr/menu.h>
-#include "IMenuNodeProcessor.h"
+#include <string>
+#include "MenuNode.h"
 
-class MenuConfigurationRepository;
-class MenuNode;
+class cPlugin;
+class IMenuNodeProcessor;
 
-class RecursiveMenuSetup: public cOsdMenu
+class PluginMenuNode: public MenuNode
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        cPlugin* _plugin;
+        int _pluginIndex;
+        std::string _customTitle;
+        std::string _pluginName;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
+        PluginMenuNode(std::string pluginName, std::string customTitle = "");
+        std::string CustomTitle();
+        std::string PluginName();
+        int PluginIndex();
+        std::string DisplayText();
 
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+        // MenuNode
+        void Process(IMenuNodeProcessor* menuNodeProcessor);
+        bool IsHidden();
+        PluginMenuNode* Clone();
 
     private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        bool HasMainMenuEntry();
+        bool FindPluginByName(std::string name, cPlugin*& plugin, int& pluginIndex);
 };
 
 #endif

@@ -20,38 +20,39 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___MENUORGPLUGIN_H
+#define ___MENUORGPLUGIN_H
 
-#include <vdr/menu.h>
-#include "IMenuNodeProcessor.h"
+#include <vdr/plugin.h>
+#include <string>
+#include "PluginConfiguration.h"
 
+class MainMenuItemsProvider;
 class MenuConfigurationRepository;
-class MenuNode;
 
-class RecursiveMenuSetup: public cOsdMenu
+class MenuOrgPlugin : public cPlugin
 {
     private:
+        MainMenuItemsProvider* _subMenuProvider;
+        std::string _configFile;
+        PluginConfiguration _pluginConfiguration;
         MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
-
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
-
-    private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        MenuOrgPlugin(void);
+        virtual ~MenuOrgPlugin();
+        virtual const char* Version(void);
+        virtual const char* Description(void);
+        virtual const char* CommandLineHelp(void);
+        virtual bool ProcessArgs(int argc, char* argv[]);
+        virtual bool Initialize(void);
+        virtual const char* MainMenuEntry(void);
+        virtual cOsdObject* MainMenuAction(void);
+        virtual cMenuSetupPage *SetupMenu(void);
+        virtual bool SetupParse(const char* Name, const char* Value);
+        virtual bool Service(const char* Id, void* Data = NULL);
 };
+
+extern "C" void* VDRPluginCreator();
 
 #endif

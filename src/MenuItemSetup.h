@@ -20,38 +20,29 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___MENUITEMSETUP_H
+#define ___MENUITEMSETUP_H
 
 #include <vdr/menu.h>
-#include "IMenuNodeProcessor.h"
+#include "OsdXmlItem.h"
 
-class MenuConfigurationRepository;
-class MenuNode;
-
-class RecursiveMenuSetup: public cOsdMenu
+class cMenuItemSetup : public cOsdMenu
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        cOsdXmlItem* _osdXmlItem;
+        cOsdXmlItem::sItemType _newItemType;
+        const char* itemTypeText[4];
+        char* _newName;
+        char* _newTitle;
+        char* _newCommand;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
-
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+        cMenuItemSetup(cOsdXmlItem* osdXmlItem);
+        ~cMenuItemSetup(void);
+        virtual eOSState ProcessKey(eKeys Key);
 
     private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        void CreateMenuItems(void);
 };
 
 #endif

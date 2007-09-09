@@ -20,38 +20,36 @@
  *
  */
 
-#ifndef ___RECURSIVEMENUSETUP_H_
-#define ___RECURSIVEMENUSETUP_H_
+#ifndef ___XMLCONFIGURATIONFACTORY_H_
+#define ___XMLCONFIGURATIONFACTORY_H_
 
-#include <vdr/menu.h>
 #include "IMenuNodeProcessor.h"
 
-class MenuConfigurationRepository;
-class MenuNode;
+namespace xmlpp { class Element; };
+namespace xmlpp { class Document; };
+class SystemMenuNode;
+class PluginMenuNode;
+class SubMenuNode;
+class CommandMenuNode;
+class SeparatorMenuNode;
 
-class RecursiveMenuSetup: public cOsdMenu
+class XmlConfigurationFactory: public IMenuNodeProcessor
 {
     private:
-        MenuConfigurationRepository* _menuConfigurationRepository;
-        SubMenuNode* _menuConfiguration;
-        SubMenuNode* _currentRootMenuNode;
-        bool _moving;
+        xmlpp::Element* _parent;
 
     public:
-        RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
-        ~RecursiveMenuSetup();
+        static xmlpp::Document* CreateXmlConfig(SubMenuNode* node);
 
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+        // IMenuNodeProcessor
+        void ProcessSystemMenuNode(SystemMenuNode* node);
+        void ProcessPluginMenuNode(PluginMenuNode* node);
+        void ProcessSubMenuNode(SubMenuNode* node);
+        void ProcessCommandMenuNode(CommandMenuNode* node);
+        void ProcessSeparatorMenuNode(SeparatorMenuNode* node);
 
     private:
-        void CreateMenuItems();
-        void ShowHelp();
-        void StartMoving();
-        void StopMoving();
-        eOSState MoveCurrentItem(bool moveUp);
-        eOSState ShowEditMenuForSelectedItem(bool openSubmenuInsteadOfEditing);
-        MenuNode* SelectedItem();
+        XmlConfigurationFactory(xmlpp::Element* parent);
 };
 
 #endif
