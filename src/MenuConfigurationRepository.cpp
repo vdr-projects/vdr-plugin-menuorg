@@ -39,7 +39,7 @@ using namespace std;
 
 const string MenuConfigurationRepository::_dtd = 
   "<!ELEMENT menus ((menu | system | plugin | command | separator)+)>\n"
-  "<!ELEMENT menu ((menu | system | plugin | command | separator)+)>\n"
+  "<!ELEMENT menu ((menu | system | plugin | command | separator)*)>\n"
   "<!ATTLIST menu name CDATA #REQUIRED>\n"
   "<!ELEMENT system EMPTY>\n"
   "<!ATTLIST system\n"
