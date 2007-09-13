@@ -128,7 +128,6 @@ cOsdObject *MenuOrgPlugin::MainMenuAction(void)
     if (_pluginConfiguration.MenuSetupStyle() == 0)
     {
         return new RecursiveMenuSetup(_menuConfigurationRepository);
-
     }
     else
     {

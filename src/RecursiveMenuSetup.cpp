@@ -57,14 +57,17 @@ void RecursiveMenuSetup::CreateMenuItems()
 eOSState RecursiveMenuSetup::ProcessKey(eKeys Key)
 {
     // Catch keys that should not be processed by the base class
-       if (_moving)
-       {
-           if ((Key == kUp) || (Key == kDown))
-           {
-               return MoveCurrentItem(Key == kUp);
-           }
+    if (_moving)
+    {
+        if ((Key == kUp) || (Key == kDown))
+        {
+            return MoveCurrentItem(Key == kUp);
+        }
+        if ((Key == kLeft) || (Key == kRight))
+        {
+            return osContinue;
+        }
     }
-
 
     // Process keys in base class
     eOSState state = cOsdMenu::ProcessKey(Key);
