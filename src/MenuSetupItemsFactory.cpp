@@ -47,7 +47,7 @@ void MenuSetupItemsFactory::SetupItems(SubMenuNode& rootMenu)
 void MenuSetupItemsFactory::ProcessSystemMenuNode(SystemMenuNode* node)
 {
     string text = "(S) " + node->State().Name();
-    _osdMenu->Add(new cOsdItem(text.c_str()));      
+    _osdMenu->Add(new cOsdItem(text.c_str()));
 }
 
 void MenuSetupItemsFactory::ProcessPluginMenuNode(PluginMenuNode* node)

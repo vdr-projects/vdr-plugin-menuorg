@@ -87,7 +87,7 @@ SubMenuNode* MenuConfigurationRepository::Load()
             validator.parse_memory(_dtd);
 
             Document *document = _parser.get_document();
-            validator.validate( document );
+            validator.validate(document);
 
             if (document)
             {
@@ -102,7 +102,7 @@ SubMenuNode* MenuConfigurationRepository::Load()
         {
             cerr << "menuorg: Exception caught when parsing xml configuration: " << ex.what();
             esyslog("Exception caught when parsing xml configuration. See stderr output for details.");
-        }        
+        }
     }
     return _cachedMenuConfiguration;
 }
@@ -132,7 +132,7 @@ void MenuConfigurationRepository::CreateMenuTree(const Element* menuRoot, SubMen
 {
     Node::NodeList children = menuRoot->get_children();
     for (Node::NodeList::iterator i = children.begin(); i != children.end(); i++)
-    {   
+    {
         const Element* childElement = dynamic_cast<const Element*>(*i);
 
         if (childElement)

@@ -38,10 +38,13 @@ void PluginSetup::Store(void)
 {
     SetupStore(PluginConfiguration::SetupName::CustomMenuActive,
       _pluginConfiguration._customMenuActive = _newCustomMenuActive);
+
     SetupStore(PluginConfiguration::SetupName::UnconfiguredPluginsIncluded,
       _pluginConfiguration._unconfiguredPluginsIncluded = _newUnconfiguredPluginsIncluded);
+
     SetupStore(PluginConfiguration::SetupName::HideMainMenuEntry,
       _pluginConfiguration._hideMainMenuEntry = _newHideMainMenuEntry);
+
     SetupStore(PluginConfiguration::SetupName::MenuSetupStyle,
       _pluginConfiguration._menuSetupStyle = _newMenuSetupStyle);
 }
@@ -59,11 +62,11 @@ eOSState PluginSetup::ProcessKey(eKeys Key)
         case osUser1:
             if (_pluginConfiguration.MenuSetupStyle() == 0 )
             {
-                return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _pluginConfiguration._menuSetupStyle));
+                return AddSubMenu(new RecursiveMenuSetup(&_menuConfiguration));
             }
             else
             {
-                return AddSubMenu(new RecursiveMenuSetup(&_menuConfiguration));
+                return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _pluginConfiguration._menuSetupStyle));
             }
 
         case osContinue:

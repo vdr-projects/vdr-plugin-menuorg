@@ -31,6 +31,7 @@
 #include "version.h"
 #include "MenuOrgPlugin.h"
 #include "FlatMenuSetup.h"
+#include "RecursiveMenuSetup.h"
 #include "MenuConfigurationRepository.h"
 #include "MainMenuItemsProvider.h"
 #include "i18n.h"
@@ -124,7 +125,15 @@ bool MenuOrgPlugin::Initialize(void)
 
 cOsdObject *MenuOrgPlugin::MainMenuAction(void)
 {
-    return new cMenuOrgSetup(*_menuConfigurationRepository, _pluginConfiguration.MenuSetupStyle());
+    if (_pluginConfiguration.MenuSetupStyle() == 0)
+    {
+        return new RecursiveMenuSetup(_menuConfigurationRepository);
+
+    }
+    else
+    {
+        return new cMenuOrgSetup(*_menuConfigurationRepository, _pluginConfiguration.MenuSetupStyle());
+    }
 }
 
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
