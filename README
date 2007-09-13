@@ -62,12 +62,12 @@ syntax rules. The root node always is <menus>.
 
 There are only four kinds of menu items described by the following XML tags:
 
-   <system>  : System menu items, like the channels list or the timers
-   <plugin>  : Plug-in menu items
-   <menu>    : A sub menu
-   <command> : An external command to be excuted, similar to VDR's commands.conf
-   <line>    : a line item
-   
+   <system>    : System menu items, like the channels list or the timers
+   <plugin>    : Plug-in menu items
+   <menu>      : A sub menu
+   <command>   : An external command to be excuted, similar to VDR's commands.conf
+   <separator> : a separator item
+
 In the menu hierarchy <system>, <plug-in> and <command> are leaf nodes, whereas
 <menu> is an internal node. <menu> may contain any number of <system>, <plugin>,
 <command> or <menu> nodes.
@@ -125,7 +125,7 @@ e.g.:
             <plug-in name="solitaire" />
             <plug-in name="freecell" />
         </menu>
-        <line />
+        <separator />
         <menu name="System">
             <system name="Setup" />
             <system name="Commands" />

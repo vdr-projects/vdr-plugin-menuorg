@@ -19,7 +19,7 @@
    $Id$
 -->
 
-<!ELEMENT menu ((menu | system | plugin | command | line)+)>
+<!ELEMENT menu ((menu | system | plugin | command | separator)+)>
 <!ATTLIST menu
     name CDATA #REQUIRED
 >
@@ -39,8 +39,8 @@
     execute CDATA #REQUIRED
     confirm (yes|no) #IMPLIED
 >
-<!ELEMENT line EMPTY>
-<!ATTLIST line
+<!ELEMENT separator EMPTY>
+<!ATTLIST separator
     title CDATA #IMPLIED
 >
-<!ELEMENT menus ((menu | system | plugin | command | line)+)>
+<!ELEMENT menus ((menu | system | plugin | command | separator)+)>
