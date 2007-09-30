@@ -20,14 +20,21 @@
  *
  */
 
+#include <vdr/osdbase.h>
 #include "MenuEditMenusFactory.h"
+#include "RecursiveMenuSetup.h"
+
 #include "CommandMenuNode.h"
 #include "PluginMenuNode.h"
-#include "SystemMenuNode.h"
-#include "SubMenuNode.h"
 #include "SeparatorMenuNode.h"
-#include <vdr/osdbase.h>
-#include "RecursiveMenuSetup.h"
+#include "SubMenuNode.h"
+#include "SystemMenuNode.h"
+
+#include "CommandItemSetup.h"
+#include "PluginItemSetup.h"
+#include "SeparatorItemSetup.h"
+#include "SubMenuItemSetup.h"
+#include "SystemItemSetup.h"
 
 cOsdMenu* MenuEditMenusFactory::Create(MenuNode& menuNode, bool openSubmenuInsteadOfEditing)
 {
@@ -39,12 +46,12 @@ cOsdMenu* MenuEditMenusFactory::Create(MenuNode& menuNode, bool openSubmenuInste
 
 void MenuEditMenusFactory::ProcessSystemMenuNode(SystemMenuNode* node)
 {
-    _menu = new cOsdMenu("Edit System Menu Node");
+    _menu = new cSystemItemSetup(node);
 }
 
 void MenuEditMenusFactory::ProcessPluginMenuNode(PluginMenuNode* node)
 {
-    _menu = new cOsdMenu("Edit Plugin Menu Node");
+    _menu = new cPluginItemSetup(node);
 }
 
 void MenuEditMenusFactory::ProcessSubMenuNode(SubMenuNode* node)
@@ -55,18 +62,18 @@ void MenuEditMenusFactory::ProcessSubMenuNode(SubMenuNode* node)
     }
     else
     {
-        _menu = new cOsdMenu("Edit Sub Menu Node");
+        _menu = new cSubMenuItemSetup(node);
     }
 }
 
 void MenuEditMenusFactory::ProcessCommandMenuNode(CommandMenuNode* node)
 {
-    _menu = new cOsdMenu("Edit Command Menu Node");
+    _menu = new cCommandItemSetup(node);
 }
 
-void MenuEditMenusFactory::ProcessSeparatorMenuNode(SeparatorMenuNode* nod)
+void MenuEditMenusFactory::ProcessSeparatorMenuNode(SeparatorMenuNode* node)
 {
-    _menu = new cOsdMenu("Edit Separator Menu Node");
+    _menu = new cSeparatorItemSetup(node);
 }
 
 MenuEditMenusFactory::MenuEditMenusFactory(cOsdMenu*& menu, bool openSubmenuInsteadOfEditing)

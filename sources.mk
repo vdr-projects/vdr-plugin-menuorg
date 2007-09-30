@@ -25,3 +25,8 @@ SRCS = \
   src/MenuItemDefinitionFactory.cpp \
   src/MenuSetupItemsFactory.cpp \
   src/MenuEditMenusFactory.cpp \
+  src/CommandItemSetup.cpp \
+  src/PluginItemSetup.cpp \
+  src/SeparatorItemSetup.cpp \
+  src/SystemItemSetup.cpp \
+  src/SubMenuItemSetup.cpp \

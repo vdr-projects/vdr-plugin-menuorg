@@ -73,7 +73,6 @@ eOSState RecursiveMenuSetup::ProcessKey(eKeys Key)
     eOSState state = cOsdMenu::ProcessKey(Key);
     if(HasSubMenu())
     {
-
         return state;
     }
 
