@@ -22,24 +22,24 @@
 
 #include "SubMenuItemSetup.h"
 
+const char AllowedChars[] = "$ abcdefghijklmnopqrstuvwxyz0123456789-.#~\\^$[]|()*+?{}/:%";
+
 cSubMenuItemSetup::cSubMenuItemSetup(SubMenuNode* node)
-:cOsdMenu(tr("Edit Sub Menu Item"))
+:cOsdMenu(tr("Edit Sub Menu Item"), 8)
 {
-    asprintf(&_newName, "%s", node->Text().c_str());
-//    _newName=node->Text();
+    strn0cpy(_newName, node->Text().c_str(), sizeof(_newName));
     CreateMenuItems();
 }
 
 cSubMenuItemSetup::~cSubMenuItemSetup()
 {
     // TODO: write back the changes
-    free(_newName);
 }
 
 void cSubMenuItemSetup::CreateMenuItems()
 {
     // Add textItem for name attribute
-    Add(new cMenuEditStrItem(tr("name"), _newName, 64, NULL));
+    Add(new cMenuEditStrItem(tr("name"), _newName, sizeof(_newName), tr(AllowedChars)));
 }
 
 eOSState cSubMenuItemSetup::ProcessKey(eKeys Key)

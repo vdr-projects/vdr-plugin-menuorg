@@ -29,7 +29,7 @@
 class cSubMenuItemSetup : public cOsdMenu
 {
     private:
-        char* _newName;
+        char _newName[256];
 
     public:
         cSubMenuItemSetup(SubMenuNode* node);
