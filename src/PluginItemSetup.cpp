@@ -20,31 +20,42 @@
  *
  */
 
+#include <vdr/plugin.h>
 #include "PluginItemSetup.h"
 
 cPluginItemSetup::cPluginItemSetup(PluginMenuNode* node)
-:cOsdMenu(tr("Edit Plugin Menu Item"))
+:cOsdMenu(tr("Edit Plugin Menu Item"), 10)
 {
-    asprintf(&_newName, "%s", node->PluginName().c_str());
-    asprintf(&_newTitle, "%s", node->CustomTitle().c_str());
-//    _newName = node->PluginName();
-//    _newTitle = node->CustomTitle();
+    _newPluginIndex = node->PluginIndex();
+    strn0cpy(_newTitle, node->CustomTitle().c_str(), sizeof(_newTitle));
+    getPlugins();
     CreateMenuItems();
 }
 
 cPluginItemSetup::~cPluginItemSetup()
 {
     // TODO: write back the changes
-    free(_newName);
-    free(_newTitle);
+    //delete[] pluginList;
 }
 
 void cPluginItemSetup::CreateMenuItems()
 {
     // Add listItem of unused plugins or a submenu with the items
-    //Add(new cMenuEditStraItem(tr("available Plugins Items"),))
+    //Add(new cMenuEditStraItem(tr("available Plugins Items"), &_newPluginIndex, pluginList.size(), pluginList));
+    //Add(new cMenuEditStraItem(tr("available Plugins Items"), &_newPluginIndex, 0, pluginList));
     // Add textItem for title attribute
-    Add(new cMenuEditStrItem(tr("title"), _newTitle, 64, NULL));
+    Add(new cMenuEditStrItem(tr("title"), _newTitle, sizeof(_newTitle), NULL));
+}
+
+void cPluginItemSetup::getPlugins()
+{
+    int i=0;
+    while (cPlugin *currentPlugin = cPluginManager::GetPlugin(i))
+    {
+        //pluginList.push_back(currentPlugin->Name());
+        //pluginList[i] = new char* ( (char) currentPlugin->Name());
+        i++;
+    }
 }
 
 eOSState cPluginItemSetup::ProcessKey(eKeys Key)

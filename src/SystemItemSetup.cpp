@@ -23,20 +23,16 @@
 #include "SystemItemSetup.h"
 
 cSystemItemSetup::cSystemItemSetup(SystemMenuNode* node)
-:cOsdMenu(tr("Edit System Menu Item"))
+:cOsdMenu(tr("Edit System Menu Item"), 10)
 {
-    asprintf(&_newName, "%s", node->State().Name().c_str());
-    asprintf(&_newTitle, "%s", node->CustomTitle().c_str());
-//    _newName = node->State().Name();
-//    _newTitle = node->CustomTitle();
+    strn0cpy(_newName, node->State().Name().c_str(), sizeof(_newName));
+    strn0cpy(_newTitle, node->CustomTitle().c_str(), sizeof(_newTitle));
     CreateMenuItems();
 }
 
 cSystemItemSetup::~cSystemItemSetup()
 {
     // TODO: write back the changes
-    free(_newName);
-    free(_newTitle);
 }
 
 void cSystemItemSetup::CreateMenuItems()
@@ -45,7 +41,7 @@ void cSystemItemSetup::CreateMenuItems()
     //Add(new cMenuEditStraItem(tr("available System Items"),))
 
     // Add textItem for title attribute
-    Add(new cMenuEditStrItem(tr("title"), _newTitle, 64, NULL));
+    Add(new cMenuEditStrItem(tr("title"), _newTitle, sizeof(_newTitle), NULL));
 }
 
 eOSState cSystemItemSetup::ProcessKey(eKeys Key)

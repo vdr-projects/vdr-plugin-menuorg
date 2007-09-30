@@ -23,23 +23,21 @@
 #include "SeparatorItemSetup.h"
 
 cSeparatorItemSetup::cSeparatorItemSetup(SeparatorMenuNode* node)
-:cOsdMenu(tr("Edit Separator Menu Item"))
+:cOsdMenu(tr("Edit Separator Menu Item"), 10)
 {
-    asprintf(&_newTitle, "%s", node->CustomTitle().c_str());
-//    _newTitle = node->CustomTitle();
+    strn0cpy(_newTitle, node->CustomTitle().c_str(), sizeof(_newTitle));
     CreateMenuItems();
 }
 
 cSeparatorItemSetup::~cSeparatorItemSetup()
 {
     // TODO: write back the changes
-    free(_newTitle);
 }
 
 void cSeparatorItemSetup::CreateMenuItems()
 {
     // Add textItem for title attribute
-    Add(new cMenuEditStrItem(tr("title"), _newTitle, 64, NULL));
+    Add(new cMenuEditStrItem(tr("title"), _newTitle, sizeof(_newTitle), NULL));
 }
 
 eOSState cSeparatorItemSetup::ProcessKey(eKeys Key)

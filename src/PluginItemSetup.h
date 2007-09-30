@@ -23,14 +23,17 @@
 #ifndef ___PLUGINITEMSETUP_H
 #define ___PLUGINITEMSETUP_H
 
+#include <vector>
 #include <vdr/menu.h>
 #include "PluginMenuNode.h"
 
 class cPluginItemSetup : public cOsdMenu
 {
     private:
-        char* _newName;
-        char* _newTitle;
+        //std::vector<const char*> pluginList;
+        char **pluginList;
+        int _newPluginIndex;
+        char _newTitle[256];
 
     public:
         cPluginItemSetup(PluginMenuNode* node);
@@ -39,6 +42,7 @@ class cPluginItemSetup : public cOsdMenu
 
     private:
         void CreateMenuItems(void);
+        void getPlugins(void);
 };
 
 #endif

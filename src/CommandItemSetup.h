@@ -29,8 +29,8 @@
 class cCommandItemSetup : public cOsdMenu
 {
     private:
-        char* _newName;
-        char* _newCommand;
+        char _newName[256];
+        char _newCommand[256];
         int  _newConfirm;
 
     public:

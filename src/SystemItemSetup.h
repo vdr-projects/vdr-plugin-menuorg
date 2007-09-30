@@ -29,8 +29,8 @@
 class cSystemItemSetup : public cOsdMenu
 {
     private:
-        char* _newName;
-        char* _newTitle;
+        char _newName[265];
+        char _newTitle[265];
 
     public:
         cSystemItemSetup(SystemMenuNode* node);

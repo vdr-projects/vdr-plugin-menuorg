@@ -22,13 +22,13 @@
 
 #include "CommandItemSetup.h"
 
+const char AllowedChars[] = "$ abcdefghijklmnopqrstuvwxyz0123456789-.#~\\^$[]|()*+?{}/:%";
+
 cCommandItemSetup::cCommandItemSetup(CommandMenuNode* node)
-:cOsdMenu(tr("Edit Command Menu Item"))
+:cOsdMenu(tr("Edit Command Menu Item"), 10)
 {
-    asprintf(&_newName, "%s", node->Text().c_str());
-    asprintf(&_newCommand, "%s", node->Command().c_str());
-//    _newName = node->Text();
-//    _newCommand = node->Command();
+    strn0cpy(_newName, node->Text().c_str(), sizeof(_newName));
+    strn0cpy(_newCommand, node->Command().c_str(), sizeof(_newCommand));
     _newConfirm = (int) node->ShouldConfirm();
     CreateMenuItems();
 }
@@ -36,17 +36,15 @@ cCommandItemSetup::cCommandItemSetup(CommandMenuNode* node)
 cCommandItemSetup::~cCommandItemSetup()
 {
     // TODO: write back the changes
-    free(_newName);
-    free(_newCommand);
 }
 
 void cCommandItemSetup::CreateMenuItems()
 {
     // Add textItem for name attribute
-    Add(new cMenuEditStrItem(tr("name"), _newName, 64, NULL));
+    Add(new cMenuEditStrItem(tr("name"), _newName, sizeof(_newName), tr(AllowedChars)));
 
     // Add textItem for command attribute
-    Add(new cMenuEditStrItem(tr("command"), _newCommand, 200, NULL));
+    Add(new cMenuEditStrItem(tr("command"), _newCommand, sizeof(_newCommand), tr(AllowedChars)));
 
     // Add boolItem for confirm attribute
     Add(new cMenuEditBoolItem(tr("confirm"), &_newConfirm));

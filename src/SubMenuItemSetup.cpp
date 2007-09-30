@@ -25,7 +25,7 @@
 const char AllowedChars[] = "$ abcdefghijklmnopqrstuvwxyz0123456789-.#~\\^$[]|()*+?{}/:%";
 
 cSubMenuItemSetup::cSubMenuItemSetup(SubMenuNode* node)
-:cOsdMenu(tr("Edit Sub Menu Item"), 8)
+:cOsdMenu(tr("Edit Sub Menu Item"), 10)
 {
     strn0cpy(_newName, node->Text().c_str(), sizeof(_newName));
     CreateMenuItems();

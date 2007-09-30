@@ -29,7 +29,7 @@
 class cSeparatorItemSetup : public cOsdMenu
 {
     private:
-        char* _newTitle;
+        char _newTitle[256];
 
     public:
         cSeparatorItemSetup(SeparatorMenuNode* node);
