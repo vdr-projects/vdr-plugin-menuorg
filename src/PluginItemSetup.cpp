@@ -25,8 +25,10 @@
 cPluginItemSetup::cPluginItemSetup(PluginMenuNode* node)
 :cOsdMenu(tr("Edit Plugin Menu Item"))
 {
-    _newName = node->PluginName();
-    _newTitle = node->CustomTitle();
+    asprintf(&_newName, "%s", node->PluginName().c_str());
+    asprintf(&_newTitle, "%s", node->CustomTitle().c_str());
+//    _newName = node->PluginName();
+//    _newTitle = node->CustomTitle();
     CreateMenuItems();
 }
 

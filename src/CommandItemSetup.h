@@ -31,7 +31,7 @@ class cCommandItemSetup : public cOsdMenu
     private:
         char* _newName;
         char* _newCommand;
-        int*  _newConfirm;
+        int  _newConfirm;
 
     public:
         cCommandItemSetup(CommandMenuNode* node);

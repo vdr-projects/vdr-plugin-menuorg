@@ -25,7 +25,8 @@
 cSubMenuItemSetup::cSubMenuItemSetup(SubMenuNode* node)
 :cOsdMenu(tr("Edit Sub Menu Item"))
 {
-    _newName=node->Text();
+    asprintf(&_newName, "%s", node->Text().c_str());
+//    _newName=node->Text();
     CreateMenuItems();
 }
 

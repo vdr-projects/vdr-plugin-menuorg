@@ -34,7 +34,7 @@
     title CDATA #IMPLIED
 >
 <!ELEMENT command EMPTY>
-<!ATTLIST plugin
+<!ATTLIST command
     name CDATA #REQUIRED
     execute CDATA #REQUIRED
     confirm (yes|no) #IMPLIED

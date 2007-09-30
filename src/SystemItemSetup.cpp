@@ -25,8 +25,10 @@
 cSystemItemSetup::cSystemItemSetup(SystemMenuNode* node)
 :cOsdMenu(tr("Edit System Menu Item"))
 {
-    _newName = node->Text();
-    _newTitle = node->CustomTitle();
+    asprintf(&_newName, "%s", node->State().Name().c_str());
+    asprintf(&_newTitle, "%s", node->CustomTitle().c_str());
+//    _newName = node->State().Name();
+//    _newTitle = node->CustomTitle();
     CreateMenuItems();
 }
 

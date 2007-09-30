@@ -25,9 +25,11 @@
 cCommandItemSetup::cCommandItemSetup(CommandMenuNode* node)
 :cOsdMenu(tr("Edit Command Menu Item"))
 {
-    _newName = node->Text();
-    _newCommand = node->Command();
-    _newConfirm = node->ShouldConfirm();
+    asprintf(&_newName, "%s", node->Text().c_str());
+    asprintf(&_newCommand, "%s", node->Command().c_str());
+//    _newName = node->Text();
+//    _newCommand = node->Command();
+    _newConfirm = (int) node->ShouldConfirm();
     CreateMenuItems();
 }
 
@@ -36,7 +38,6 @@ cCommandItemSetup::~cCommandItemSetup()
     // TODO: write back the changes
     free(_newName);
     free(_newCommand);
-    free(_newConfirm);
 }
 
 void cCommandItemSetup::CreateMenuItems()
@@ -48,7 +49,7 @@ void cCommandItemSetup::CreateMenuItems()
     Add(new cMenuEditStrItem(tr("command"), _newCommand, 200, NULL));
 
     // Add boolItem for confirm attribute
-    Add(new cMenuEditBoolItem(tr("confirm"), _newConfirm));
+    Add(new cMenuEditBoolItem(tr("confirm"), &_newConfirm));
 }
 
 eOSState cCommandItemSetup::ProcessKey(eKeys Key)

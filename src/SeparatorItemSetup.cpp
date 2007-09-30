@@ -25,7 +25,8 @@
 cSeparatorItemSetup::cSeparatorItemSetup(SeparatorMenuNode* node)
 :cOsdMenu(tr("Edit Separator Menu Item"))
 {
-    _newTitle = node->CustomTitle();
+    asprintf(&_newTitle, "%s", node->CustomTitle().c_str());
+//    _newTitle = node->CustomTitle();
     CreateMenuItems();
 }
 
