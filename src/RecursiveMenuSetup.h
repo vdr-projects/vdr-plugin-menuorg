@@ -41,8 +41,8 @@ class RecursiveMenuSetup: public cOsdMenu
         RecursiveMenuSetup(MenuConfigurationRepository* menuConfigurationRepository, SubMenuNode* rootMenuNode = NULL);
         ~RecursiveMenuSetup();
 
-           // cOsdMenu
-           eOSState ProcessKey(eKeys Key);
+        // cOsdMenu
+        eOSState ProcessKey(eKeys Key);
 
     private:
         void CreateMenuItems();

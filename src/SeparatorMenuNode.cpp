@@ -45,6 +45,11 @@ string SeparatorMenuNode::CustomTitle()
     return _customTitle;
 }
 
+void SeparatorMenuNode::CustomTitle(string newCustomTitle)
+{
+    _customTitle = newCustomTitle;
+}
+
 string SeparatorMenuNode::DisplayText()
 {
     if (_customTitle.empty())

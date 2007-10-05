@@ -24,26 +24,40 @@
 
 const char AllowedChars[] = "$ abcdefghijklmnopqrstuvwxyz0123456789-.#~\\^$[]|()*+?{}/:%";
 
-cSubMenuItemSetup::cSubMenuItemSetup(SubMenuNode* node)
+SubMenuItemSetup::SubMenuItemSetup(SubMenuNode* node)
 :cOsdMenu(tr("Edit Sub Menu Item"), 10)
 {
     strn0cpy(_newName, node->Text().c_str(), sizeof(_newName));
     CreateMenuItems();
 }
 
-cSubMenuItemSetup::~cSubMenuItemSetup()
+SubMenuItemSetup::~SubMenuItemSetup()
 {
     // TODO: write back the changes
 }
 
-void cSubMenuItemSetup::CreateMenuItems()
+void SubMenuItemSetup::CreateMenuItems()
 {
     // Add textItem for name attribute
     Add(new cMenuEditStrItem(tr("name"), _newName, sizeof(_newName), tr(AllowedChars)));
 }
 
-eOSState cSubMenuItemSetup::ProcessKey(eKeys Key)
+void SubMenuItemSetup::Store()
+{
+    _node->Text(_newName);
+}
+
+eOSState SubMenuItemSetup::ProcessKey(eKeys Key)
 {
     eOSState state = cOsdMenu::ProcessKey(Key);
+
+    if(state == osUnknown)
+    {
+        if(Key == kOk)
+        {
+            Store();
+            state = osBack;
+        }
+    }
     return state;
 }

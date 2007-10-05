@@ -67,6 +67,11 @@ string SubMenuNode::Text()
     return _text;
 }
 
+void SubMenuNode::Text(string newText)
+{
+    _text = newText;
+}
+
 bool SubMenuNode::IsHidden()
 {
     return ChildLock::IsMenuHidden(_text.c_str());

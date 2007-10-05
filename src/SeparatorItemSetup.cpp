@@ -22,26 +22,41 @@
 
 #include "SeparatorItemSetup.h"
 
-cSeparatorItemSetup::cSeparatorItemSetup(SeparatorMenuNode* node)
+SeparatorItemSetup::SeparatorItemSetup(SeparatorMenuNode* node)
 :cOsdMenu(tr("Edit Separator Menu Item"), 10)
 {
     strn0cpy(_newTitle, node->CustomTitle().c_str(), sizeof(_newTitle));
+    _node = node;
     CreateMenuItems();
 }
 
-cSeparatorItemSetup::~cSeparatorItemSetup()
+SeparatorItemSetup::~SeparatorItemSetup()
 {
     // TODO: write back the changes
 }
 
-void cSeparatorItemSetup::CreateMenuItems()
+void SeparatorItemSetup::CreateMenuItems()
 {
     // Add textItem for title attribute
     Add(new cMenuEditStrItem(tr("title"), _newTitle, sizeof(_newTitle), NULL));
 }
 
-eOSState cSeparatorItemSetup::ProcessKey(eKeys Key)
+void SeparatorItemSetup::Store()
+{
+    _node->CustomTitle(_newTitle);
+}
+
+eOSState SeparatorItemSetup::ProcessKey(eKeys Key)
 {
     eOSState state = cOsdMenu::ProcessKey(Key);
+
+    if(state == osUnknown)
+    {
+        if(Key == kOk)
+        {
+            Store();
+            state = osBack;
+        }
+    }
     return state;
 }

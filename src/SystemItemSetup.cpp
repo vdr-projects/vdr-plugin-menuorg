@@ -21,21 +21,23 @@
  */
 
 #include "SystemItemSetup.h"
+#include "VdrState.h"
 
-cSystemItemSetup::cSystemItemSetup(SystemMenuNode* node)
+SystemItemSetup::SystemItemSetup(SystemMenuNode* node)
 :cOsdMenu(tr("Edit System Menu Item"), 10)
 {
     strn0cpy(_newName, node->State().Name().c_str(), sizeof(_newName));
     strn0cpy(_newTitle, node->CustomTitle().c_str(), sizeof(_newTitle));
+    _node = node;
     CreateMenuItems();
 }
 
-cSystemItemSetup::~cSystemItemSetup()
+SystemItemSetup::~SystemItemSetup()
 {
     // TODO: write back the changes
 }
 
-void cSystemItemSetup::CreateMenuItems()
+void SystemItemSetup::CreateMenuItems()
 {
     // Add listItem of valid System Items
     //Add(new cMenuEditStraItem(tr("available System Items"),))
@@ -44,8 +46,23 @@ void cSystemItemSetup::CreateMenuItems()
     Add(new cMenuEditStrItem(tr("title"), _newTitle, sizeof(_newTitle), NULL));
 }
 
-eOSState cSystemItemSetup::ProcessKey(eKeys Key)
+void SystemItemSetup::Store()
+{
+    _node->State(VdrState::ByName(_newName));
+    _node->CustomTitle(_newTitle);
+}
+
+eOSState SystemItemSetup::ProcessKey(eKeys Key)
 {
     eOSState state = cOsdMenu::ProcessKey(Key);
+
+    if(state == osUnknown)
+    {
+        if(Key == kOk)
+        {
+            Store();
+            state = osBack;
+        }
+    }
     return state;
 }

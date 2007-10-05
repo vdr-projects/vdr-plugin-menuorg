@@ -38,6 +38,7 @@ class SubMenuNode: public MenuNode
         SubMenuNode(std::string text);
         virtual ~SubMenuNode();
         std::string Text();
+        void Text(std::string newText);
 
         // MenuNode
         SubMenuNode* Clone();

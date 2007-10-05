@@ -27,22 +27,24 @@
 #include <vdr/menu.h>
 #include "PluginMenuNode.h"
 
-class cPluginItemSetup : public cOsdMenu
+class PluginItemSetup : public cOsdMenu
 {
     private:
         //std::vector<const char*> pluginList;
         char **pluginList;
         int _newPluginIndex;
         char _newTitle[256];
+        PluginMenuNode* _node;
 
     public:
-        cPluginItemSetup(PluginMenuNode* node);
-        ~cPluginItemSetup(void);
+        PluginItemSetup(PluginMenuNode* node);
+        ~PluginItemSetup(void);
         virtual eOSState ProcessKey(eKeys Key);
 
     private:
         void CreateMenuItems(void);
         void getPlugins(void);
+        void Store(void);
 };
 
 #endif

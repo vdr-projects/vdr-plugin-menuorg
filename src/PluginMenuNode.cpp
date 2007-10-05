@@ -50,9 +50,24 @@ string PluginMenuNode::CustomTitle()
     return _customTitle;
 }
 
+void PluginMenuNode::CustomTitle(string newCustomTitle)
+{
+    _customTitle = newCustomTitle;
+}
+
 string PluginMenuNode::PluginName()
 {
     return _pluginName;
+}
+
+void PluginMenuNode::PluginName(string newPluginName)
+{
+    _pluginName = newPluginName;
+    if (!FindPluginByName(newPluginName, _plugin, _pluginIndex))
+    {
+        _plugin = NULL;
+        _pluginIndex = -1;
+    }
 }
 
 bool PluginMenuNode::IsHidden()

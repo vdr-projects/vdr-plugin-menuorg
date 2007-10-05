@@ -40,7 +40,9 @@ class PluginMenuNode: public MenuNode
     public:
         PluginMenuNode(std::string pluginName, std::string customTitle = "");
         std::string CustomTitle();
+        void CustomTitle(std::string newCustomTitle);
         std::string PluginName();
+        void PluginName(std::string newPluginName);
         int PluginIndex();
         std::string DisplayText();
 

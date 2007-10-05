@@ -23,22 +23,23 @@
 #include <vdr/plugin.h>
 #include "PluginItemSetup.h"
 
-cPluginItemSetup::cPluginItemSetup(PluginMenuNode* node)
+PluginItemSetup::PluginItemSetup(PluginMenuNode* node)
 :cOsdMenu(tr("Edit Plugin Menu Item"), 10)
 {
     _newPluginIndex = node->PluginIndex();
     strn0cpy(_newTitle, node->CustomTitle().c_str(), sizeof(_newTitle));
+    _node = node;
     getPlugins();
     CreateMenuItems();
 }
 
-cPluginItemSetup::~cPluginItemSetup()
+PluginItemSetup::~PluginItemSetup()
 {
     // TODO: write back the changes
     //delete[] pluginList;
 }
 
-void cPluginItemSetup::CreateMenuItems()
+void PluginItemSetup::CreateMenuItems()
 {
     // Add listItem of unused plugins or a submenu with the items
     //Add(new cMenuEditStraItem(tr("available Plugins Items"), &_newPluginIndex, pluginList.size(), pluginList));
@@ -47,7 +48,7 @@ void cPluginItemSetup::CreateMenuItems()
     Add(new cMenuEditStrItem(tr("title"), _newTitle, sizeof(_newTitle), NULL));
 }
 
-void cPluginItemSetup::getPlugins()
+void PluginItemSetup::getPlugins()
 {
     int i=0;
     while (cPlugin *currentPlugin = cPluginManager::GetPlugin(i))
@@ -58,8 +59,23 @@ void cPluginItemSetup::getPlugins()
     }
 }
 
-eOSState cPluginItemSetup::ProcessKey(eKeys Key)
+void PluginItemSetup::Store()
+{
+    //_node->Text(_newName);
+    _node->CustomTitle(_newTitle);
+}
+
+eOSState PluginItemSetup::ProcessKey(eKeys Key)
 {
     eOSState state = cOsdMenu::ProcessKey(Key);
+
+    if(state == osUnknown)
+    {
+        if(Key == kOk)
+        {
+            Store();
+            state = osBack;
+        }
+    }
     return state;
 }

@@ -26,18 +26,20 @@
 #include <vdr/menu.h>
 #include "SeparatorMenuNode.h"
 
-class cSeparatorItemSetup : public cOsdMenu
+class SeparatorItemSetup : public cOsdMenu
 {
     private:
         char _newTitle[256];
+        SeparatorMenuNode* _node;
 
     public:
-        cSeparatorItemSetup(SeparatorMenuNode* node);
-        ~cSeparatorItemSetup(void);
+        SeparatorItemSetup(SeparatorMenuNode* node);
+        ~SeparatorItemSetup(void);
         virtual eOSState ProcessKey(eKeys Key);
 
     private:
         void CreateMenuItems(void);
+        void Store(void);
 };
 
 #endif

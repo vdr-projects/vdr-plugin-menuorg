@@ -39,7 +39,9 @@ class SystemMenuNode: public MenuNode
         SystemMenuNode(VdrState state, std::string customTitle);
 
         std::string CustomTitle();
+        void CustomTitle(std::string newCustomTitle);
         VdrState State();
+        void State(VdrState newState);
         std::string DisplayText();
 
         // MenuNode

@@ -46,12 +46,12 @@ cOsdMenu* MenuEditMenusFactory::Create(MenuNode& menuNode, bool openSubmenuInste
 
 void MenuEditMenusFactory::ProcessSystemMenuNode(SystemMenuNode* node)
 {
-    _menu = new cSystemItemSetup(node);
+    _menu = new SystemItemSetup(node);
 }
 
 void MenuEditMenusFactory::ProcessPluginMenuNode(PluginMenuNode* node)
 {
-    _menu = new cPluginItemSetup(node);
+    _menu = new PluginItemSetup(node);
 }
 
 void MenuEditMenusFactory::ProcessSubMenuNode(SubMenuNode* node)
@@ -62,18 +62,18 @@ void MenuEditMenusFactory::ProcessSubMenuNode(SubMenuNode* node)
     }
     else
     {
-        _menu = new cSubMenuItemSetup(node);
+        _menu = new SubMenuItemSetup(node);
     }
 }
 
 void MenuEditMenusFactory::ProcessCommandMenuNode(CommandMenuNode* node)
 {
-    _menu = new cCommandItemSetup(node);
+    _menu = new CommandItemSetup(node);
 }
 
 void MenuEditMenusFactory::ProcessSeparatorMenuNode(SeparatorMenuNode* node)
 {
-    _menu = new cSeparatorItemSetup(node);
+    _menu = new SeparatorItemSetup(node);
 }
 
 MenuEditMenusFactory::MenuEditMenusFactory(cOsdMenu*& menu, bool openSubmenuInsteadOfEditing)

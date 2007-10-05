@@ -24,21 +24,22 @@
 
 const char AllowedChars[] = "$ abcdefghijklmnopqrstuvwxyz0123456789-.#~\\^$[]|()*+?{}/:%";
 
-cCommandItemSetup::cCommandItemSetup(CommandMenuNode* node)
+CommandItemSetup::CommandItemSetup(CommandMenuNode* node)
 :cOsdMenu(tr("Edit Command Menu Item"), 10)
 {
     strn0cpy(_newName, node->Text().c_str(), sizeof(_newName));
     strn0cpy(_newCommand, node->Command().c_str(), sizeof(_newCommand));
     _newConfirm = (int) node->ShouldConfirm();
+    _node = node;
     CreateMenuItems();
 }
 
-cCommandItemSetup::~cCommandItemSetup()
+CommandItemSetup::~CommandItemSetup()
 {
     // TODO: write back the changes
 }
 
-void cCommandItemSetup::CreateMenuItems()
+void CommandItemSetup::CreateMenuItems()
 {
     // Add textItem for name attribute
     Add(new cMenuEditStrItem(tr("name"), _newName, sizeof(_newName), tr(AllowedChars)));
@@ -50,8 +51,24 @@ void cCommandItemSetup::CreateMenuItems()
     Add(new cMenuEditBoolItem(tr("confirm"), &_newConfirm));
 }
 
-eOSState cCommandItemSetup::ProcessKey(eKeys Key)
+void CommandItemSetup::Store()
+{
+    _node->Text(_newName);
+    _node->Command(_newCommand);
+    _node->ShouldConfirm(_newConfirm);
+}
+
+eOSState CommandItemSetup::ProcessKey(eKeys Key)
 {
     eOSState state = cOsdMenu::ProcessKey(Key);
+
+    if(state == osUnknown)
+    {
+        if(Key == kOk)
+        {
+            Store();
+            state = osBack;
+        }
+    }
     return state;
 }

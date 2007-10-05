@@ -53,9 +53,19 @@ VdrState SystemMenuNode::State()
     return _state;
 }
 
+void SystemMenuNode::State(VdrState newState)
+{
+    _state = newState;
+}
+
 string SystemMenuNode::CustomTitle()
 {
     return _customTitle;
+}
+
+void SystemMenuNode::CustomTitle(string newCustomTitle)
+{
+    _customTitle = newCustomTitle;
 }
 
 string SystemMenuNode::DisplayText()

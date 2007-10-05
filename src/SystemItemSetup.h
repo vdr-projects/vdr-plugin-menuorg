@@ -26,19 +26,21 @@
 #include <vdr/menu.h>
 #include "SystemMenuNode.h"
 
-class cSystemItemSetup : public cOsdMenu
+class SystemItemSetup : public cOsdMenu
 {
     private:
         char _newName[265];
         char _newTitle[265];
+        SystemMenuNode* _node;
 
     public:
-        cSystemItemSetup(SystemMenuNode* node);
-        ~cSystemItemSetup(void);
+        SystemItemSetup(SystemMenuNode* node);
+        ~SystemItemSetup(void);
         virtual eOSState ProcessKey(eKeys Key);
 
     private:
         void CreateMenuItems(void);
+        void Store(void);
 };
 
 #endif

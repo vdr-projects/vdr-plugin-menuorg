@@ -38,8 +38,11 @@ class CommandMenuNode: public MenuNode
     public:
         CommandMenuNode(std::string text, std::string _command, bool confirm);
         std::string Text();
+        void Text(std::string newText);
         std::string Command();
+        void Command(std::string newCommand);
         bool ShouldConfirm();
+        void ShouldConfirm(bool newConfirm);
 
         // MenuNode
         virtual void Process(IMenuNodeProcessor* menuNodeProcessor);

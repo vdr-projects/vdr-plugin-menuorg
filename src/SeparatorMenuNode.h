@@ -36,6 +36,7 @@ class SeparatorMenuNode: public MenuNode
     public:
         SeparatorMenuNode(std::string customTitle);
         std::string CustomTitle();
+        void CustomTitle(std::string newCustomTitle);
         std::string DisplayText();
 
         // MenuNode

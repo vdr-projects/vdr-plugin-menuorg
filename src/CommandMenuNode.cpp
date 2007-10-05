@@ -96,12 +96,27 @@ string CommandMenuNode::Command()
     return _command;
 }
 
+void CommandMenuNode::Command(string newCommand)
+{
+    _command = newCommand;
+}
+
 bool CommandMenuNode::ShouldConfirm()
 {
     return _confirm;
 }
 
+void CommandMenuNode::ShouldConfirm(bool newConfirm)
+{
+    _confirm = newConfirm;
+}
+
 string CommandMenuNode::Text()
 {
     return _text;
+}
+
+void CommandMenuNode::Text(string newText)
+{
+    _text = newText;
 }
