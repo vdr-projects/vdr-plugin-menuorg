@@ -107,30 +107,30 @@ e.g.:
         <system name="Channels" />
         <system name="Recordings" />
         <menu name="Video/Audio">
-            <plug-in name="mp3" />
-            <plug-in name="mplayer" />
+            <plugin name="mp3" />
+            <plugin name="mplayer" />
             <menu name="CD/DVD">
-                <plug-in name="burn" />
-                <plug-in name="dvdselect" />
-                <plug-in name="dvd" />
+                <plugin name="burn" />
+                <plugin name="dvdselect" />
+                <plugin name="dvd" />
             </menu>
         </menu>
         <menu name="Timer">
             <system name="Timers" />
-            <plug-in name="autotimeredit" />
-            <plug-in name="sleeptimer" />
+            <plugin name="autotimeredit" />
+            <plugin name="sleeptimer" />
         </menu>
         <menu name="Games">
-            <plug-in name="games" />
-            <plug-in name="solitaire" />
-            <plug-in name="freecell" />
+            <plugin name="games" />
+            <plugin name="solitaire" />
+            <plugin name="freecell" />
         </menu>
         <separator />
         <menu name="System">
             <system name="Setup" />
             <system name="Commands" />
-            <plug-in name="sysinfo" />
-            <plug-in name="femon" />
+            <plugin name="sysinfo" />
+            <plugin name="femon" />
             <command name="CPU-Info" confirm="yes" execute="cat /proc/cpuinfo" />
         </menu>
     </menus>
