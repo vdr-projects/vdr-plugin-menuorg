@@ -20,6 +20,12 @@
  *
  */
 
+/* 
+ * Translators:
+ *     - Italian translations provided by Gringo <vdr-italian@tiscali.it>
+ *
+ */
+
 #include "i18n.h"
 
 const tI18nPhrase Phrases[] = 
@@ -28,7 +34,7 @@ const tI18nPhrase Phrases[] =
         "Failed to load MenuOrg's config file!",                // 1  English
         "Konnte die MenuOrg Konfigurationsdatei nicht laden",   // 2  Deutsch
         "",                                                     // 3  Slovenski
-        "",                                                     // 4  Italiano
+        "Impossibile caricare il file di configurazione MenuOrg", // 4  Italiano
         "",                                                     // 5  Nederlands
         "",                                                     // 6  Português
         "",                                                     // 7  Français
@@ -189,7 +195,6 @@ const tI18nPhrase Phrases[] =
     {
         "Button$Move",
         "Verschieben",
-        "",
         "",
         "",
         "",

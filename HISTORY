@@ -15,10 +15,19 @@ VDR Plugin 'menuorg' Revision History
 - Fixed charset conversion for menu titles. They will now explicitly be converted
   to VDR's locale charset falling back to ISO8859-2 on conversion errors.
 
+2007-12-11: Version 0.3.1
+
+- Applied I18N-Patch from Thomas Guenther for VDR 1.5.12
+- Fixed Problem with hidden plug-in menu entries or plug-ins without a main menu
+  item
+
+2007-12-17: Version 0.3.2
+
+- Added Italian translation from the Italian VDR Community <vdr-italian@tiscali.it>
+
 UNRELEASED: Version 0.4
 
 - Added optional title attribute for system and plugin menu items
 - Added Setup OSD and Setup parameter load and save routines
 - Added a Seperator Item definition
 - Now an empty submenu can exist
-
