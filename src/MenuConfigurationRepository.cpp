@@ -32,7 +32,6 @@
 #include "PluginMenuNode.h"
 #include "CommandMenuNode.h"
 #include "SeparatorMenuNode.h"
-#include "XmlConfigurationFactory.h"
 
 using namespace xmlpp;
 using namespace std;
@@ -105,12 +104,6 @@ SubMenuNode* MenuConfigurationRepository::Load()
         }
     }
     return _cachedMenuConfiguration;
-}
-
-void MenuConfigurationRepository::Save(SubMenuNode& menuConfiguration)
-{
-    Document* doc = XmlConfigurationFactory::CreateXmlConfig(&menuConfiguration);
-    doc->write_to_file_formatted(_configurationFileName);
 }
 
 bool MenuConfigurationRepository::ConfigFileHasBeenChange()

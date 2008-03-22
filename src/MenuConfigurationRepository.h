@@ -43,7 +43,6 @@ class MenuConfigurationRepository
         MenuConfigurationRepository(std::string menuFileName);
         ~MenuConfigurationRepository();
         SubMenuNode* Load();
-        void Save(SubMenuNode& menuConfiguration);
 
     private:
         bool ConfigFileHasBeenChange();

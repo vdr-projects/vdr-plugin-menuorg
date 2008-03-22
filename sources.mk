@@ -16,6 +16,5 @@ SRCS = \
   src/i18n.cpp \
   src/OsdLineItem.cpp \
   src/SeparatorMenuNode.cpp \
-  src/XmlConfigurationFactory.cpp \
   src/VdrState.cpp \
   src/MenuItemDefinitionFactory.cpp \
