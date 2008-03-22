@@ -1,26 +1,26 @@
-diff -Nur vdr-1.4.7/mainmenuitemsprovider.h vdr-1.4.7.patched/mainmenuitemsprovider.h
---- vdr-1.4.7/mainmenuitemsprovider.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.4.7.patched/mainmenuitemsprovider.h	2007-08-21 01:08:25.000000000 +0200
-@@ -0,0 +1,57 @@
+diff -Nur vdr-1.5.18.orig/mainmenuitemsprovider.h vdr-1.5.18/mainmenuitemsprovider.h
+--- vdr-1.5.18.orig/mainmenuitemsprovider.h	1970-01-01 01:00:00.000000000 +0100
++++ vdr-1.5.18/mainmenuitemsprovider.h	2008-03-22 20:55:19.000000000 +0100
+@@ -0,0 +1,58 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
-+ * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
++ * Copyright (c) 2007 - 2008 Tobias Grimm <vdr@e-tobi.net>
 + *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
 + * (at your option) any later version.
 + *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
++ * details.
 + *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, write to the Free Software
-+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ * You should have received a copy of the GNU General Public License along with
++ * this program; if not, write to the Free Software Foundation, Inc.,
++ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 + *
-+ * $Id:$
++ * $Id$
 + *
 + */
 +
@@ -40,12 +40,13 @@ diff -Nur vdr-1.4.7/mainmenuitemsprovider.h vdr-1.4.7.patched/mainmenuitemsprovi
 +        virtual bool IsPluginItem() = 0;
 +        virtual cOsdItem* CustomOsdItem() = 0;
 +        virtual const char* PluginMenuEntry() = 0;
++        virtual bool IsSelected() = 0;
 +        virtual int PluginIndex() = 0;
 +};
 +
 +typedef std::vector<IMenuItemDefinition*> MenuItemDefinitions;
 +
-+#define MENU_ITEMS_PROVIDER_SERVICE_ID "MenuOrgPatch-v0.1::MainMenuItemsProvider"
++#define MENU_ITEMS_PROVIDER_SERVICE_ID "MenuOrgPatch-v0.4::MainMenuItemsProvider"
 +
 +class IMainMenuItemsProvider
 +{
@@ -59,10 +60,10 @@ diff -Nur vdr-1.4.7/mainmenuitemsprovider.h vdr-1.4.7.patched/mainmenuitemsprovi
 +};
 +
 +#endif //__MAINMENUITEMSPROVIDER_H
-diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
---- vdr-1.4.7/menu.c	2006-12-02 12:12:02.000000000 +0100
-+++ vdr-1.4.7.patched/menu.c	2007-08-21 01:08:25.000000000 +0200
-@@ -28,6 +28,7 @@
+diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
+--- vdr-1.5.18.orig/menu.c	2008-03-16 12:15:28.000000000 +0100
++++ vdr-1.5.18/menu.c	2008-03-22 20:55:19.000000000 +0100
+@@ -29,6 +29,7 @@
  #include "timers.h"
  #include "transfer.h"
  #include "videodir.h"
@@ -70,7 +71,7 @@ diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
  
  #define MAXWAIT4EPGINFO   3 // seconds
  #define MODETIMEOUT       3 // seconds
-@@ -2788,6 +2789,9 @@
+@@ -2969,6 +2970,9 @@
    cancelEditingItem = NULL;
    stopRecordingItem = NULL;
    recordControlsState = 0;
@@ -80,33 +81,37 @@ diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
    Set();
  
    // Initial submenus:
-@@ -2815,6 +2819,25 @@
-   Clear();
+@@ -2997,6 +3001,29 @@
    SetTitle("VDR");
    SetHasHotkeys();
-+  
-+  if (MenuOrgPatch::IsCustomMenuAvailable()) {
-+    MenuItemDefinitions* menuItems = MenuOrgPatch::MainMenuItems();
-+    for (MenuItemDefinitions::iterator i = menuItems->begin(); i != menuItems->end(); i++) {       
-+      if ((*i)->IsCustomOsdItem()) {
-+        cOsdItem* osdItem = (*i)->CustomOsdItem();
-+        if (osdItem) {
-+          osdItem->SetText(hk(osdItem->Text()));
-+          Add(osdItem);
-+          }
-+        }
-+      else  if ((*i)->IsPluginItem()) {
-+        const char *item = (*i)->PluginMenuEntry();
-+        if (item)
-+          Add(new cMenuPluginItem(hk(item), (*i)->PluginIndex()));
-+        }
-+      }
-+    }
-+  else {
  
++  if (MenuOrgPatch::IsCustomMenuAvailable()) {
++     MenuItemDefinitions* menuItems = MenuOrgPatch::MainMenuItems();
++     for (MenuItemDefinitions::iterator i = menuItems->begin(); i != menuItems->end(); i++) {
++         cOsdItem* osdItem = NULL;
++         if ((*i)->IsCustomOsdItem()) {
++            osdItem = (*i)->CustomOsdItem();
++            if (osdItem)
++               osdItem->SetText(hk(osdItem->Text()));
++            }
++         else if ((*i)->IsPluginItem()) {
++            const char *item = (*i)->PluginMenuEntry();
++            if (item)
++              osdItem = new cMenuPluginItem(hk(item), (*i)->PluginIndex());
++            }
++         if (osdItem) {
++            Add(osdItem);
++            if ((*i)->IsSelected())
++               SetCurrent(osdItem);
++            }
++         }
++     }
++  else {
++
    // Basic menu items:
  
-@@ -2842,6 +2865,8 @@
+   Add(new cOsdItem(hk(tr("Schedule")),   osSchedule));
+@@ -3023,6 +3050,8 @@
    if (Commands.Count())
       Add(new cOsdItem(hk(tr("Commands")),  osCommands));
  
@@ -115,7 +120,7 @@ diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
    Update(true);
  
    Display();
-@@ -2966,6 +2991,41 @@
+@@ -3135,6 +3164,41 @@
                           state = osEnd;
                         }
                         break;
@@ -157,29 +162,29 @@ diff -Nur vdr-1.4.7/menu.c vdr-1.4.7.patched/menu.c
      default: switch (Key) {
                 case kRecord:
                 case kRed:    if (!HadSubMenu)
-diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
---- vdr-1.4.7/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.4.7.patched/menuorgpatch.h	2007-08-21 01:08:25.000000000 +0200
+diff -Nur vdr-1.5.18.orig/menuorgpatch.h vdr-1.5.18/menuorgpatch.h
+--- vdr-1.5.18.orig/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
++++ vdr-1.5.18/menuorgpatch.h	2008-03-22 20:55:19.000000000 +0100
 @@ -0,0 +1,100 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
-+ * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
++ * Copyright (c) 2007 - 2008 Tobias Grimm <vdr@e-tobi.net>
 + *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
 + * (at your option) any later version.
 + *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
++ * details.
 + *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, write to the Free Software
-+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ * You should have received a copy of the GNU General Public License along with
++ * this program; if not, write to the Free Software Foundation, Inc.,
++ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 + *
-+ * $Id:$
++ * $Id$
 + *
 + */
 +
@@ -199,7 +204,7 @@ diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
 +            if (!_mainMenuItemsProvider)
 +            {
 +                IMainMenuItemsProvider* mainMenuItemsProvider;
-+            
++
 +                if (cPluginManager::CallFirstService(MENU_ITEMS_PROVIDER_SERVICE_ID, &mainMenuItemsProvider))
 +                {
 +                    _mainMenuItemsProvider = mainMenuItemsProvider;
@@ -213,7 +218,7 @@ diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
 +        {
 +            return (MainMenuItemsProvider() != NULL);
 +        }
-+        
++
 +        static void EnterRootMenu()
 +        {
 +            if (MainMenuItemsProvider())
@@ -230,7 +235,7 @@ diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
 +            }
 +            return false;
 +        }
-+        
++
 +        static void EnterSubMenu(cOsdItem* item)
 +        {
 +            if (MainMenuItemsProvider())
@@ -238,7 +243,7 @@ diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
 +                MainMenuItemsProvider()->EnterSubMenu(item);
 +            }
 +        }
-+        
++
 +        static MenuItemDefinitions* MainMenuItems()
 +        {
 +            if (MainMenuItemsProvider())
@@ -247,7 +252,7 @@ diff -Nur vdr-1.4.7/menuorgpatch.h vdr-1.4.7.patched/menuorgpatch.h
 +            }
 +            return NULL;
 +        }
-+        
++
 +        static cOsdMenu* Execute(cOsdItem* item)
 +        {
 +            if (MainMenuItemsProvider())

@@ -4,33 +4,51 @@ Written by:
     Thomas Creutz <thomas.creutz@gmx.de>
     Tobias Grimm <vdr@e-tobi.net>
 
-Italian translation:
-    The Italian VDR Community - Gringo <vdr-italian@tiscali.it>
-
 Project's homepage:
     http://www.e-tobi.net/blog/pages/vdr-menuorg
 
-This program is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 2 of the License, or (at your option)
-any later version.
+Translations:
+    The Italian VDR Community - Gringo <vdr-italian@tiscali.it>
 
-See the file COPYING for the full license information
+License:
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 
+    02110-1301, USA.
+
+    See the file COPYING for the full license information
+
+Copyright:
+    (C) 2007 - 2008 Tobias Grimm
+    (C) 2007        Thomas Creutz
 
 
 Description:
 ------------
 
-This plug-in allows to reorganise VDR's main OSD menu. The new menu structure is
-read from an XML config file. It's basic format is based on the format used in
+This plug-in allows to reorganize VDR's main OSD menu. The new menu structure is
+read from a XML config file. It's basic format is based on the format used by
 the setup plug-in.
 
 
 Requirements:
 -------------
 
-The plug-in has been tested with vdr 1.4.7 and 1.5.7. It requires the libxml++2.6
-and libglibmm-2.4 library.
+The plug-in has been tested with VDR 1.5.18. It requires the libxml++2.6
+and libglibmm-2.4 library. VDR must be patch with the enclosed patch
+(patches/vdr-patch/vdr-menuorg-0.4.diff). The patch does not 
+introduce any ABI changes, so it is not necessary to rebuild all plug-ins
+after applying the patch.
 
 
 Configuration:
@@ -45,8 +63,8 @@ The following parameters are available:
 Upgrading from vdr-submenu plugin
 ---------------------------------
 
-There is a convert script in this package. With it you can convert your old 
-MainMenu.conf from the submenu plugin to the XML file which is needed by
+There is a convert script in this packag, that allows you to convert your old
+MainMenu.conf from the submenu plug-in to the XML file which is needed by
 menuorg.
 
 Example usage:
@@ -55,8 +73,8 @@ Example usage:
 
 Attention: Your destination file will be overwritten without any warning!
 
-When your vdr runs not as root, than you should verify that the target file is
-readable for the which ever user runs vdr.
+When your VDR runs not as root, than you should verify that the target file is
+readable for the which ever user runs VDR.
 
 
 Menu file format
