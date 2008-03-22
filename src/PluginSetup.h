@@ -34,13 +34,11 @@ class PluginSetup : public cMenuSetupPage
         int _newCustomMenuActive;
         int _newUnconfiguredPluginsIncluded;
         int _newHideMainMenuEntry;
-        int _newMenuSetupStyle;
         PluginConfiguration& _pluginConfiguration;
         MenuConfigurationRepository& _menuConfiguration;
 
     public:
         PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfigurationRepository& menuConfiguration);
-        virtual eOSState ProcessKey(eKeys Key);
 
     protected:
         virtual void Store(void);

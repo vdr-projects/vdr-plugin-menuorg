@@ -24,8 +24,6 @@
 #include <vdr/menu.h>
 #include "MenuOrgPlugin.h"
 #include "PluginSetup.h"
-#include "FlatMenuSetup.h"
-#include "RecursiveMenuSetup.h"
 #include "MenuConfigurationRepository.h"
 
 PluginSetup::PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfigurationRepository& menuConfiguration)
@@ -44,51 +42,6 @@ void PluginSetup::Store(void)
 
     SetupStore(PluginConfiguration::SetupName::HideMainMenuEntry,
       _pluginConfiguration._hideMainMenuEntry = _newHideMainMenuEntry);
-
-    SetupStore(PluginConfiguration::SetupName::MenuSetupStyle,
-      _pluginConfiguration._menuSetupStyle = _newMenuSetupStyle);
-}
-
-eOSState PluginSetup::ProcessKey(eKeys Key)
-{
-    eOSState state = cOsdMenu::ProcessKey(Key);
-
-    if (HasSubMenu())
-    {
-        return state;
-    }
-    switch(state)
-    {
-        case osUser1:
-            if (_pluginConfiguration.MenuSetupStyle() == 0 )
-            {
-                return AddSubMenu(new RecursiveMenuSetup(&_menuConfiguration));
-            }
-            else
-            {
-                return AddSubMenu(new cMenuOrgSetup(_menuConfiguration, _pluginConfiguration._menuSetupStyle));
-            }
-
-        case osContinue:
-            if(NORMALKEY(Key)==kUp || NORMALKEY(Key)==kDown)
-            {
-                cOsdItem *item=Get(Current());
-                if(item) item->ProcessKey(kNone);
-            }
-            break;
-
-        case osUnknown:
-            if(Key==kOk)
-            {
-                Store();
-                state=osBack;
-            }
-            break;
-
-        default:
-            break;
-    }
-    return state;
 }
 
 void PluginSetup::CreateMenuItems()
@@ -96,6 +49,4 @@ void PluginSetup::CreateMenuItems()
     Add(new cMenuEditBoolItem(tr("Enable custom menu"), &_newCustomMenuActive));
     Add(new cMenuEditBoolItem(tr("Include unconfigured plugins"), &_newUnconfiguredPluginsIncluded));
     Add(new cMenuEditBoolItem(tr("Hide main menu entry"), &_newHideMainMenuEntry));
-    Add(new cMenuEditBoolItem(tr("Menu setup style"), &_newMenuSetupStyle, tr("MenuBased"), tr("Flat")));
-    Add(new cOsdItem(tr("Configure menu"), osUser1));
 }

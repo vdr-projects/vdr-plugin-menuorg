@@ -63,8 +63,10 @@ PACKAGE = vdr-$(ARCHIVE)
 
 INCLUDES += -I. -I$(VDRDIR)/include -I$(DVBDIR)/include
 INCLUDES +=  `pkg-config libxml++-2.6 --cflags`
+INCLUDES +=  `pkg-config glibmm-2.4 --cflags`
 
 LIBS +=  `pkg-config libxml++-2.6 --libs`
+LIBS +=  `pkg-config glibmm-2.4 --libs`
 
 DEFINES += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 

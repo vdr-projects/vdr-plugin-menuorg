@@ -11,22 +11,11 @@ SRCS = \
   src/PluginItemDefinition.cpp \
   src/PluginMenuNode.cpp \
   src/PluginSetup.cpp \
-  src/RecursiveMenuSetup.cpp \
   src/SubMenuNode.cpp \
   src/SystemMenuNode.cpp \
   src/i18n.cpp \
-  src/FlatMenuSetup.cpp \
-  src/MenuItemSetup.cpp \
-  src/OsdXmlItem.cpp \
   src/OsdLineItem.cpp \
   src/SeparatorMenuNode.cpp \
   src/XmlConfigurationFactory.cpp \
   src/VdrState.cpp \
   src/MenuItemDefinitionFactory.cpp \
-  src/MenuSetupItemsFactory.cpp \
-  src/MenuEditMenusFactory.cpp \
-  src/CommandItemSetup.cpp \
-  src/PluginItemSetup.cpp \
-  src/SeparatorItemSetup.cpp \
-  src/SystemItemSetup.cpp \
-  src/SubMenuItemSetup.cpp \

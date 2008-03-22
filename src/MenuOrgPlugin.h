@@ -47,7 +47,6 @@ class MenuOrgPlugin : public cPlugin
         virtual bool ProcessArgs(int argc, char* argv[]);
         virtual bool Initialize(void);
         virtual const char* MainMenuEntry(void);
-        virtual cOsdObject* MainMenuAction(void);
         virtual cMenuSetupPage *SetupMenu(void);
         virtual bool SetupParse(const char* Name, const char* Value);
         virtual bool Service(const char* Id, void* Data = NULL);
