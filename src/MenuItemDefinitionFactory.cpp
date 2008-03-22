@@ -1,20 +1,21 @@
 /*
  * vdr-menuorg - A plugin for the Linux Video Disk Recorder
- * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
+ * Copyright (c) 2007 - 2008 Tobias Grimm <vdr@e-tobi.net>
+ * Copyright (c) 2007        Thomas Creutz <thomas.creutz@gmx.de>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * $Id$
  *
@@ -33,16 +34,21 @@
 
 using namespace std;
 
-IMenuItemDefinition* MenuItemDefinitionFactory::CreateFromMenuNode(MenuNode* menuNode)
+IMenuItemDefinition* MenuItemDefinitionFactory::CreateFromMenuNode(MenuNode* menuNode, bool isSelected)
 {
-    MenuItemDefinitionFactory* factory = new MenuItemDefinitionFactory();
+    MenuItemDefinitionFactory* factory = new MenuItemDefinitionFactory(isSelected);
     menuNode->Process(factory);
     return factory->_createdMenuItemDefinition;
 }
 
+MenuItemDefinitionFactory::MenuItemDefinitionFactory(bool isSelected)
+{
+    _isSelected = isSelected;
+}
+
 void MenuItemDefinitionFactory::ProcessSystemMenuNode(SystemMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->DisplayText().c_str(), node->State().OSState()));
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->DisplayText().c_str(), node->State().OSState()), false);
 }
 
 void MenuItemDefinitionFactory::ProcessPluginMenuNode(PluginMenuNode* node)
@@ -52,15 +58,15 @@ void MenuItemDefinitionFactory::ProcessPluginMenuNode(PluginMenuNode* node)
 
 void MenuItemDefinitionFactory::ProcessSubMenuNode(SubMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser1));
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser1), _isSelected);
 }
 
 void MenuItemDefinitionFactory::ProcessCommandMenuNode(CommandMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser2));
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser2), _isSelected);
 }
 
 void MenuItemDefinitionFactory::ProcessSeparatorMenuNode(SeparatorMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdSeparatorItem(node->DisplayText().c_str()));
+    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdSeparatorItem(node->DisplayText().c_str()), false);
 }

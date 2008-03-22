@@ -37,7 +37,6 @@ VERSION = $(shell grep 'static const char VERSION\[\] =' src/version.h | \
 CXX      ?= g++
 CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual
 
-
 ### The directory environment:
 
 DVBDIR = ../../../../DVB
@@ -92,18 +91,41 @@ MAKEDEP = $(CXX) -MM
 BUILD_DEPFILE = .dependencies
 
 $(BUILD_DEPFILE): Makefile
-	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(SRCS) $(SRCS_TESTABLE) \
+	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(SRCS) \
 	  | sed "s/.*: \([^ ]*\/\).*/\1\0/" > $@
-
-$(TESTS_DEPFILE): Makefile $(SRCS_TESTPARTS)
-	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(SRCS_TESTABLE) $(SRCS_TESTONLY) \
-          $(SRCS_TESTPARTS) | sed "s/.*: \([^ ]*\/\).*/\1\0/" > $@
 
 -include $(BUILD_DEPFILE)
 
+### Internationalization (I18N):
+
+PODIR     = po
+LOCALEDIR = $(VDRDIR)/locale
+I18Npo    = $(wildcard $(PODIR)/*.po)
+I18Nmsgs  = $(addprefix $(LOCALEDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
+I18Npot   = $(PODIR)/$(PLUGIN).pot
+
+%.mo: %.po
+	msgfmt -c -o $@ $<
+
+%.po: $(I18Npot)
+	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
+	@touch $@
+
+$(I18Npot): $(SRCS) $(SRCS_TESTABLE)
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --msgid-bugs-address='<vdr@e-tobi.net>' -o $@ $^
+
+$(I18Nmsgs): $(LOCALEDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
+	@mkdir -p $(dir $@)
+	mv $< $@
+
+update-po: $(I18Npo)
+
+.PHONY: i18n
+i18n: $(I18Nmsgs)
+
 ### Targets:
 
-all: libvdr-$(PLUGIN).so
+all: libvdr-$(PLUGIN).so i18n
 
 libvdr-$(PLUGIN).so: $(OBJS)
 	$(CXX) $(CXXFLAGS) -shared $(OBJS) -L. $(LIBS) -o $@
@@ -114,13 +136,11 @@ dist: clean
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
 	@tar czf $(PACKAGE).tar.gz -C $(TMPDIR) --exclude debian --exclude CVS \
-	  --exclude .svn --exclude tools $(ARCHIVE)
+	  --exclude .svn --exclude tools --exclude .cproject --exclude .project \
+          --exclude $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tar.gz
-        
-release: dist
-	svn cp -m"release $(VERSION)" $(SVNROOT)/trunk $(SVNROOT)/tags/$(VERSION)
 
 clean:
-	@-rm -f $(BUILD_DEPFILE) $(TESTS_DEPFILE) *.so* *.tar.gz core* *~
+	@-rm -f $(BUILD_DEPFILE) *.so* *.tar.gz core* *~
 	@-find . -name \*.\o -exec rm -f {} \; 

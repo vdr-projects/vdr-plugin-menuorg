@@ -20,24 +20,3 @@
  * $Id$
  *
  */
-
-#ifndef ___CHILDLOCK_H
-#define ___CHILDLOCK_H
-
-class IChildLockService;
-class cPlugin;
-
-class ChildLock
-{
-    private:
-        static IChildLockService* _childLockService;
-
-    public:
-        static bool IsMenuHidden(const char* MenuName);
-        static bool IsPluginHidden(cPlugin* Plugin);
-
-    private:
-        static IChildLockService* ChildLockService();
-};
-
-#endif

@@ -1,20 +1,21 @@
 /*
  * vdr-menuorg - A plugin for the Linux Video Disk Recorder
- * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
+ * Copyright (c) 2007 - 2008 Tobias Grimm <vdr@e-tobi.net>
+ * Copyright (c) 2007        Thomas Creutz <thomas.creutz@gmx.de>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * $Id$
  *
@@ -29,6 +30,7 @@ MainMenuItemsProvider::MainMenuItemsProvider(MenuConfigurationRepository& menuCo
     :_menuConfigurationRepository(menuConfigurationRepository)
 {
     EnterRootMenu();
+    _previousMenu = NULL;
 }
 
 MainMenuItemsProvider::~MainMenuItemsProvider()
@@ -45,7 +47,8 @@ MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
     {
         if (!(*i)->IsHidden())
         {
-            _currentMainMenuItems.push_back(MenuItemDefinitionFactory::CreateFromMenuNode(*i));
+            bool isSelected = ((*i) == _previousMenu);
+            _currentMainMenuItems.push_back(MenuItemDefinitionFactory::CreateFromMenuNode(*i, isSelected));
         }
     }
 
@@ -80,6 +83,7 @@ bool MainMenuItemsProvider::LeaveSubMenu()
 {
     if (_currentMenu->Parent())
     {
+        _previousMenu = _currentMenu;
         _currentMenu = _currentMenu->Parent();
         return true;
     }

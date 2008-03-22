@@ -23,11 +23,13 @@ VDR Plugin 'menuorg' Revision History
 
 2007-12-17: Version 0.3.2
 
-- Added Italian translation from the Italian VDR Community <vdr-italian@tiscali.it>
+- Added Italian translation from the
+  Italian VDR Community <vdr-italian@tiscali.it>
 
 UNRELEASED: Version 0.4
 
 - Added optional title attribute for system and plugin menu items
-- Added Setup OSD and Setup parameter load and save routines
 - Added a Seperator Item definition
 - Now an empty submenu can exist
+- Now VDR >= 1.5.18 is required
+- When leaving a submenu, the cursor is now positioned on the submenu entry

@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+
+header = IO.read(File.dirname(__FILE__) + "/sourcefileheader.txt")
+
+for file in Dir['./**/*.{h,cpp}']
+    if IO.read(file) =~ /(\/\*[\S\s]*?\*\/\n)(.*)/m
+        src = $2
+        if $1 =~ /.*Tobias Grimm.*/m
+            file = File.new(file, "w")
+            file.write(header)
+            file.write(src)
+            file.close
+        end
+    end
+end

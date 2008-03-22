@@ -13,7 +13,6 @@ SRCS = \
   src/PluginSetup.cpp \
   src/SubMenuNode.cpp \
   src/SystemMenuNode.cpp \
-  src/i18n.cpp \
   src/OsdLineItem.cpp \
   src/SeparatorMenuNode.cpp \
   src/VdrState.cpp \

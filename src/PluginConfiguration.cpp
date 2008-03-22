@@ -1,20 +1,21 @@
 /*
  * vdr-menuorg - A plugin for the Linux Video Disk Recorder
- * Copyright (C) 2007 Thomas Creutz, Tobias Grimm
+ * Copyright (c) 2007 - 2008 Tobias Grimm <vdr@e-tobi.net>
+ * Copyright (c) 2007        Thomas Creutz <thomas.creutz@gmx.de>
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * $Id$
  *
@@ -26,8 +27,6 @@
 
 const char* PluginConfiguration::SetupName::CustomMenuActive = "customMenuActive";
 const char* PluginConfiguration::SetupName::UnconfiguredPluginsIncluded = "unconfiguredPluginsIncluded";
-const char* PluginConfiguration::SetupName::HideMainMenuEntry = "hideMainMenuEntry";
-const char* PluginConfiguration::SetupName::MenuSetupStyle = "menuSetupStyle";
 
 PluginConfiguration::PluginConfiguration()
 {
@@ -44,21 +43,9 @@ bool PluginConfiguration::UnconfiguredPluginsInluded()
     return _unconfiguredPluginsIncluded;
 }
 
-bool PluginConfiguration::MainMenuEntryHidden()
-{
-    return _hideMainMenuEntry;
-}
-
-int PluginConfiguration::MenuSetupStyle()
-{
-    return _menuSetupStyle;
-}
-
 void PluginConfiguration::SetDefaults()
 {
     _customMenuActive = true;
-    _hideMainMenuEntry = true;
-    _menuSetupStyle = 0;
     _unconfiguredPluginsIncluded = true;
 }
 
@@ -71,14 +58,6 @@ bool PluginConfiguration::SetConfigurationOptionByName(const char* Name, const c
     else if(!strcasecmp(Name, SetupName::UnconfiguredPluginsIncluded))
     {
         _unconfiguredPluginsIncluded = (atoi(Value) != 0);
-    }
-    else if(!strcasecmp(Name, SetupName::HideMainMenuEntry))
-    {
-        _hideMainMenuEntry = (atoi(Value) != 0);
-    }
-    else if(!strcasecmp(Name, SetupName::MenuSetupStyle))
-    {
-        _menuSetupStyle = (atoi(Value) != 0);
     }
     else
         return false;

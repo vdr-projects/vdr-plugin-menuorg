@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+# clean
+make clean
+
+make update-po
+
+if [ -n "`svn st`" ] ; then
+    echo "uncommited changes !!!"
+    exit 1
+fi
+
+# make distribution tarball
+make dist
+
+# read version
+VERSION=`grep 'static const char VERSION\[\] =' src/version.h | awk '{ print $6 }' | sed -e 's/[";]//g'`
+
+# tag version
+echo "Tagging: $VERSION"
+svn cp -m "Releasing Menuorg $VERSION" svn+e-tobi://e-tobi.net/menuorg/trunk \
+  "svn+e-tobi://e-tobi.net/menuorg/tags/$VERSION"
