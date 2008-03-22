@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menus>
-    <system name="Schedule" />
+    <system name="Schedule" title="Program Schedule" />
     <system name="Channels" />
     <system name="Timers" />
     <system name="Recordings" />
     <menu name="Video/Audio">
         <plugin name="radio" />
         <plugin name="playlist" />
+        <separator />
         <plugin name="mp3" />
         <plugin name="mplayer" />
         <menu name="CD/DVD">
             <plugin name="burn" />
             <plugin name="dvdselect" />
             <plugin name="dvd" />
+            <separator title="----==============----" />
             <plugin name="vdrcd" />
             <plugin name="vcd" />
         </menu>
@@ -44,6 +46,7 @@
         <plugin name="solitaire" />
         <plugin name="freecell" />
     </menu>
+    <separator />
     <menu name="Other Plugins">
         <plugin name="clock" />
         <plugin name="vbox" />
@@ -59,7 +62,7 @@
         <plugin name="graphlcd" />
         <plugin name="sysinfo" />
         <plugin name="console" />
-        <plugin name="femon" />
+        <plugin name="femon" title="DVB Health Monitor"/>
         <plugin name="rotor" />
         <plugin name="streamdev-server" />
     </menu>

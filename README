@@ -45,7 +45,7 @@ Requirements:
 -------------
 
 The plug-in has been tested with VDR 1.5.18. It requires the libxml++2.6
-and libglibmm-2.4 library. VDR must be patch with the enclosed patch
+and libglibmm-2.4 library. VDR must be patched with the enclosed patch
 (patches/vdr-patch/vdr-menuorg-0.4.diff). The patch does not 
 introduce any ABI changes, so it is not necessary to rebuild all plug-ins
 after applying the patch.
@@ -63,7 +63,7 @@ The following parameters are available:
 Upgrading from vdr-submenu plugin
 ---------------------------------
 
-There is a convert script in this packag, that allows you to convert your old
+There is a convert script in this package, that allows you to convert your old
 MainMenu.conf from the submenu plug-in to the XML file which is needed by
 menuorg.
 
@@ -93,7 +93,7 @@ There are only four kinds of menu items described by the following XML tags:
 
 In the menu hierarchy <system>, <plug-in> and <command> are leaf nodes, whereas
 <menu> is an internal node. <menu> may contain any number of <system>, <plugin>,
-<command> or <menu> nodes.
+<command>, <separator> or <menu> nodes.
 
 Each node is described by a name attribute. For <system> nodes, the following
 names are possible:
@@ -118,15 +118,21 @@ or abort with any other key.
 e.g.:
     <command name="Free Disk Space" execute="df -h" confirm="yes" />
 
+You can provide a custome title for plug-in and system menu entries, by providing
+a title attrbute:
+
+    <system name="Schedule" title="Program Schedule" />
+    <plugin name="femon" title="DVB Health Monitor" />
+
 <system> items not configured in the menu configuration will not be visible in
 VDR's OSD. Plug-ins that are not configured in the xml file, will be shown
 at the end of the root main menu.
+
 
 e.g.:
 
     <?xml version="1.0" encoding="UTF-8"?>
     <menus>
-        <system name="Schedule" />
         <system name="Channels" />
         <system name="Recordings" />
         <menu name="Video/Audio">
