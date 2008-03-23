@@ -16,7 +16,7 @@ fi
 make dist
 
 # read version
-VERSION=`grep 'static const char VERSION\[\] =' src/version.h | awk '{ print $6 }' | sed -e 's/[";]//g'`
+VERSION=`grep 'static const char VERSION\[\] =' src/Version.h | awk '{ print $6 }' | sed -e 's/[";]//g'`
 
 # tag version
 echo "Tagging: $VERSION"
