@@ -1,6 +1,6 @@
-libvdr-menuorg.so.*        usr/lib/vdr/plugins/
-menuorg.xml                usr/share/vdr-plugin-menuorg/
-menuorg.dtd                usr/share/vdr-plugin-menuorg/
-debian/menuorg.xml.minimum usr/share/vdr-plugin-menuorg/
-vdr-submenu2menuorg        usr/bin/
+libvdr-menuorg.so.*           usr/lib/vdr/plugins/
+menuorg.xml                   usr/share/vdr-plugin-menuorg/
+menuorg.dtd                   usr/share/vdr-plugin-menuorg/
+debian/menuorg.xml.minimum    usr/share/vdr-plugin-menuorg/
+vdr-submenu2menuorg           usr/bin/
 debian/tmp/usr/share/locale

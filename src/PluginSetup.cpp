@@ -30,6 +30,8 @@
 PluginSetup::PluginSetup(PluginConfiguration& pluginConfiguration, MenuConfigurationRepository& menuConfiguration)
     :_pluginConfiguration(pluginConfiguration), _menuConfiguration(menuConfiguration)
 {
+    _newCustomMenuActive = _pluginConfiguration._customMenuActive;
+    _newUnconfiguredPluginsIncluded = _pluginConfiguration._unconfiguredPluginsIncluded;
     CreateMenuItems();
 }
 

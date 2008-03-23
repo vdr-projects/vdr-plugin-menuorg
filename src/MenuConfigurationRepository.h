@@ -39,16 +39,19 @@ class MenuConfigurationRepository
         std::string _configurationFileName;
         time_t _lastConfigFileModificationTime;
         SubMenuNode* _cachedMenuConfiguration;
+        std::vector<std::string> _configuredPlugins;
 
     public:
         MenuConfigurationRepository(std::string menuFileName);
         ~MenuConfigurationRepository();
-        SubMenuNode* Load();
+        SubMenuNode* Load(bool appendUnconfiguredPlugins);
+        void Reset();
 
     private:
         bool ConfigFileHasBeenChange();
         time_t CurrentConfigFileModificationTime();
         void CreateMenuTree(const xmlpp::Element* menuRoot, SubMenuNode* menuNode);
+        void AppendUnconfiguredPlugins(SubMenuNode* menuNode);
         std::string UnicodeToLocaleOrIso8859(Glib::ustring unicodeString);
         std::string GetTitle(const xmlpp::Element* node, std::string defaultValue);
         std::string GetAttributeValue(const xmlpp::Element* node, std::string name, std::string defaultValue);

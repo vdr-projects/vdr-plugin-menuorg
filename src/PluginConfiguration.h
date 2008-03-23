@@ -43,7 +43,7 @@ class PluginConfiguration
         PluginConfiguration();
         bool SetConfigurationOptionByName(const char* Name, const char* Value);
         bool CustomMenuActive();
-        bool UnconfiguredPluginsInluded();
+        bool UnconfiguredPluginsIncluded();
 
     private:
         void SetDefaults();

@@ -38,7 +38,7 @@ bool PluginConfiguration::CustomMenuActive()
     return _customMenuActive;
 }
 
-bool PluginConfiguration::UnconfiguredPluginsInluded()
+bool PluginConfiguration::UnconfiguredPluginsIncluded()
 {
     return _unconfiguredPluginsIncluded;
 }

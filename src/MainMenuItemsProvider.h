@@ -29,6 +29,7 @@
 
 class MenuNode;
 class MenuConfigurationRepository;
+class PluginConfiguration;
 
 class MainMenuItemsProvider: public IMainMenuItemsProvider, public IMenuNodeProcessor
 {
@@ -37,12 +38,14 @@ class MainMenuItemsProvider: public IMainMenuItemsProvider, public IMenuNodeProc
         SubMenuNode* _previousMenu;
         MenuItemDefinitions _currentMainMenuItems;
         MenuConfigurationRepository& _menuConfigurationRepository;
+        PluginConfiguration& _pluginConfiguration;
 
     public:
-        MainMenuItemsProvider(MenuConfigurationRepository& menuConfigurationRepository);
+        MainMenuItemsProvider(MenuConfigurationRepository& menuConfigurationRepository, PluginConfiguration& pluginConfiguration);
         ~MainMenuItemsProvider();
 
-        // IMenuNodeProcessor
+        // IMainMenuItemsProvider
+        bool IsCustomMenuAvailable();
         MenuItemDefinitions* MainMenuItems();
         void EnterRootMenu();
         void EnterSubMenu(cOsdItem* item);

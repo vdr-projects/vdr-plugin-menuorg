@@ -25,9 +25,10 @@
 #include "SubMenuNode.h"
 #include "MenuConfigurationRepository.h"
 #include "MenuItemDefinitionFactory.h"
+#include "PluginConfiguration.h"
 
-MainMenuItemsProvider::MainMenuItemsProvider(MenuConfigurationRepository& menuConfigurationRepository)
-    :_menuConfigurationRepository(menuConfigurationRepository)
+MainMenuItemsProvider::MainMenuItemsProvider(MenuConfigurationRepository& menuConfigurationRepository, PluginConfiguration& pluginConfiguration)
+    :_menuConfigurationRepository(menuConfigurationRepository), _pluginConfiguration(pluginConfiguration)
 {
     EnterRootMenu();
     _previousMenu = NULL;
@@ -36,6 +37,11 @@ MainMenuItemsProvider::MainMenuItemsProvider(MenuConfigurationRepository& menuCo
 MainMenuItemsProvider::~MainMenuItemsProvider()
 {
     ResetMainMenuItemsList();
+}
+
+bool MainMenuItemsProvider::IsCustomMenuAvailable()
+{
+    return _pluginConfiguration.CustomMenuActive();
 }
 
 MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
@@ -67,7 +73,7 @@ void MainMenuItemsProvider::ResetMainMenuItemsList()
 
 void MainMenuItemsProvider::EnterRootMenu()
 {
-    _currentMenu = _menuConfigurationRepository.Load();
+    _currentMenu = _menuConfigurationRepository.Load(_pluginConfiguration.UnconfiguredPluginsIncluded());
     // TODO; Handling of unloadable config file should not be done here
 }
 

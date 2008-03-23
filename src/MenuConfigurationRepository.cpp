@@ -33,6 +33,7 @@
 #include "PluginMenuNode.h"
 #include "CommandMenuNode.h"
 #include "SeparatorMenuNode.h"
+#include <vdr/plugin.h>
 
 using namespace xmlpp;
 using namespace std;
@@ -70,7 +71,7 @@ MenuConfigurationRepository::~MenuConfigurationRepository()
     delete _cachedMenuConfiguration;
 }
 
-SubMenuNode* MenuConfigurationRepository::Load()
+SubMenuNode* MenuConfigurationRepository::Load(bool appendUnconfiguredPlugins)
 { 
     if (ConfigFileHasBeenChange())
     {
@@ -94,7 +95,13 @@ SubMenuNode* MenuConfigurationRepository::Load()
                 _lastConfigFileModificationTime = CurrentConfigFileModificationTime();
                 delete _cachedMenuConfiguration;
                 _cachedMenuConfiguration = new SubMenuNode("root");
+                _configuredPlugins.clear();
                 CreateMenuTree(document->get_root_node(), _cachedMenuConfiguration);
+
+                if (appendUnconfiguredPlugins)
+                {
+                    AppendUnconfiguredPlugins(_cachedMenuConfiguration);
+                }
             }
 
         }
@@ -104,7 +111,13 @@ SubMenuNode* MenuConfigurationRepository::Load()
             esyslog("Exception caught when parsing xml configuration. See stderr output for details.");
         }
     }
+
     return _cachedMenuConfiguration;
+}
+
+void MenuConfigurationRepository::Reset()
+{
+    _lastConfigFileModificationTime = 0;
 }
 
 bool MenuConfigurationRepository::ConfigFileHasBeenChange()
@@ -147,6 +160,7 @@ void MenuConfigurationRepository::CreateMenuTree(const Element* menuRoot, SubMen
             else if (type == "plugin")
             {
                 menuNode->AddChild(new PluginMenuNode(name, GetTitle(childElement, "")));
+                _configuredPlugins.push_back(name);
             }
             else if (type == "command")
             {
@@ -159,6 +173,20 @@ void MenuConfigurationRepository::CreateMenuTree(const Element* menuRoot, SubMen
                 menuNode->AddChild(new SeparatorMenuNode(GetTitle(childElement, "")));
             }
         }
+    }
+}
+
+void MenuConfigurationRepository::AppendUnconfiguredPlugins(SubMenuNode* menuNode)
+{
+    int i = 0;
+
+    while (cPlugin *plugin = cPluginManager::GetPlugin(i))
+    {
+        if (find(_configuredPlugins.begin(), _configuredPlugins.end(), plugin->Name()) == _configuredPlugins.end())
+        {
+            menuNode->AddChild(new PluginMenuNode(plugin->Name(), ""));
+        }
+        i++;
     }
 }
 

@@ -111,13 +111,14 @@ bool MenuOrgPlugin::Initialize(void)
 
     _menuConfigurationRepository = new MenuConfigurationRepository(_configFile);
 
-    _subMenuProvider = new MainMenuItemsProvider(*_menuConfigurationRepository);
+    _subMenuProvider = new MainMenuItemsProvider(*_menuConfigurationRepository, _pluginConfiguration);
 
     return true;
 }
 
 cMenuSetupPage *MenuOrgPlugin::SetupMenu(void)
 {
+    _menuConfigurationRepository->Reset();
     return new PluginSetup(_pluginConfiguration, *_menuConfigurationRepository);
 }
 

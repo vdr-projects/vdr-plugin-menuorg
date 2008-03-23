@@ -26,7 +26,7 @@ VDR Plugin 'menuorg' Revision History
 - Added Italian translation from the
   Italian VDR Community <vdr-italian@tiscali.it>
 
-UNRELEASED: Version 0.4
+2008-03-23: Version 0.4
 
 - Added optional title attribute for system and plugin menu items
 - Added a Seperator Item definition
