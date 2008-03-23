@@ -28,8 +28,12 @@ VDR Plugin 'menuorg' Revision History
 
 2008-03-23: Version 0.4
 
-- Added optional title attribute for system and plugin menu items
-- Added a Seperator Item definition
+- Added optional title attribute for system and plugin menu items, which allows the
+  displayed text ti be changed
+- Added a Seperator Item
 - Now an empty submenu can exist
 - Now VDR >= 1.5.18 is required
 - When leaving a submenu, the cursor is now positioned on the submenu entry
+- The custom menu can now be enabled/disabled in the plug-in's setup
+- If the timestamp of the menuorg.xml changes, it will be reloaded when opening
+  the root menu

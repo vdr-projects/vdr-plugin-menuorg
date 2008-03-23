@@ -2,6 +2,4 @@
 Some stuff that we would integrate in future version:
 
 - Setup OSD for managing the submenu
-- reload the config file when opening mainmenu (only when menu configuration has been changed - checking timestamp of xml!)
-- Enable / Disable in OSD-Setup
 - const correctness!
