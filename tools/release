@@ -4,8 +4,8 @@ set -e
 
 # clean
 make clean
-
 make update-po
+make clean
 
 if [ -n "`svn st`" ] ; then
     echo "uncommited changes !!!"
