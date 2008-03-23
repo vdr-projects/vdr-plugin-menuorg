@@ -119,9 +119,9 @@ dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
-	@tar czf $(PACKAGE).tar.gz -C $(TMPDIR) --exclude debian --exclude CVS \
+	tar czf $(PACKAGE).tar.gz -C $(TMPDIR) --exclude debian --exclude CVS \
 	  --exclude .svn --exclude tools --exclude .cproject --exclude .project \
-          --exclude $(ARCHIVE)
+	  $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tar.gz
 

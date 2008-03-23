@@ -20,5 +20,5 @@ VERSION=`grep 'static const char VERSION\[\] =' src/Version.h | awk '{ print $6 
 
 # tag version
 echo "Tagging: $VERSION"
-svn cp -m "Releasing Menuorg $VERSION" svn+e-tobi://e-tobi.net/menuorg/trunk \
-  "svn+e-tobi://e-tobi.net/menuorg/tags/$VERSION"
+#svn cp -m "Releasing Menuorg $VERSION" svn+e-tobi://e-tobi.net/menuorg/trunk \
+#  "svn+e-tobi://e-tobi.net/menuorg/tags/$VERSION"
