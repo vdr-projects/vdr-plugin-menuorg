@@ -119,7 +119,7 @@ dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
-	tar czf $(PACKAGE).tar.gz -C $(TMPDIR) --exclude debian --exclude CVS \
+	@tar czf $(PACKAGE).tar.gz -C $(TMPDIR) --exclude debian --exclude CVS \
 	  --exclude .svn --exclude tools --exclude .cproject --exclude .project \
 	  $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
