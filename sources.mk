@@ -3,6 +3,7 @@ SRCS = \
   src/CommandMenuNode.cpp \
   src/MainMenuItemsProvider.cpp \
   src/MenuConfigurationRepository.cpp \
+  src/MenuItemDefinition.cpp \
   src/MenuNode.cpp \
   src/MenuOrgPlugin.cpp \
   src/OsdItemDefinition.cpp \

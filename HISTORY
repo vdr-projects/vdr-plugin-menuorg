@@ -37,3 +37,7 @@ VDR Plugin 'menuorg' Revision History
 - The custom menu can now be enabled/disabled in the plug-in's setup
 - If the timestamp of the menuorg.xml changes, it will be reloaded when opening
   the root menu
+
+2008-03-24: Version 0.4.1
+
+- Fixed small bug caused by hidden menu entries

@@ -34,7 +34,7 @@
 
 using namespace std;
 
-IMenuItemDefinition* MenuItemDefinitionFactory::CreateFromMenuNode(MenuNode* menuNode, bool isSelected)
+MenuItemDefinition* MenuItemDefinitionFactory::CreateFromMenuNode(MenuNode* menuNode, bool isSelected)
 {
     MenuItemDefinitionFactory* factory = new MenuItemDefinitionFactory(isSelected);
     menuNode->Process(factory);
@@ -48,25 +48,25 @@ MenuItemDefinitionFactory::MenuItemDefinitionFactory(bool isSelected)
 
 void MenuItemDefinitionFactory::ProcessSystemMenuNode(SystemMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->DisplayText().c_str(), node->State().OSState()), false);
+    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdItem(node->DisplayText().c_str(), node->State().OSState()), false);
 }
 
 void MenuItemDefinitionFactory::ProcessPluginMenuNode(PluginMenuNode* node)
 {
-    _createdMenuItemDefinition = new PluginItemDefinition(node->DisplayText(), node->PluginIndex());   
+    _createdMenuItemDefinition = new PluginItemDefinition(node, node->DisplayText(), node->PluginIndex());   
 }
 
 void MenuItemDefinitionFactory::ProcessSubMenuNode(SubMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser1), _isSelected);
+    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdItem(node->Text().c_str(), osUser1), _isSelected);
 }
 
 void MenuItemDefinitionFactory::ProcessCommandMenuNode(CommandMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdItem(node->Text().c_str(), osUser2), _isSelected);
+    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdItem(node->Text().c_str(), osUser2), _isSelected);
 }
 
 void MenuItemDefinitionFactory::ProcessSeparatorMenuNode(SeparatorMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(new cOsdSeparatorItem(node->DisplayText().c_str()), false);
+    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdSeparatorItem(node->DisplayText().c_str()), false);
 }

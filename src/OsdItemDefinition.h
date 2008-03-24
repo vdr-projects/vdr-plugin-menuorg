@@ -24,16 +24,16 @@
 #ifndef ___OSDITEMDEFINITION_H
 #define ___OSDITEMDEFINITION_H
 
-#include <vdr/mainmenuitemsprovider.h>
+#include "MenuItemDefinition.h"
 
-class OsdItemDefinition: public IMenuItemDefinition
+class OsdItemDefinition: public MenuItemDefinition
 {
     private:
         cOsdItem* _osdItem;
         bool _isSelected;
 
     public:
-        OsdItemDefinition(cOsdItem* osdItem, bool isSelected);
+        OsdItemDefinition(MenuNode* menuNode, cOsdItem* osdItem, bool isSelected);
         virtual bool IsCustomOsdItem();
         virtual bool IsPluginItem();
         virtual cOsdItem* CustomOsdItem();

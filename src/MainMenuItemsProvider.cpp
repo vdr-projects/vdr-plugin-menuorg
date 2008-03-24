@@ -26,6 +26,7 @@
 #include "MenuConfigurationRepository.h"
 #include "MenuItemDefinitionFactory.h"
 #include "PluginConfiguration.h"
+#include "MenuItemDefinition.h"
 
 MainMenuItemsProvider::MainMenuItemsProvider(MenuConfigurationRepository& menuConfigurationRepository, PluginConfiguration& pluginConfiguration)
     :_menuConfigurationRepository(menuConfigurationRepository), _pluginConfiguration(pluginConfiguration)
@@ -54,7 +55,9 @@ MenuItemDefinitions* MainMenuItemsProvider::MainMenuItems()
         if (!(*i)->IsHidden())
         {
             bool isSelected = ((*i) == _previousMenu);
-            _currentMainMenuItems.push_back(MenuItemDefinitionFactory::CreateFromMenuNode(*i, isSelected));
+            MenuItemDefinition* menuItemDefinition = MenuItemDefinitionFactory::CreateFromMenuNode(*i, isSelected);
+            _currentMainMenuItems.push_back(menuItemDefinition);
+            _currentMenuItemDefinitions.push_back(menuItemDefinition);
         }
     }
 
@@ -69,6 +72,7 @@ void MainMenuItemsProvider::ResetMainMenuItemsList()
        delete *i;
     }
     _currentMainMenuItems.clear(); 
+    _currentMenuItemDefinitions.clear();
 }
 
 void MainMenuItemsProvider::EnterRootMenu()
@@ -110,12 +114,12 @@ cOsdMenu* MainMenuItemsProvider::Execute(cOsdItem* item)
 
 MenuNode* MainMenuItemsProvider::MenuNodeMatchingOsdItem(cOsdItem* item)
 {
-    for(unsigned int itemIndex=0; itemIndex < _currentMainMenuItems.size(); itemIndex++)
+    for(unsigned int itemIndex=0; itemIndex < _currentMenuItemDefinitions.size(); itemIndex++)
     {
-        IMenuItemDefinition* menuItem = _currentMainMenuItems.at(itemIndex);
+        MenuItemDefinition* menuItem = _currentMenuItemDefinitions.at(itemIndex);
         if (menuItem->IsCustomOsdItem() && (menuItem->CustomOsdItem() == item))
         {
-            return _currentMenu->Childs()->at(itemIndex);
+            return  menuItem->AssignedMenuNode();
         }
     }
     return NULL;

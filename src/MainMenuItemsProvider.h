@@ -30,6 +30,7 @@
 class MenuNode;
 class MenuConfigurationRepository;
 class PluginConfiguration;
+class MenuItemDefinition;
 
 class MainMenuItemsProvider: public IMainMenuItemsProvider, public IMenuNodeProcessor
 {
@@ -37,6 +38,7 @@ class MainMenuItemsProvider: public IMainMenuItemsProvider, public IMenuNodeProc
         SubMenuNode* _currentMenu;
         SubMenuNode* _previousMenu;
         MenuItemDefinitions _currentMainMenuItems;
+        std::vector<MenuItemDefinition*> _currentMenuItemDefinitions;
         MenuConfigurationRepository& _menuConfigurationRepository;
         PluginConfiguration& _pluginConfiguration;
 

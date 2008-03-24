@@ -24,7 +24,6 @@
 #ifndef MENUITEMDEFINITIONFACTORY_H_
 #define MENUITEMDEFINITIONFACTORY_H_
 
-#include <vdr/mainmenuitemsprovider.h>
 #include "IMenuNodeProcessor.h"
 
 class MenuNode;
@@ -33,15 +32,16 @@ class PluginMenuNode;
 class SubMenuNode;
 class CommandMenuNode;
 class SeparatorMenuNode;
+class MenuItemDefinition;
 
 class MenuItemDefinitionFactory: IMenuNodeProcessor
 {
     private:
-        IMenuItemDefinition* _createdMenuItemDefinition;
+        MenuItemDefinition* _createdMenuItemDefinition;
         bool _isSelected;
 
     public:
-        static IMenuItemDefinition* CreateFromMenuNode(MenuNode* menuNode, bool isSelected);
+        static MenuItemDefinition* CreateFromMenuNode(MenuNode* menuNode, bool isSelected);
 
         // IMenuNodeProcessor
         void ProcessSystemMenuNode(SystemMenuNode* node);

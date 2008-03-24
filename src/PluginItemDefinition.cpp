@@ -25,7 +25,8 @@
 
 using namespace std;
 
-PluginItemDefinition::PluginItemDefinition(string mainMenuEntry, int pluginIndex)
+PluginItemDefinition::PluginItemDefinition(MenuNode* menuNode, string mainMenuEntry, int pluginIndex)
+    :MenuItemDefinition(menuNode)
 {
     _mainMenuEntry = mainMenuEntry;
     _pluginIndex = pluginIndex; 

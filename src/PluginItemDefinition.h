@@ -24,17 +24,17 @@
 #ifndef ___PLUGINITEMDEFINITION_H
 #define ___PLUGINITEMDEFINITION_H
 
-#include <vdr/mainmenuitemsprovider.h>
 #include <string>
+#include "MenuItemDefinition.h"
 
-class PluginItemDefinition: public IMenuItemDefinition
+class PluginItemDefinition: public MenuItemDefinition
 {
     private:
         std::string _mainMenuEntry;
         int _pluginIndex;
 
     public:
-        PluginItemDefinition(std::string mainMenuEntry, int pluginIndex);
+        PluginItemDefinition(MenuNode* menuNode, std::string mainMenuEntry, int pluginIndex);
         virtual bool IsCustomOsdItem();
         virtual bool IsPluginItem();
         virtual cOsdItem* CustomOsdItem();
