@@ -47,7 +47,7 @@ diff -Nur vdr-1.5.18.orig/mainmenuitemsprovider.h vdr-1.5.18/mainmenuitemsprovid
 +
 +typedef std::vector<IMenuItemDefinition*> MenuItemDefinitions;
 +
-+#define MENU_ITEMS_PROVIDER_SERVICE_ID "MenuOrgPatch-v0.4::MainMenuItemsProvider"
++#define MENU_ITEMS_PROVIDER_SERVICE_ID "MenuOrgPatch-v0.4.2::MainMenuItemsProvider"
 +
 +class IMainMenuItemsProvider
 +{
