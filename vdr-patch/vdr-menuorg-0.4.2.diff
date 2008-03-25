@@ -1,7 +1,7 @@
 diff -Nur vdr-1.5.18.orig/mainmenuitemsprovider.h vdr-1.5.18/mainmenuitemsprovider.h
 --- vdr-1.5.18.orig/mainmenuitemsprovider.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.5.18/mainmenuitemsprovider.h	2008-03-23 01:54:07.000000000 +0100
-@@ -0,0 +1,59 @@
++++ vdr-1.5.18/mainmenuitemsprovider.h	2008-03-25 21:17:28.000000000 +0100
+@@ -0,0 +1,60 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
 + * Copyright (c) 2007 - 2008 Tobias Grimm <vdr@e-tobi.net>
@@ -38,6 +38,7 @@ diff -Nur vdr-1.5.18.orig/mainmenuitemsprovider.h vdr-1.5.18/mainmenuitemsprovid
 +        virtual ~IMenuItemDefinition() {};
 +        virtual bool IsCustomOsdItem() = 0;
 +        virtual bool IsPluginItem() = 0;
++        virtual bool IsSeparatorItem() = 0;
 +        virtual cOsdItem* CustomOsdItem() = 0;
 +        virtual const char* PluginMenuEntry() = 0;
 +        virtual bool IsSelected() = 0;
@@ -63,7 +64,7 @@ diff -Nur vdr-1.5.18.orig/mainmenuitemsprovider.h vdr-1.5.18/mainmenuitemsprovid
 +#endif //__MAINMENUITEMSPROVIDER_H
 diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
 --- vdr-1.5.18.orig/menu.c	2008-03-16 12:15:28.000000000 +0100
-+++ vdr-1.5.18/menu.c	2008-03-23 02:00:16.000000000 +0100
++++ vdr-1.5.18/menu.c	2008-03-25 21:17:28.000000000 +0100
 @@ -29,6 +29,7 @@
  #include "timers.h"
  #include "transfer.h"
@@ -92,8 +93,8 @@ diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
 +         cOsdItem* osdItem = NULL;
 +         if ((*i)->IsCustomOsdItem()) {
 +            osdItem = (*i)->CustomOsdItem();
-+            if (osdItem)
-+               osdItem->SetText(hk(osdItem->Text()));
++            if (osdItem &&  !(*i)->IsSeparatorItem())
++                   osdItem->SetText(hk(osdItem->Text()));
 +            }
 +         else if ((*i)->IsPluginItem()) {
 +            const char *item = (*i)->PluginMenuEntry();
@@ -165,7 +166,7 @@ diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
                 case kRed:    if (!HadSubMenu)
 diff -Nur vdr-1.5.18.orig/menuorgpatch.h vdr-1.5.18/menuorgpatch.h
 --- vdr-1.5.18.orig/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.5.18/menuorgpatch.h	2008-03-23 01:53:29.000000000 +0100
++++ vdr-1.5.18/menuorgpatch.h	2008-03-25 21:17:28.000000000 +0100
 @@ -0,0 +1,100 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder

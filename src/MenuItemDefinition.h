@@ -37,6 +37,7 @@ class MenuItemDefinition: public IMenuItemDefinition
     public:
         MenuItemDefinition(MenuNode* menuNode);
         MenuNode* AssignedMenuNode();
+        virtual bool IsSeparatorItem();
 };
 
 

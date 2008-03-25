@@ -12,6 +12,7 @@ SRCS = \
   src/PluginItemDefinition.cpp \
   src/PluginMenuNode.cpp \
   src/PluginSetup.cpp \
+  src/SeparatorItemDefinition.cpp \
   src/SubMenuNode.cpp \
   src/SystemMenuNode.cpp \
   src/OsdLineItem.cpp \

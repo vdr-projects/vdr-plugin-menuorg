@@ -41,3 +41,8 @@ VDR Plugin 'menuorg' Revision History
 2008-03-24: Version 0.4.1
 
 - Fixed small bug caused by hidden menu entries
+
+2008-03-25: Version 0.4.2
+
+- Separator items now don't have a hotkey (number) in the OSD menu anymore
+  (requires the patch to be updated once more)

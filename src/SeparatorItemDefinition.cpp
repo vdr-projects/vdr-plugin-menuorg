@@ -17,24 +17,18 @@
  * this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * $Id$
+ * $Id: OsdItemDefinition.cpp 7083 2008-03-24 22:32:17Z svntobi $
  *
  */
 
-#include "MenuItemDefinition.h"
-#include "MenuNode.h"
+#include "SeparatorItemDefinition.h"
 
-MenuItemDefinition::MenuItemDefinition(MenuNode* menuNode)
-    :_menuNode(menuNode)
+SeparatorItemDefinition::SeparatorItemDefinition(MenuNode* menuNode, cOsdItem* osdItem)
+    :OsdItemDefinition(menuNode, osdItem, false)
 {
 }
 
-MenuNode* MenuItemDefinition::AssignedMenuNode()
+bool SeparatorItemDefinition::IsSeparatorItem()
 {
-    return _menuNode;
-}
-
-bool MenuItemDefinition::IsSeparatorItem()
-{
-    return false;
+    return true;
 }

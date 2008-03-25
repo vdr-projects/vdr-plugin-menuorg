@@ -29,6 +29,7 @@
 #include "SeparatorMenuNode.h"
 #include "OsdItemDefinition.h"
 #include "PluginItemDefinition.h"
+#include "SeparatorItemDefinition.h"
 #include "OsdLineItem.h"
 #include <string>
 
@@ -68,5 +69,5 @@ void MenuItemDefinitionFactory::ProcessCommandMenuNode(CommandMenuNode* node)
 
 void MenuItemDefinitionFactory::ProcessSeparatorMenuNode(SeparatorMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdSeparatorItem(node->DisplayText().c_str()), false);
+    _createdMenuItemDefinition = new SeparatorItemDefinition(node, new cOsdSeparatorItem(node->DisplayText().c_str()));
 }

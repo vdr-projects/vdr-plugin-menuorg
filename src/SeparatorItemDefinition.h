@@ -21,20 +21,16 @@
  *
  */
 
-#include "MenuItemDefinition.h"
-#include "MenuNode.h"
+#ifndef ___SEPARATORITEMDEFINITION_H
+#define ___SEPARATORITEMDEFINITION_H
 
-MenuItemDefinition::MenuItemDefinition(MenuNode* menuNode)
-    :_menuNode(menuNode)
-{
-}
+#include "OsdItemDefinition.h"
 
-MenuNode* MenuItemDefinition::AssignedMenuNode()
+class SeparatorItemDefinition: public OsdItemDefinition
 {
-    return _menuNode;
-}
+    public:
+        SeparatorItemDefinition(MenuNode* menuNode, cOsdItem* osdItem);
+        virtual bool IsSeparatorItem();
+};
 
-bool MenuItemDefinition::IsSeparatorItem()
-{
-    return false;
-}
+#endif
