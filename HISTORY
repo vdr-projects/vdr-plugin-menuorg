@@ -46,3 +46,4 @@ VDR Plugin 'menuorg' Revision History
 
 - Separator items now don't have a hotkey (number) in the OSD menu anymore
   (requires the patch to be updated once more)
+- Added French translation by NIVAL Michaël <mnival@club-internet.fr>
