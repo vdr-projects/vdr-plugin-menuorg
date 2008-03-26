@@ -28,8 +28,8 @@ VDR Plugin 'menuorg' Revision History
 
 2008-03-23: Version 0.4
 
-- Added optional title attribute for system and plugin menu items, which allows the
-  displayed text to be changed
+- Added optional title attribute for system and plugin menu items, which allows
+  the displayed text to be changed
 - Added a Seperator Item
 - Now an empty submenu can exist
 - Now VDR >= 1.5.18 is required
@@ -47,3 +47,7 @@ VDR Plugin 'menuorg' Revision History
 - Separator items now don't have a hotkey (number) in the OSD menu anymore
   (requires the patch to be updated once more)
 - Added French translation by NIVAL Michaël <mnival@club-internet.fr>
+
+2008-03-26: Version 0.4.3
+
+- Updated Italian translation by Diego Pierotto <vdr-italian@tiscali.it>
