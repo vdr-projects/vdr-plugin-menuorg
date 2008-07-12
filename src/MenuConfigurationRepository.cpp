@@ -34,6 +34,7 @@
 #include "CommandMenuNode.h"
 #include "SeparatorMenuNode.h"
 #include <vdr/plugin.h>
+#include <algorithm>
 
 using namespace xmlpp;
 using namespace std;

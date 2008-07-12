@@ -51,3 +51,7 @@ VDR Plugin 'menuorg' Revision History
 2008-03-26: Version 0.4.3
 
 - Updated Italian translation by Diego Pierotto <vdr-italian@tiscali.it>
+
+2008-07-12: Version 0.4.4
+
+- Fixed GCC4.3 FTBFS
