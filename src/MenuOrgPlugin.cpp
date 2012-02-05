@@ -29,6 +29,7 @@
 #include <iostream>
 #include <string>
 #include <getopt.h>
+#include <cstddef>
 #include "Version.h"
 #include "MenuOrgPlugin.h"
 #include "MenuConfigurationRepository.h"

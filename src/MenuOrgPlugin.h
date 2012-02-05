@@ -27,6 +27,7 @@
 #include <vdr/plugin.h>
 #include <string>
 #include "PluginConfiguration.h"
+#include <cstddef>
 
 class MainMenuItemsProvider;
 class MenuConfigurationRepository;

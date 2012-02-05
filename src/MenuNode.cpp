@@ -23,6 +23,7 @@
 
 #include "MenuNode.h"
 #include "SubMenuNode.h"
+#include <cstddef>
 
 MenuNode::MenuNode()
 {

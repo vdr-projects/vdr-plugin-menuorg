@@ -24,6 +24,7 @@
 #include "ChildLock.h"
 #include <vdr/plugin.h>
 #include "IChildLockService.h"
+#include <cstddef>
 
 IChildLockService* ChildLock::_childLockService = NULL;
 

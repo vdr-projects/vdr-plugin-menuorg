@@ -27,6 +27,7 @@
 #include "MenuItemDefinitionFactory.h"
 #include "PluginConfiguration.h"
 #include "MenuItemDefinition.h"
+#include <cstddef>
 
 MainMenuItemsProvider::MainMenuItemsProvider(MenuConfigurationRepository& menuConfigurationRepository, PluginConfiguration& pluginConfiguration)
     :_menuConfigurationRepository(menuConfigurationRepository), _pluginConfiguration(pluginConfiguration)

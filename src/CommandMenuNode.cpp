@@ -26,6 +26,7 @@
 #include <vdr/menu.h>
 #include "ChildLock.h"
 #include "IMenuNodeProcessor.h"
+#include <cstddef>
 
 using namespace std;
 

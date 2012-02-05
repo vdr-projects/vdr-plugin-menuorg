@@ -22,6 +22,7 @@
  */
 
 #include "PluginItemDefinition.h"
+#include <cstddef>
 
 using namespace std;
 
