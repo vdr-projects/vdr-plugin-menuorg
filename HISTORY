@@ -59,3 +59,4 @@ VDR Plugin 'menuorg' Revision History
 2011-02-05: Version 0.4.5
 
 - Added Slowak translation (Closes #563)
+- When entering root menu, always select the first menu entry (Closes #792)

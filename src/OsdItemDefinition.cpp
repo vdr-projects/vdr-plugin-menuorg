@@ -22,6 +22,7 @@
  */
 
 #include "OsdItemDefinition.h"
+#include <cstddef>
 
 OsdItemDefinition::OsdItemDefinition(MenuNode* menuNode, cOsdItem* osdItem, bool isSelected)
     :MenuItemDefinition(menuNode)

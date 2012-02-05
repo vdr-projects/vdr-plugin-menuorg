@@ -32,7 +32,6 @@ MainMenuItemsProvider::MainMenuItemsProvider(MenuConfigurationRepository& menuCo
     :_menuConfigurationRepository(menuConfigurationRepository), _pluginConfiguration(pluginConfiguration)
 {
     EnterRootMenu();
-    _previousMenu = NULL;
 }
 
 MainMenuItemsProvider::~MainMenuItemsProvider()
@@ -78,6 +77,7 @@ void MainMenuItemsProvider::ResetMainMenuItemsList()
 void MainMenuItemsProvider::EnterRootMenu()
 {
     _currentMenu = _menuConfigurationRepository.Load(_pluginConfiguration.UnconfiguredPluginsIncluded());
+    _previousMenu = NULL;
     // TODO; Handling of unloadable config file should not be done here
 }
 
