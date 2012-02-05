@@ -55,3 +55,7 @@ VDR Plugin 'menuorg' Revision History
 2008-07-12: Version 0.4.4
 
 - Fixed GCC4.3 FTBFS
+
+2011-02-05: Version 0.4.5
+
+- Added Slowak translation (Closes #563)
