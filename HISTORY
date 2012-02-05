@@ -60,3 +60,4 @@ VDR Plugin 'menuorg' Revision History
 
 - Added Slowak translation (Closes #563)
 - When entering root menu, always select the first menu entry (Closes #792)
+- Dropped debian packaging directory
