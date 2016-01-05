@@ -45,6 +45,7 @@ MenuOrgPlugin::MenuOrgPlugin(void)
     // VDR OBJECTS TO EXIST OR PRODUCE ANY OUTPUT!
 
     _subMenuProvider = NULL;
+    _menuConfigurationRepository = NULL;
 }
 
 MenuOrgPlugin::~MenuOrgPlugin()

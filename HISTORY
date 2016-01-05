@@ -62,3 +62,14 @@ VDR Plugin 'menuorg' Revision History
 - When entering root menu, always select the first menu entry (Closes #792)
 - Dropped debian packaging directory
 - Added missing #include <cstddef>
+
+2013-03-16: Version 0.5.0
+
+- Makefile for VDR >= 1.7.33
+- Dropped migration tool and documentation for submenu plugin
+- Updated patch for VDR 1.7.40
+
+2013-03-17: Version 0.5.1
+
+- Minor fix in member initialization (thx to by Lars Hanisch)
+- Correctly link shared libs (thx to by Lars Hanisch)

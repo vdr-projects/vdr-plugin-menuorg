@@ -1,57 +1,54 @@
 #
 # vdr-menuorg - A plugin for the Linux Video Disk Recorder
 #
-# $Id$
-#
 
-# The official name of this plugin.
-# This name will be used in the '-P...' option of VDR to load the plugin.
-#
 PLUGIN = menuorg
-
-SVNROOT ?= svn+e-tobi://e-tobi.net/menuorg
 
 ### The version number of this plugin (taken from the main source file):
 
-VERSION = $(shell grep 'static const char VERSION\[\] =' src/Version.h | \
-  awk '{ print $$6 }' | sed -e 's/[";]//g')
-
-### The C++ compiler and options:
-
-CXX      ?= g++
-CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual
+VERSION = $(shell grep 'static const char VERSION\[\] =' src/Version.h | awk '{ print $$6 }' | sed -e 's/[";]//g')
 
 ### The directory environment:
 
-DVBDIR = ../../../../DVB
-VDRDIR = ../../..
-LIBDIR = ../../lib
-TMPDIR = /tmp
+# Use package data if installed...otherwise assume we're under the VDR source directory:
+PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell pkg-config --variable=$(1) vdr || pkg-config --variable=$(1) ../../../vdr.pc))
+LIBDIR = $(call PKGCFG,libdir)
+LOCDIR = $(call PKGCFG,locdir)
+PLGCFG = $(call PKGCFG,plgcfg)
+#
+TMPDIR ?= /tmp
+
+### The compiler options:
+
+export CFLAGS   = $(call PKGCFG,cflags)
+export CXXFLAGS = $(call PKGCFG,cxxflags)
+
+### The version number of VDR's plugin API:
+
+APIVERSION = $(call PKGCFG,apiversion)
 
 ### Allow user defined options to overwrite defaults:
 
--include $(VDRDIR)/Make.config
-
-### The version number of VDR's plugin API (taken from VDR's "config.h"):
-
-APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' \
-  $(VDRDIR)/config.h)
+-include $(PLGCFG)
 
 ### The name of the distribution archive:
 
 ARCHIVE = $(PLUGIN)-$(VERSION)
 PACKAGE = vdr-$(ARCHIVE)
 
-### Includes, Libs and Defines (add further entries here):
+### The name of the shared object file:
 
-INCLUDES += -I. -I$(VDRDIR)/include -I$(DVBDIR)/include
-INCLUDES +=  `pkg-config libxml++-2.6 --cflags`
-INCLUDES +=  `pkg-config glibmm-2.4 --cflags`
+SOFILE = libvdr-$(PLUGIN).so
+
+### Includes and Defines (add further entries here):
+
+INCLUDES += `pkg-config libxml++-2.6 --cflags`
+INCLUDES += `pkg-config glibmm-2.4 --cflags`
 
 LIBS +=  `pkg-config libxml++-2.6 --libs`
 LIBS +=  `pkg-config glibmm-2.4 --libs`
 
-DEFINES += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 
 ### The source files (add further files here):
 
@@ -61,70 +58,68 @@ DEFINES += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 
 OBJS := $(addsuffix .o,$(basename ${SRCS}))
 
+### The main target:
+
+all: $(SOFILE) i18n
+
 ### Implicit rules:
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $(DEFINES)  $(INCLUDES) $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) -o $@ $<
 
-%.o: %.cc
-	$(CXX) $(CXXFLAGS) -c $(DEFINES)  $(INCLUDES) $< -o $@
+### Dependencies:
 
-# Dependencies:
+MAKEDEP = $(CXX) -MM -MG
+DEPFILE = .dependencies
+$(DEPFILE): Makefile
+	@$(MAKEDEP) $(CPPFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.c) > $@
 
-MAKEDEP = $(CXX) -MM
-BUILD_DEPFILE = .dependencies
-
-$(BUILD_DEPFILE): Makefile
-	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(SRCS) \
-	  | sed "s/.*: \([^ ]*\/\).*/\1\0/" > $@
-
--include $(BUILD_DEPFILE)
+-include $(DEPFILE)
 
 ### Internationalization (I18N):
 
 PODIR     = po
-LOCALEDIR = $(VDRDIR)/locale
 I18Npo    = $(wildcard $(PODIR)/*.po)
-I18Nmsgs  = $(addprefix $(LOCALEDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
+I18Nmo    = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
+I18Nmsgs  = $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot   = $(PODIR)/$(PLUGIN).pot
 
 %.mo: %.po
 	msgfmt -c -o $@ $<
 
+$(I18Npot): $(wildcard src/*.cpp)
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --package-name=vdr-$(PLUGIN) --package-version=$(VERSION) --msgid-bugs-address='<see README>' -o $@ `ls $^`
+
 %.po: $(I18Npot)
-	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
+	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
 	@touch $@
 
-$(I18Npot): $(SRCS) $(SRCS_TESTABLE)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --msgid-bugs-address='<vdr@e-tobi.net>' -o $@ $^
-
-$(I18Nmsgs): $(LOCALEDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
-	@mkdir -p $(dir $@)
-	mv $< $@
-
-update-po: $(I18Npo)
+$(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
+	install -D -m644 $< $@
 
 .PHONY: i18n
-i18n: $(I18Nmsgs)
+i18n: $(I18Nmo) $(I18Npot)
+
+install-i18n: $(I18Nmsgs)
 
 ### Targets:
 
-all: libvdr-$(PLUGIN).so i18n
+$(SOFILE): $(OBJS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS) $(LIBS) -o $@
 
-libvdr-$(PLUGIN).so: $(OBJS)
-	$(CXX) $(CXXFLAGS) -shared $(OBJS) -L. $(LIBS) -o $@
-	@cp $@ $(LIBDIR)/$@.$(APIVERSION)
+install-lib: $(SOFILE)
+	install -D $^ $(DESTDIR)$(LIBDIR)/$^.$(APIVERSION)
 
-dist: clean
+install: install-lib install-i18n
+
+dist: $(I18Npo) clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
-	@tar czf $(PACKAGE).tar.gz -C $(TMPDIR) --exclude .git \
-	  --exclude tools --exclude .cproject --exclude .project \
-	  $(ARCHIVE)
+	@tar czf $(PACKAGE).tar.gz -C $(TMPDIR) --exclude .gitignore --exclude debian --exclude .git $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tar.gz
 
 clean:
-	@-rm -f $(BUILD_DEPFILE) *.so* *.tar.gz core* *~
-	@-find . -name \*.\o -exec rm -f {} \; 
+	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
+	@-rm -f $(OBJS) $(DEPFILE) *.so *.tgz core* *~

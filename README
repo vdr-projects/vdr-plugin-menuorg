@@ -24,13 +24,13 @@ License:
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
     02110-1301, USA.
 
     See the file COPYING for the full license information
 
 Copyright:
-    (C) 2007 - 2008 Tobias Grimm
+    (C) 2007 - 2013 Tobias Grimm
     (C) 2007        Thomas Creutz
 
 
@@ -59,23 +59,6 @@ The following parameters are available:
 
  -c FILE   --config=FILE   loads the specified xml file
                            (default: ConfigDir/plugins/menuorg.xml)
-
-
-Upgrading from vdr-submenu plugin
----------------------------------
-
-There is a convert script in this package, that allows you to convert your old
-MainMenu.conf from the submenu plug-in to the XML file which is needed by
-menuorg.
-
-Example usage:
-
-    vdr-submenu2menuorg /var/lib/vdr/plugins/MainMenu.conf /var/lib/vdr/plugins/menuorg.xml
-
-Attention: Your destination file will be overwritten without any warning!
-
-When your VDR runs not as root, than you should verify that the target file is
-readable for the which ever user runs VDR.
 
 
 Menu file format
