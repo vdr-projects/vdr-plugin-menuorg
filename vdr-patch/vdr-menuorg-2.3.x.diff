@@ -1,6 +1,8 @@
-diff -Nur vdr-1.5.18.orig/mainmenuitemsprovider.h vdr-1.5.18/mainmenuitemsprovider.h
---- vdr-1.5.18.orig/mainmenuitemsprovider.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.5.18/mainmenuitemsprovider.h	2008-03-25 21:17:28.000000000 +0100
+diff --git a/mainmenuitemsprovider.h b/mainmenuitemsprovider.h
+new file mode 100644
+index 0000000..aaba5e9
+--- /dev/null
++++ b/mainmenuitemsprovider.h
 @@ -0,0 +1,60 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
@@ -62,10 +64,11 @@ diff -Nur vdr-1.5.18.orig/mainmenuitemsprovider.h vdr-1.5.18/mainmenuitemsprovid
 +};
 +
 +#endif //__MAINMENUITEMSPROVIDER_H
-diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
---- vdr-1.5.18.orig/menu.c	2008-03-16 12:15:28.000000000 +0100
-+++ vdr-1.5.18/menu.c	2008-03-25 21:17:28.000000000 +0100
-@@ -29,6 +29,7 @@
+diff --git a/menu.c b/menu.c
+index 233b025..396bbea 100644
+--- a/menu.c
++++ b/menu.c
+@@ -32,6 +32,7 @@
  #include "timers.h"
  #include "transfer.h"
  #include "videodir.h"
@@ -73,7 +76,7 @@ diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
  
  #define MAXWAIT4EPGINFO   3 // seconds
  #define MODETIMEOUT       3 // seconds
-@@ -2969,6 +2970,9 @@
+@@ -4289,6 +4290,9 @@ cMenuMain::cMenuMain(eOSState State, bool OpenSubMenus)
    cancelEditingItem = NULL;
    stopRecordingItem = NULL;
    recordControlsState = 0;
@@ -83,7 +86,7 @@ diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
    Set();
  
    // Initial submenus:
-@@ -2997,6 +3001,29 @@
+@@ -4317,6 +4321,29 @@ void cMenuMain::Set(void)
    SetTitle("VDR");
    SetHasHotkeys();
  
@@ -113,7 +116,7 @@ diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
    // Basic menu items:
  
    Add(new cOsdItem(hk(tr("Schedule")),   osSchedule));
-@@ -3023,6 +3050,8 @@
+@@ -4343,6 +4370,8 @@ void cMenuMain::Set(void)
    if (Commands.Count())
       Add(new cOsdItem(hk(tr("Commands")),  osCommands));
  
@@ -122,7 +125,7 @@ diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
    Update(true);
  
    Display();
-@@ -3135,6 +3164,41 @@
+@@ -4447,6 +4476,41 @@ eOSState cMenuMain::ProcessKey(eKeys Key)
                           state = osEnd;
                         }
                         break;
@@ -164,9 +167,11 @@ diff -Nur vdr-1.5.18.orig/menu.c vdr-1.5.18/menu.c
      default: switch (Key) {
                 case kRecord:
                 case kRed:    if (!HadSubMenu)
-diff -Nur vdr-1.5.18.orig/menuorgpatch.h vdr-1.5.18/menuorgpatch.h
---- vdr-1.5.18.orig/menuorgpatch.h	1970-01-01 01:00:00.000000000 +0100
-+++ vdr-1.5.18/menuorgpatch.h	2008-03-25 21:17:28.000000000 +0100
+diff --git a/menuorgpatch.h b/menuorgpatch.h
+new file mode 100644
+index 0000000..37fa0a7
+--- /dev/null
++++ b/menuorgpatch.h
 @@ -0,0 +1,100 @@
 +/*
 + * vdr-menuorg - A plugin for the Linux Video Disk Recorder
