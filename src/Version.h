@@ -24,6 +24,10 @@
 #ifndef ___VERSION_H
 #define ___VERSION_H
 
-static const char VERSION[] = "0.5.1";
+#ifndef GIT_REV
+static const char VERSION[] = "0.5.2";
+#else
+static const char VERSION[] = GIT_REV;
+#endif
 
 #endif

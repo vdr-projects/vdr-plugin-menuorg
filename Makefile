@@ -4,9 +4,12 @@
 
 PLUGIN = menuorg
 
-### The version number of this plugin (taken from the main source file):
+### The version number of this plugin (taken from Version.h):
 
-VERSION = $(shell grep 'static const char VERSION\[\] =' src/Version.h | awk '{ print $$6 }' | sed -e 's/[";]//g')
+VERSION = $(shell grep 'static const char VERSION\[\] =' src/Version.h | \
+			grep -v GIT | awk '{ print $$6 }' | sed -e 's/[";]//g')
+
+GIT_REV = $(shell git describe --always 2>/dev/null)
 
 ### The directory environment:
 
@@ -48,7 +51,8 @@ INCLUDES += `pkg-config glibmm-2.4 --cflags`
 LIBS +=  `pkg-config libxml++-2.6 --libs`
 LIBS +=  `pkg-config glibmm-2.4 --libs`
 
-DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"' \
+	$(if $(GIT_REV), -DGIT_REV='"$(GIT_REV)"')
 
 ### The source files (add further files here):
 
