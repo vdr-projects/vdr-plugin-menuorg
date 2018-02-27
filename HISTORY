@@ -74,7 +74,7 @@ VDR Plugin 'menuorg' Revision History
 - Minor fix in member initialization (thx to by Lars Hanisch)
 - Correctly link shared libs (thx to by Lars Hanisch)
 
-2017-02-27: Version 0.5.x
+2017-02-27: Version 0.5.2
 
 - Fix file not found error message during compile.
 - Fix close of OSD on deletion of a recording (tx to clausmuus).

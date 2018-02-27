@@ -1,0 +1,5 @@
+This directory contains required patches for the VDR.
+
+vdr-menuorg-0.5.0.diff: Patch for VDR up to 2.2.x
+vdr-menuorg-2.3.x.diff: Patch for VDR 2.3.x
+vdr-menuorg-update.diff: Patch to update an already patched VDR to menuorg 0.5.2
