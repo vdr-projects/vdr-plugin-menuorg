@@ -4,6 +4,8 @@ syntax: glob
 *.o
 *.so
 .dependencies
+.cproject
+.settings
 po/*.mo
 po/*.pot
 
