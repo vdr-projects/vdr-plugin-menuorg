@@ -1,0 +1,22 @@
+diff --git a/menu.c b/menu.c
+index 59b4a86..dcb1fc9 100644
+--- a/menu.c
++++ b/menu.c
+@@ -4478,7 +4478,7 @@ eOSState cMenuMain::ProcessKey(eKeys Key)
+                           }
+                        }
+                        break;
+-    case osUser1:      {
++    case osUser3:      {
+                           if (MenuOrgPatch::IsCustomMenuAvailable()) {
+                             MenuOrgPatch::EnterSubMenu(Get(Current()));
+                             Set();
+@@ -4486,7 +4486,7 @@ eOSState cMenuMain::ProcessKey(eKeys Key)
+                           }
+                        }
+                        break;
+-    case osUser2:      {
++    case osUser4:      {
+                           if (MenuOrgPatch::IsCustomMenuAvailable()) {
+                             cOsdMenu* osdMenu = MenuOrgPatch::Execute(Get(Current()));
+                             if (osdMenu)

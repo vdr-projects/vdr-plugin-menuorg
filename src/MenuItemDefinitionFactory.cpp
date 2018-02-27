@@ -59,12 +59,12 @@ void MenuItemDefinitionFactory::ProcessPluginMenuNode(PluginMenuNode* node)
 
 void MenuItemDefinitionFactory::ProcessSubMenuNode(SubMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdItem(node->Text().c_str(), osUser1), _isSelected);
+    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdItem(node->Text().c_str(), osUser3), _isSelected);
 }
 
 void MenuItemDefinitionFactory::ProcessCommandMenuNode(CommandMenuNode* node)
 {
-    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdItem(node->Text().c_str(), osUser2), _isSelected);
+    _createdMenuItemDefinition = new OsdItemDefinition(node, new cOsdItem(node->Text().c_str(), osUser4), _isSelected);
 }
 
 void MenuItemDefinitionFactory::ProcessSeparatorMenuNode(SeparatorMenuNode* node)
